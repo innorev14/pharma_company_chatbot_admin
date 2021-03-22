@@ -1,0 +1,22 @@
+# Django
+*.log
+*.pot
+*.pyc
+__pycache__/
+local_settings.py
+media
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# venv
+venv/
+
+.idea/
+db.sqlite3
+*.mwb
+secrets.json
+docker-compose.yml
+Dockerfile
+Dockerfile.base
+conf/

@@ -1,0 +1,40 @@
+{% include 'base.html' %}
+
+{% block title %}
+{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+<table>
+    <thead>
+        <th>제품명</th>
+        <th>제품정보</th>
+        <th>보험정보</th>
+        <th>디테일 포인트</th>
+        <th>태그</th>
+        <th>수정일</th>
+    </thead>
+
+    <tbody>
+        {% for obj in object_list %}
+<tr>
+        <td>{{obj.name}}</td>
+        <td>{{obj.product_info}}</td>
+        <td>{{obj.insurance_info}}</td>
+        <td>{{obj.detail_info}}</td>
+        <td>{{obj.tag}}</td>
+        <td>{{obj.updated_at}}</td>
+</tr>
+    {% endfor %}
+
+    </tbody>
+
+</table>
+
+
+{% endblock %}
+
+{% block script %}
+{% endblock %}
