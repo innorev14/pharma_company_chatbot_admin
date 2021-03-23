@@ -20,3 +20,6 @@ docker-compose.yml
 Dockerfile
 Dockerfile.base
 conf/
+
+#삭제전 마이그레이션 백업
+abc/
