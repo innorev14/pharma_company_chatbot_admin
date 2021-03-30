@@ -8,10 +8,17 @@ from django.utils.translation import gettext as _
 from .models import *
 
 
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('id', 'category',)
+    list_display_links = ('category',)
+    list_filter = ('category',)
+
+
 @admin.register(Medicine)
 class MedicineAdmin(admin.ModelAdmin):
     list_display = \
-        ('id', 'name', 'tag_list', 'updated_at',)
+        ('id', 'name', 'category', 'tag_list', 'updated_at',)
     list_display_links = ('name',)
     list_filter = ('name', 'updated_at',)
     search_fields = ('name', 'tag_list',)

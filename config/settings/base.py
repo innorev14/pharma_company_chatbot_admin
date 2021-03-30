@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'medicine',
     'taggit',
     'ckeditor',
+    'kakao',
 ]
 
 MIDDLEWARE = [

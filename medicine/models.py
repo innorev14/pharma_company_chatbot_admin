@@ -28,11 +28,24 @@ class TaggedMedicine(TaggedItemBase):
         verbose_name_plural = _("태그된 게시물")
 
 
+class Category(models.Model):
+    category = models.CharField(max_length=45, verbose_name='제품분류')
+
+    class Meta:
+        unique_together = ["category"]
+
+    def __str__(self):
+        return self.category
+
+
 class Medicine(models.Model):
     name = models.CharField(max_length=45, verbose_name='제품명')
+    category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
     product_info = RichTextField(verbose_name='제품정보')
+    product_url = models.URLField(max_length=200, verbose_name='제품상세', null=True, blank=True)
     insurance_info = RichTextField(verbose_name='보험정보')
     detail_info = RichTextField(verbose_name='디테일 포인트')
+    detail_url = models.URLField(max_length=200, verbose_name='디테일 정보', null=True, blank=True)
     view_count = models.PositiveIntegerField(default=0, verbose_name='조회수')
     tag = TaggableManager(
         verbose_name=_('tag'),
