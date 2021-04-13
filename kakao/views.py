@@ -15,26 +15,27 @@ def keyboard(request):
 
 @csrf_exempt
 def keyboard2(request):
-    answer = request.body.decode('utf-8')
-    return_json_str = json.loads(answer)
-    return_str = return_json_str['userRequest']['utterance']
+    if request.method == 'POST':
+        answer = request.body.decode('utf-8')
+        return_json_str = json.loads(answer)
+        return_str = return_json_str['userRequest']['utterance']
 
-    if return_str == '테스트':
-        return JsonResponse({
-            'version': "2.0",
-            'template': {
-                'outputs': [{
-                    'simpleText': {
-                        'text': "테스트 성공입니다."
-                    }
-                }],
-                'quickReplies': [{
-                    'label': '처음으로',
-                    'action': 'message',
-                    'messageText': '처음으로'
-                }]
-            }
-        })
+        if return_str == '테스트':
+            return JsonResponse({
+                'version': "2.0",
+                'template': {
+                    'outputs': [{
+                        'simpleText': {
+                            'text': "테스트 성공입니다."
+                        }
+                    }],
+                    'quickReplies': [{
+                        'label': '처음으로',
+                        'action': 'message',
+                        'messageText': '처음으로'
+                    }]
+                }
+            })
 
 
 @csrf_exempt
