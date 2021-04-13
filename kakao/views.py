@@ -15,9 +15,8 @@ def keyboard(request):
 
 @csrf_exempt
 def keyboard2(request):
-    answer = (request.body.decode('utf-8'))
-    return_json_str = json.loads(answer)
-    return_str = return_json_str['utterance']
+    return_json_str = request.get_json()
+    return_str = return_json_str['userRequest']['utterance']
 
     if return_str == '테스트':
         return JsonResponse({
