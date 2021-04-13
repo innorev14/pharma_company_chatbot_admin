@@ -7,13 +7,15 @@ import json
 
 from medicine.models import *
 
+
 # JsonResponse 출력 테스트용
 def keyboard(request):
     return JsonResponse({'type': 'text'})
 
+
 @csrf_exempt
 def keyboard2(request):
-    answer = ((request.body).decode('utf-8'))
+    answer = (request.body.decode('utf-8'))
     return_json_str = json.loads(answer)
     return_str = return_json_str['userRequest']['utterance']
 
@@ -34,6 +36,7 @@ def keyboard2(request):
             }
         })
     # return JsonResponse({'type': json.loads(request.body.decode('utf-8'))})
+
 
 @csrf_exempt
 def medicine(request):
