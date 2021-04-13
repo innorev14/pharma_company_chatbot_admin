@@ -17,7 +17,7 @@ def keyboard(request):
 def keyboard2(request):
     answer = (request.body.decode('utf-8'))
     return_json_str = json.loads(answer)
-    return_str = return_json_str['userRequest']['utterance']
+    return_str = return_json_str['utterance']
 
     if return_str == '테스트':
         return JsonResponse({
@@ -35,7 +35,6 @@ def keyboard2(request):
                 }]
             }
         })
-    # return JsonResponse({'type': json.loads(request.body.decode('utf-8'))})
 
 
 @csrf_exempt
