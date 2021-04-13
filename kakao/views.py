@@ -11,6 +11,9 @@ from medicine.models import *
 def keyboard(request):
     return JsonResponse({'type': 'text'})
 
+def keyboard2(request):
+    return JsonResponse({'type': json.loads(request.body.decode('utf-8'))})
+
 @csrf_exempt
 def medicine(request):
     answer = request.body.decode('utf-8')
