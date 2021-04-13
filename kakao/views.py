@@ -9,12 +9,14 @@ from medicine.models import *
 
 # JsonResponse 출력 테스트용
 def keyboard(request):
+    req_kakao = request.get_json()
+    print(req_kakao)
     return JsonResponse({'type': 'text'})
 
 
 @csrf_exempt
 def medicine(request):
-    answer = (request.body.decode('utf-8'))
+    answer = request.body.decode('utf-8')
     return_json_str = json.loads(answer)  # json 포맷으로 카카오톡 내용 받아오기
     return_str = return_json_str['userRequest']['utterance']  # 사용자 발화 추출
     idx = return_str.index('을')
