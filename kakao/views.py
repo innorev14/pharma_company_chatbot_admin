@@ -9,10 +9,7 @@ from medicine.models import *
 
 # JsonResponse 출력 테스트용
 def keyboard(request):
-    req_kakao = request.get_json()
-    print(req_kakao)
     return JsonResponse({'type': 'text'})
-
 
 @csrf_exempt
 def medicine(request):
@@ -24,6 +21,9 @@ def medicine(request):
     print(return_str)
     print(idx)
     print(disease)
+    return JsonResponse({'return_str': return_str,
+                         'idx': idx,
+                         'disease': disease})
     # manu = '제조사: '
     # effect = '효능효과 알아보기'
     # usage = '복용법 알아보기'
