@@ -46,6 +46,7 @@ def keyboard2(request):
         else:
             return HttpResponse(status=403)
 
+
 @csrf_exempt
 def medicine(request):
     answer = request.body.decode('utf-8')
