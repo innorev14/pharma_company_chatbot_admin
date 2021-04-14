@@ -57,7 +57,7 @@ def medicine(request):
     # 유저 확인 로직
 
     # 제품 정보 확인
-    medicine_info = Medicine.objects.filter(name=user_input)
+    medicine_info = Medicine.objects.get(name=user_input)
 
     text = {
         'version': "2.0",
