@@ -58,20 +58,31 @@ def medicine(request):
 
     # 제품 정보 확인
     medicine_info = Medicine.objects.get(name=user_input)
+    medicine_name = medicine_info.name.replace(' ', '')
 
     text = {
         'version': "2.0",
         'template': {
-            'outputs': [{
-                'simpleText': {
-                    'text': medicine_info.product_info
+            'outputs': [
+                {
+                    "simpleImage": {
+                        "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/" + medicine_name + ".jpg",
+                        "altText": "제품이미지"
+                    }
                 }
-            }],
-            'quickReplies': [{
-                'label': '처음으로',
-                'action': 'message',
-                'messageText': '처음으로'
-            }]
+            ],
+            "buttons": [
+                {
+                    "action": "message",
+                    "label": "열어보기",
+                    "messageText": "짜잔! 우리가 찾던 보물입니다"
+                },
+                {
+                    "action": "webLink",
+                    "label": "구경하기",
+                    "webLinkUrl": "https://e.kakao.com/t/hello-ryan"
+                }
+            ]
         }
     }
 
