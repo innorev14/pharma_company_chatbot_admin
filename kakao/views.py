@@ -15,6 +15,7 @@ from medicine.models import *
 def keyboard(request):
     return JsonResponse({'type': 'text'})
 
+
 @require_POST
 @csrf_exempt
 def keyboard2(request):
@@ -44,7 +45,7 @@ def keyboard2(request):
         if return_str == '테스트\n':
             return JsonResponse(text, status=200)
         else:
-            return HttpResponse(status = 403)
+            return HttpResponse(status=403)
 
 
 @csrf_exempt
@@ -68,25 +69,22 @@ def medicine(request):
                     "simpleImage": {
                         "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/" + medicine_name + ".jpg",
                         "altText": "제품이미지"
-                    }
-                }
-            ],
-            "buttons": [
-                {
-                    "action": "message",
-                    "label": "열어보기",
-                    "messageText": "짜잔! 우리가 찾던 보물입니다"
-                },
-                {
-                    "action": "webLink",
-                    "label": "구경하기",
-                    "webLinkUrl": "https://e.kakao.com/t/hello-ryan"
+                    },
+                    "buttons": [
+                        {
+                            "action": "message",
+                            "label": "열어보기",
+                            "messageText": "짜잔! 우리가 찾던 보물입니다"
+                        },
+                        {
+                            "action": "webLink",
+                            "label": "구경하기",
+                            "webLinkUrl": "https://e.kakao.com/t/hello-ryan"
+                        }
+                    ]
                 }
             ]
         }
     }
 
     return JsonResponse(text, status=200)
-
-
-
