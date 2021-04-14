@@ -41,11 +41,10 @@ def keyboard2(request):
             }
         }
 
-        if return_str == '테스트':
-            return JsonResponse(text)
+        if return_str == '테스트\n':
+            return JsonResponse(text, status=200)
         else:
-            print(return_str)
-        # return HttpResponse(status = 400)
+            return HttpResponse(status = 403)
 
 @csrf_exempt
 def medicine(request):
