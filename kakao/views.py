@@ -44,11 +44,7 @@ def keyboard2(request):
         if return_str == '테스트\n':
             return JsonResponse(text, status=200)
         else:
-<<<<<<< HEAD
             return HttpResponse(status = 403)
-=======
-            return HttpResponse(status=403)
->>>>>>> c471bb0c501d9182f1113c027cf2c9b48e5b48a6
 
 
 @csrf_exempt
