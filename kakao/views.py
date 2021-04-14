@@ -22,8 +22,8 @@ def keyboard2(request):
         answer = request.body.decode('utf-8')
         return_json_str = json.loads(answer)
         return_str = return_json_str['userRequest']['utterance']
-
-        print(return_str)
+        print("전체 : ", return_json_str)
+        print("발화 : ", return_str)
 
         text = {
             'version': "2.0",
@@ -41,11 +41,10 @@ def keyboard2(request):
             }
         }
 
-        if return_str == '테스트':
-            return JsonResponse(text)
+        if return_str == '테스트\n':
+            return JsonResponse(text, status=200)
         else:
-            print(return_str)
-        # return HttpResponse(status = 400)
+            return HttpResponse(status=403)
 
 @csrf_exempt
 def medicine(request):
