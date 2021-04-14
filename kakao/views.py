@@ -1,18 +1,21 @@
 from django.shortcuts import render
 
 from django.shortcuts import render
-from django.http import JsonResponse  # 카카오톡과 연동하기 위해선 JsonResponse로 출력
+from django.http import JsonResponse, HttpResponse  # 카카오톡과 연동하기 위해선 JsonResponse로 출력
 from django.views.decorators.csrf import csrf_exempt  # 보안 이슈를 피하기 위한 csrf_exempt decorator 필요
 import json
+
+from django.views.decorators.http import require_POST
 
 from medicine.models import *
 
 
 # JsonResponse 출력 테스트용
+@csrf_exempt
 def keyboard(request):
     return JsonResponse({'type': 'text'})
 
-
+@require_POST
 @csrf_exempt
 def keyboard2(request):
     if request.method == 'POST':
@@ -51,6 +54,7 @@ def medicine(request):
     return JsonResponse({'return_str': return_str,
                          'idx': idx,
                          'disease': disease})
+    HttpResponse
     # manu = '제조사: '
     # effect = '효능효과 알아보기'
     # usage = '복용법 알아보기'
