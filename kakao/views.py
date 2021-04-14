@@ -51,7 +51,7 @@ def keyboard2(request):
 def medicine(request):
     user_req = request.body.decode('utf-8')
     json_req = json.loads(user_req)
-    user_input = json_req['userRequest']['utterance']  # 유저 발화
+    user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
 
     # 유저 확인 로직
