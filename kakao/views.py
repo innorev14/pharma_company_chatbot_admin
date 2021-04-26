@@ -182,49 +182,77 @@ def medicine(request):
     # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
     user_input = json_req['action']['params']['product_name']
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
+    user = get_user_model()
 
-    # 유저 확인 로직
-    check_id = User.objects.get(kakao_id=user_id)
-    if check_id.exists() and check_id.is_active == 1:
-        # 제품 정보 확인
-        medicine_info = Medicine.objects.get(name=user_input)
-        medicine_name = medicine_info.name.replace(' ', '')
+    try:
+        # 유저 확인 로직
+        check_id = user.objects.get(kakao_id=user_id)
+        if check_id.group_is_active == 1 or check_id.is_active == 1:
+            # 제품 정보 확인
+            medicine_info = Medicine.objects.get(name=user_input)
+            medicine_name = medicine_info.name.replace(' ', '')
 
-        send_msg = {
-            'version': "2.0",
-            'template': {
-                'outputs': [
-                    {
-                        "simpleImage": {
-                            "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/"
-                                        + parse.quote(medicine_name) + ".jpg",
-                            "altText": "제품이미지"
-                        },
-                        "buttons": [
-                            {
-                                "action": "block",
-                                "label": "제품정보",
-                                "blockId": "607e7831f1a09324e4b37a19"
+            send_msg = {
+                'version': "2.0",
+                'template': {
+                    'outputs': [
+                        {
+                            "simpleImage": {
+                                "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/"
+                                            + parse.quote(medicine_name) + ".jpg",
+                                "altText": "제품이미지"
                             },
-                            {
-                                "action": "block",
-                                "label": "보험정보",
-                                "blockId": "6007a3be70fd446fa256b643"
-                            },
-                            {
-                                "action": "block",
-                                "label": "디테일 포인트",
-                                "blockId": "6007a3c83d34416490cf7ba7"
+                            "buttons": [
+                                {
+                                    "action": "block",
+                                    "label": "제품정보",
+                                    "blockId": "607e7831f1a09324e4b37a19"
+                                },
+                                {
+                                    "action": "block",
+                                    "label": "보험정보",
+                                    "blockId": "6007a3be70fd446fa256b643"
+                                },
+                                {
+                                    "action": "block",
+                                    "label": "디테일 포인트",
+                                    "blockId": "6007a3c83d34416490cf7ba7"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            }
+
+            return JsonResponse(send_msg, status=200)
+        else:
+            send_msg = {
+                "version": "2.0",
+                "template": {
+                    "outputs": [
+                        {
+                            "simpleText": {
+                                "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
                             }
-                        ]
+                        }
+                    ]
+                }
+            }
+            return JsonResponse(send_msg, status=403)
+    except user.DoesNotExist:
+        send_msg = {
+            "version": "2.0",
+            "template": {
+                "outputs": [
+                    {
+                        "simpleText": {
+                            "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
+                        }
                     }
                 ]
             }
         }
-
-        return JsonResponse(send_msg, status=200)
-    else:
-        return JsonResponse(status=404)
+        return JsonResponse(send_msg, status=403)
 
 
 @require_POST
@@ -235,42 +263,69 @@ def prod_info(request):
     # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
     user_input = json_req['contexts'][0]['params']['product_name']['value']
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
+    user = get_user_model()
 
-    # 유저 확인 로직
-    check_id = User.objects.get(kakao_id=user_id)
-    if check_id.exists() and check_id.is_active == 1:
-        # 제품 정보 확인
-        medicine_info = Medicine.objects.get(name=user_input)
-        medicine_name = medicine_info.name.replace(' ', '')
+    try:
+        # 유저 확인 로직
+        check_id = user.objects.get(kakao_id=user_id)
+        if check_id.group_is_active == 1 or check_id.is_active == 1:
+            # 제품 정보 확인
+            medicine_info = Medicine.objects.get(name=user_input)
+            medicine_name = medicine_info.name.replace(' ', '')
 
-        res = {
-            'version': "2.0",
-            'template': {
-                'outputs': [
-                    {
-                        "basicCard": {
-                            "thumbnail": {
-                                "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
-                                            + parse.quote(medicine_info) + ".jpg",
-                            },
-                            "description": medicine_info.product_info.replace("<p>", "\n"),
-                            "buttons": [
-                                {
-                                    "action": "webLink",
-                                    "label": "상세보기",
-                                    "webLinkUrl": medicine_info.product_url
+            res = {
+                'version': "2.0",
+                'template': {
+                    'outputs': [
+                        {
+                            "basicCard": {
+                                "thumbnail": {
+                                    "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
+                                                + parse.quote(medicine_info) + ".jpg",
                                 },
-                            ]
-                        },
+                                "description": medicine_info.product_info.replace("<p>", "\n"),
+                                "buttons": [
+                                    {
+                                        "action": "webLink",
+                                        "label": "상세보기",
+                                        "webLinkUrl": medicine_info.product_url
+                                    },
+                                ]
+                            },
+                        }
+                    ]
+                }
+            }
+
+            return JsonResponse(res, status=200)
+           else:
+            send_msg = {
+                "version": "2.0",
+                "template": {
+                    "outputs": [
+                        {
+                            "simpleText": {
+                                "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
+                            }
+                        }
+                    ]
+                }
+            }
+            return JsonResponse(send_msg, status=403)
+    except user.DoesNotExist:
+        send_msg = {
+            "version": "2.0",
+            "template": {
+                "outputs": [
+                    {
+                        "simpleText": {
+                            "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
+                        }
                     }
                 ]
             }
         }
-
-        return JsonResponse(res, status=200)
-    else:
-        return JsonResponse(status=404)
-
+        return JsonResponse(send_msg, status=403)
 
 @require_POST
 @csrf_exempt
@@ -280,34 +335,62 @@ def insu_info(request):
     # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
     user_input = json_req['contexts'][0]['params']['product_name']['value']
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
+    user = get_user_model()
 
-    # 유저 확인 로직
-    check_id = User.objects.get(kakao_id=user_id)
-    if check_id.exists() and check_id.is_active == 1:
-        # 제품 정보 확인
-        medicine_info = Medicine.objects.get(name=user_input)
-        medicine_name = medicine_info.name.replace(' ', '')
+    try:
+        # 유저 확인 로직
+        check_id = user.objects.get(kakao_id=user_id)
+        if check_id.group_is_active == 1 or check_id.is_active == 1:
+            # 제품 정보 확인
+            medicine_info = Medicine.objects.get(name=user_input)
+            medicine_name = medicine_info.name.replace(' ', '')
 
-        res = {
-            'version': "2.0",
-            'template': {
-                'outputs': [
+            res = {
+                'version': "2.0",
+                'template': {
+                    'outputs': [
+                        {
+                            "basicCard": {
+                                "thumbnail": {
+                                    "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
+                                                + parse.quote(medicine_info) + ".jpg",
+                                },
+                                "description": medicine_info.insurance_info.replace("<p>", "\n"),
+                            }
+                        }
+                    ]
+                }
+            }
+
+            return JsonResponse(res, status=200)
+        else:
+            send_msg = {
+                "version": "2.0",
+                "template": {
+                    "outputs": [
+                        {
+                            "simpleText": {
+                                "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
+                            }
+                        }
+                    ]
+                }
+            }
+            return JsonResponse(send_msg, status=403)
+    except user.DoesNotExist:
+        send_msg = {
+            "version": "2.0",
+            "template": {
+                "outputs": [
                     {
-                        "basicCard": {
-                            "thumbnail": {
-                                "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
-                                            + parse.quote(medicine_info) + ".jpg",
-                            },
-                            "description": medicine_info.insurance_info.replace("<p>", "\n"),
+                        "simpleText": {
+                            "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
                         }
                     }
                 ]
             }
         }
-
-        return JsonResponse(res, status=200)
-    else:
-        return JsonResponse(status=404)
+        return JsonResponse(send_msg, status=403)
 
 
 @require_POST
@@ -318,38 +401,66 @@ def detail_point(request):
     # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
     user_input = json_req['contexts'][0]['params']['product_name']['value']
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
+    user = get_user_model()
 
-    # 유저 확인 로직
-    check_id = User.objects.get(kakao_id=user_id)
-    if check_id.exists() and check_id.is_active == 1:
-        # 제품 정보 확인
-        medicine_info = Medicine.objects.get(name=user_input)
-        medicine_name = medicine_info.name.replace(' ', '')
+    try:
+        # 유저 확인 로직
+        check_id = user.objects.get(kakao_id=user_id)
+        if check_id.group_is_active == 1 or check_id.is_active == 1:
+            # 제품 정보 확인
+            medicine_info = Medicine.objects.get(name=user_input)
+            medicine_name = medicine_info.name.replace(' ', '')
 
-        res = {
-            'version': "2.0",
-            'template': {
-                'outputs': [
+            res = {
+                'version': "2.0",
+                'template': {
+                    'outputs': [
+                        {
+                            "basicCard": {
+                                "thumbnail": {
+                                    "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
+                                                + parse.quote(medicine_info) + ".jpg",
+                                },
+                                "description": medicine_info.detail_info.replace("<p>", "\n"),
+                                "buttons": [
+                                    {
+                                        "action": "webLink",
+                                        "label": "상세보기",
+                                        "webLinkUrl": medicine_info.detail_url
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+
+            return JsonResponse(res, status=200)
+        else:
+            send_msg = {
+                "version": "2.0",
+                "template": {
+                    "outputs": [
+                        {
+                            "simpleText": {
+                                "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
+                            }
+                        }
+                    ]
+                }
+            }
+            return JsonResponse(send_msg, status=403)
+    except user.DoesNotExist:
+        send_msg = {
+            "version": "2.0",
+            "template": {
+                "outputs": [
                     {
-                        "basicCard": {
-                            "thumbnail": {
-                                "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
-                                            + parse.quote(medicine_info) + ".jpg",
-                            },
-                            "description": medicine_info.detail_info.replace("<p>", "\n"),
-                            "buttons": [
-                                {
-                                    "action": "webLink",
-                                    "label": "상세보기",
-                                    "webLinkUrl": medicine_info.detail_url
-                                }
-                            ]
+                        "simpleText": {
+                            "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
                         }
                     }
                 ]
             }
         }
-
-        return JsonResponse(res, status=200)
-    else:
-        return JsonResponse(status=404)
+        return JsonResponse(send_msg, status=403)
