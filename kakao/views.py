@@ -421,54 +421,40 @@ def detail_point(request):
     print(user_input)
     user = get_user_model()
 
-    try:
-        # 유저 확인 로직
-        check_id = user.objects.get(kakao_id=user_id)
-        if check_id.group.is_active == 1 or check_id.is_active == 1:
-            # 제품 정보 확인
-            medicine_info = Medicine.objects.get(name=user_input.replace(' ', ''))
-            medicine_name = medicine_info.name
+    # try:
+    # 유저 확인 로직
+    check_id = user.objects.get(kakao_id=user_id)
+    if check_id.group.is_active == 1 or check_id.is_active == 1:
+        # 제품 정보 확인
+        medicine_info = Medicine.objects.get(name=user_input.replace(' ', ''))
+        medicine_name = medicine_info.name
 
-            res = {
-                'version': "2.0",
-                'template': {
-                    'outputs': [
-                        {
-                            "basicCard": {
-                                "thumbnail": {
-                                    "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
-                                                + parse.quote(str(medicine_name)) + ".jpg",
-                                },
-                                "description": medicine_info.detail_info.replace("<p>", "\n"),
-                                "buttons": [
-                                    {
-                                        "action": "webLink",
-                                        "label": "상세보기",
-                                        "webLinkUrl": medicine_info.detail_url
-                                    }
-                                ]
-                            }
+        res = {
+            'version': "2.0",
+            'template': {
+                'outputs': [
+                    {
+                        "basicCard": {
+                            "thumbnail": {
+                                "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
+                                            + parse.quote(str(medicine_name)) + ".jpg",
+                            },
+                            "description": medicine_info.detail_info.replace("<p>", "\n"),
+                            "buttons": [
+                                {
+                                    "action": "webLink",
+                                    "label": "상세보기",
+                                    "webLinkUrl": medicine_info.detail_url
+                                }
+                            ]
                         }
-                    ]
-                }
+                    }
+                ]
             }
+        }
 
-            return JsonResponse(res, status=200)
-        else:
-            send_msg = {
-                "version": "2.0",
-                "template": {
-                    "outputs": [
-                        {
-                            "simpleText": {
-                                "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
-                            }
-                        }
-                    ]
-                }
-            }
-            return JsonResponse(send_msg, status=200)
-    except user.DoesNotExist:
+        return JsonResponse(res, status=200)
+    else:
         send_msg = {
             "version": "2.0",
             "template": {
@@ -482,3 +468,17 @@ def detail_point(request):
             }
         }
         return JsonResponse(send_msg, status=200)
+    # except user.DoesNotExist:
+    #     send_msg = {
+    #         "version": "2.0",
+    #         "template": {
+    #             "outputs": [
+    #                 {
+    #                     "simpleText": {
+    #                         "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
+    #                     }
+    #                 }
+    #             ]
+    #         }
+    #     }
+    #     return JsonResponse(send_msg, status=200)
