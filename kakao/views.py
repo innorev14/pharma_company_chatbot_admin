@@ -270,10 +270,10 @@ def medicine(request):
 def prod_info(request):
     user_req = request.body.decode('utf-8')
     json_req = json.loads(user_req)
+    print(json_req)
     # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
     user_input = json_req['contexts'][0]['params']['product_name']['value'].replace(' ', '')
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
-    print(json_req)
     print(user_id)
     print(user_input)
     user = get_user_model()
@@ -344,10 +344,10 @@ def prod_info(request):
 def insu_info(request):
     user_req = request.body.decode('utf-8')
     json_req = json.loads(user_req)
+    print(json_req)
     # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
     user_input = json_req['contexts'][0]['params']['product_name']['value'].replace(' ', '')
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
-    print(json_req)
     print(user_id)
     print(user_input)
     user = get_user_model()
@@ -413,10 +413,10 @@ def insu_info(request):
 def detail_point(request):
     user_req = request.body.decode('utf-8')
     json_req = json.loads(user_req)
+    print(json_req)
     # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
     user_input = json_req['contexts'][0]['params']['product_name']['value'].replace(' ', '')
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
-    print(json_req)
     print(user_id)
     print(user_input)
     user = get_user_model()
