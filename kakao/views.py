@@ -47,7 +47,7 @@ def keyboard2(request):
             }
         }
 
-        if return_str == '테스트\n':
+        if return_str == '테스트':
             return JsonResponse(text, status=200)
         else:
             return HttpResponse(status=403)
