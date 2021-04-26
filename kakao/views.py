@@ -127,7 +127,7 @@ def auth(request):
     json_req = json.loads(user_req)
     print(json_req)
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
-    user_phone = json_req['contexts'][0]['params']['phone']['value']
+    user_phone = json_req['action']['params']['phone']
     print(user_id)
     print(user_phone)
 
