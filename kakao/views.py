@@ -70,7 +70,7 @@ def welcome(request):
                         {
                             "action": "block",
                             "label": "인증하기",
-                            "blockId": "60862cdc561a027398d85c67"
+                            "blockId": "5fffb748e301aa34ff3c0230"
                         },
                     ]
                 }
