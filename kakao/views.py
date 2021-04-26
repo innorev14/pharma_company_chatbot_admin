@@ -56,29 +56,30 @@ def keyboard2(request):
 @require_POST
 @csrf_exempt
 def welcome(request):
-    send_msg = {
-        'version': "2.0",
-        'template': {
-            'outputs': [
-                {
-                    "simpleImage": {
-                        "imageUrl": "https://cdn.imweb.me/thumbnail/20171207/5a28873a44a07.png",
-                        "altText": "일화로고"
-                    },
-                    "description": "안녕하세요. 일화제약 제품 안내 챗봇입니다. 최초 인증을 진행해주세요.",
-                    "buttons": [
-                        {
-                            "action": "block",
-                            "label": "인증하기",
-                            "blockId": "5fffb748e301aa34ff3c0230"
+    if request.method == 'POST':
+        send_msg = {
+            'version': "2.0",
+            'template': {
+                'outputs': [
+                    {
+                        "simpleImage": {
+                            "imageUrl": "https://cdn.imweb.me/thumbnail/20171207/5a28873a44a07.png",
+                            "altText": "일화로고"
                         },
-                    ]
-                }
-            ]
+                        "description": "안녕하세요. 일화제약 제품 안내 챗봇입니다. 최초 인증을 진행해주세요.",
+                        "buttons": [
+                            {
+                                "action": "block",
+                                "label": "인증하기",
+                                "blockId": "5fffb748e301aa34ff3c0230"
+                            },
+                        ]
+                    }
+                ]
+            }
         }
-    }
 
-    return JsonResponse(send_msg, status=200)
+        return JsonResponse(send_msg, status=200)
 
 
 @require_POST
