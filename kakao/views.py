@@ -234,7 +234,6 @@ def medicine(request):
                     ]
                 }
             }
-            print(send_msg['template']['outputs']['basicCard']['thumbnail']['imageUrl'])
             return JsonResponse(send_msg, status=200)
         else:
             send_msg = {
