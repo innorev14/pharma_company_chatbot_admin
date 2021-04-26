@@ -296,9 +296,8 @@ def prod_info(request):
                     ]
                 }
             }
-
             return JsonResponse(res, status=200)
-           else:
+        else:
             send_msg = {
                 "version": "2.0",
                 "template": {
