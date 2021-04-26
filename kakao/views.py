@@ -210,7 +210,7 @@ def medicine(request):
                             "basicCard": {
                                 "thumbnail": {
                                     "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/"
-                                            + parse.quote(medicine_name) + ".jpg",
+                                                + parse.quote(str(medicine_name)) + ".jpg",
                                 },
                                 "buttons": [
                                     {
@@ -234,7 +234,7 @@ def medicine(request):
                     ]
                 }
             }
-
+            print(send_msg['template']['outputs']['basicCard']['thumbnail']['imageUrl'])
             return JsonResponse(send_msg, status=200)
         else:
             send_msg = {
@@ -295,7 +295,7 @@ def prod_info(request):
                             "basicCard": {
                                 "thumbnail": {
                                     "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
-                                                + parse.quote(medicine_info) + ".jpg",
+                                                + parse.quote(str(medicine_info)) + ".jpg",
                                 },
                                 "description": medicine_info.product_info.replace("<p>", "\n"),
                                 "buttons": [
@@ -369,7 +369,7 @@ def insu_info(request):
                             "basicCard": {
                                 "thumbnail": {
                                     "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
-                                                + parse.quote(medicine_info) + ".jpg",
+                                                + parse.quote(str(medicine_info)) + ".jpg",
                                 },
                                 "description": medicine_info.insurance_info.replace("<p>", "\n"),
                             }
@@ -438,7 +438,7 @@ def detail_point(request):
                             "basicCard": {
                                 "thumbnail": {
                                     "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
-                                                + parse.quote(medicine_info) + ".jpg",
+                                                + parse.quote(str(medicine_info)) + ".jpg",
                                 },
                                 "description": medicine_info.detail_info.replace("<p>", "\n"),
                                 "buttons": [
