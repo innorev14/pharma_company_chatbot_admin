@@ -116,7 +116,7 @@ def validation(request):
         }
 
     print(send_msg)
-    return send_msg
+    return JsonResponse(send_msg, status=200)
 
 
 @require_POST
