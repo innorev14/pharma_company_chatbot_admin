@@ -209,7 +209,7 @@ def medicine(request):
                         {
                             "basicCard": {
                                 "thumbnail": {
-                                    "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/"
+                                    "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
                                                 + parse.quote(str(medicine_name)) + ".jpg",
                                 },
                                 "buttons": [
@@ -271,7 +271,7 @@ def prod_info(request):
     user_req = request.body.decode('utf-8')
     json_req = json.loads(user_req)
     # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
-    user_input = json_req['contexts'][0]['params']['product_name']['value']
+    user_input = json_req['contexts'][0]['params']['product_name']['value'].replace(' ', '')
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
     print(json_req)
     print(user_id)
@@ -284,7 +284,7 @@ def prod_info(request):
         if check_id.group.is_active == 1 or check_id.is_active == 1:
             # 제품 정보 확인
             medicine_info = Medicine.objects.get(name=user_input)
-            medicine_name = medicine_info.name.replace(' ', '')
+            medicine_name = medicine_info.name
 
             res = {
                 'version': "2.0",
@@ -345,7 +345,7 @@ def insu_info(request):
     user_req = request.body.decode('utf-8')
     json_req = json.loads(user_req)
     # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
-    user_input = json_req['contexts'][0]['params']['product_name']['value']
+    user_input = json_req['contexts'][0]['params']['product_name']['value'].replace(' ', '')
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
     print(json_req)
     print(user_id)
@@ -358,7 +358,7 @@ def insu_info(request):
         if check_id.group.is_active == 1 or check_id.is_active == 1:
             # 제품 정보 확인
             medicine_info = Medicine.objects.get(name=user_input)
-            medicine_name = medicine_info.name.replace(' ', '')
+            medicine_name = medicine_info.name
 
             res = {
                 'version': "2.0",
@@ -414,7 +414,7 @@ def detail_point(request):
     user_req = request.body.decode('utf-8')
     json_req = json.loads(user_req)
     # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
-    user_input = json_req['contexts'][0]['params']['product_name']['value']
+    user_input = json_req['contexts'][0]['params']['product_name']['value'].replace(' ', '')
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
     print(json_req)
     print(user_id)
@@ -427,7 +427,7 @@ def detail_point(request):
         if check_id.group.is_active == 1 or check_id.is_active == 1:
             # 제품 정보 확인
             medicine_info = Medicine.objects.get(name=user_input)
-            medicine_name = medicine_info.name.replace(' ', '')
+            medicine_name = medicine_info.name
 
             res = {
                 'version': "2.0",
