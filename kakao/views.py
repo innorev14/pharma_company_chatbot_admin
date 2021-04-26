@@ -467,7 +467,7 @@ def detail_point(request):
                 ]
             }
         }
-        return JsonResponse(send_msg, status=200)
+        return JsonResponse(send_msg, status=201)
     # except user.DoesNotExist:
     #     send_msg = {
     #         "version": "2.0",
