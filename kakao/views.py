@@ -158,7 +158,7 @@ def auth(request):
                     "outputs": [
                         {
                             "simpleText": {
-                                "text": "인증에 실패했습니다. 관리자에게 문의 바랍니다."
+                                "text": "인증이 이미 처리되었습니다."
                             }
                         }
                     ]
@@ -187,7 +187,7 @@ def medicine(request):
     user_req = request.body.decode('utf-8')
     json_req = json.loads(user_req)
     # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
-    user_input = json_req['action']['params']['product_name']
+    user_input = json_req['action']['params']['product_name'].replace(' ', '')
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
     print(json_req)
     print(user_id)
@@ -200,35 +200,36 @@ def medicine(request):
         if check_id.group.is_active == 1 or check_id.is_active == 1:
             # 제품 정보 확인
             medicine_info = Medicine.objects.get(name=user_input)
-            medicine_name = medicine_info.name.replace(' ', '')
+            medicine_name = medicine_info.name
 
             send_msg = {
                 'version': "2.0",
                 'template': {
                     'outputs': [
                         {
-                            "simpleImage": {
-                                "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/"
+                            "basicCard": {
+                                "thumbnail": {
+                                    "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/"
                                             + parse.quote(medicine_name) + ".jpg",
-                                "altText": "제품이미지"
-                            },
-                            "buttons": [
-                                {
-                                    "action": "block",
-                                    "label": "제품정보",
-                                    "blockId": "607e7831f1a09324e4b37a19"
                                 },
-                                {
-                                    "action": "block",
-                                    "label": "보험정보",
-                                    "blockId": "6007a3be70fd446fa256b643"
-                                },
-                                {
-                                    "action": "block",
-                                    "label": "디테일 포인트",
-                                    "blockId": "6007a3c83d34416490cf7ba7"
-                                }
-                            ]
+                                "buttons": [
+                                    {
+                                        "action": "block",
+                                        "label": "제품정보",
+                                        "blockId": "607e7831f1a09324e4b37a19"
+                                    },
+                                    {
+                                        "action": "block",
+                                        "label": "보험정보",
+                                        "blockId": "6007a3be70fd446fa256b643"
+                                    },
+                                    {
+                                        "action": "block",
+                                        "label": "디테일 포인트",
+                                        "blockId": "6007a3c83d34416490cf7ba7"
+                                    }
+                                ]
+                            }
                         }
                     ]
                 }
