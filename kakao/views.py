@@ -187,7 +187,7 @@ def medicine(request):
     user_req = request.body.decode('utf-8')
     json_req = json.loads(user_req)
     # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
-    user_input = json_req['action']['params']['product_name'].replace(' ', '')
+    user_input = json_req['action']['params']['product_name']
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
     print(json_req)
     print(user_id)
@@ -199,7 +199,7 @@ def medicine(request):
         check_id = user.objects.get(kakao_id=user_id)
         if check_id.group.is_active == 1 or check_id.is_active == 1:
             # 제품 정보 확인
-            medicine_info = Medicine.objects.get(name=user_input)
+            medicine_info = Medicine.objects.get(name=user_input.replace(' ', ''))
             medicine_name = medicine_info.name
 
             send_msg = {
@@ -272,7 +272,7 @@ def prod_info(request):
     json_req = json.loads(user_req)
     print(json_req)
     # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
-    user_input = json_req['contexts'][0]['params']['product_name']['value'].replace(' ', '')
+    user_input = json_req['contexts'][0]['params']['product_name']['value']
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
     print(user_id)
     print(user_input)
@@ -283,7 +283,7 @@ def prod_info(request):
         check_id = user.objects.get(kakao_id=user_id)
         if check_id.group.is_active == 1 or check_id.is_active == 1:
             # 제품 정보 확인
-            medicine_info = Medicine.objects.get(name=user_input)
+            medicine_info = Medicine.objects.get(name=user_input.replace(' ', ''))
             medicine_name = medicine_info.name
 
             res = {
@@ -346,7 +346,7 @@ def insu_info(request):
     json_req = json.loads(user_req)
     print(json_req)
     # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
-    user_input = json_req['contexts'][0]['params']['product_name']['value'].replace(' ', '')
+    user_input = json_req['contexts'][0]['params']['product_name']['value']
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
     print(user_id)
     print(user_input)
@@ -357,7 +357,7 @@ def insu_info(request):
         check_id = user.objects.get(kakao_id=user_id)
         if check_id.group.is_active == 1 or check_id.is_active == 1:
             # 제품 정보 확인
-            medicine_info = Medicine.objects.get(name=user_input)
+            medicine_info = Medicine.objects.get(name=user_input.replace(' ', ''))
             medicine_name = medicine_info.name
 
             res = {
@@ -415,7 +415,7 @@ def detail_point(request):
     json_req = json.loads(user_req)
     print(json_req)
     # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
-    user_input = json_req['contexts'][0]['params']['product_name']['value'].replace(' ', '')
+    user_input = json_req['contexts'][0]['params']['product_name']['value']
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
     print(user_id)
     print(user_input)
@@ -426,7 +426,7 @@ def detail_point(request):
         check_id = user.objects.get(kakao_id=user_id)
         if check_id.group.is_active == 1 or check_id.is_active == 1:
             # 제품 정보 확인
-            medicine_info = Medicine.objects.get(name=user_input)
+            medicine_info = Medicine.objects.get(name=user_input.replace(' ', ''))
             medicine_name = medicine_info.name
 
             res = {
