@@ -11,5 +11,5 @@ urlpatterns = [
     path('medicine/', medicine, name='medicine'),
     path('prod_info/', prod_info, name='prod_info'),
     path('insu_info/', insu_info, name='insu_info'),
-    path('detail_point/', detail_point, name='detail-_point'),
+    path('detail_point/', detail_point, name='detail_point'),
 ]

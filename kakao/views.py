@@ -87,6 +87,8 @@ def validation(request):
     user_req = request.body.decode('utf-8')
     json_req = json.loads(user_req)
     phone = json_req['value']['origin']
+    print(json_req)
+    print(phone)
     vali_num = r"^\d{10,11}$"
     vali_num2 = r"^\d{3}-\d{3,4}-\d{4}$"
     vali_num3 = r"^\d{3}.\d{3,4}.\d{4}$"
@@ -123,6 +125,9 @@ def auth(request):
     json_req = json.loads(user_req)
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
     user_phone = json_req['contexts'][0]['params']['phone']['value']
+    print(json_req)
+    print(user_id)
+    print(user_phone)
 
     user = get_user_model()
 
@@ -182,6 +187,9 @@ def medicine(request):
     # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
     user_input = json_req['action']['params']['product_name']
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
+    print(json_req)
+    print(user_id)
+    print(user_input)
     user = get_user_model()
 
     try:
@@ -263,6 +271,9 @@ def prod_info(request):
     # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
     user_input = json_req['contexts'][0]['params']['product_name']['value']
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
+    print(json_req)
+    print(user_id)
+    print(user_input)
     user = get_user_model()
 
     try:
@@ -334,6 +345,9 @@ def insu_info(request):
     # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
     user_input = json_req['contexts'][0]['params']['product_name']['value']
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
+    print(json_req)
+    print(user_id)
+    print(user_input)
     user = get_user_model()
 
     try:
@@ -400,6 +414,9 @@ def detail_point(request):
     # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
     user_input = json_req['contexts'][0]['params']['product_name']['value']
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
+    print(json_req)
+    print(user_id)
+    print(user_input)
     user = get_user_model()
 
     try:
