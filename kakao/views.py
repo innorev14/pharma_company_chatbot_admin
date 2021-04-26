@@ -135,7 +135,7 @@ def auth(request):
 
     try:
         match_user = user.objects.get(phone=user_phone)
-        if match_user.kakao_id == '':
+        if match_user.kakao_id is None:
             match_user.kakao_id = user_id
             match_user.save()
             send_msg = {
@@ -164,7 +164,7 @@ def auth(request):
                     ]
                 }
             }
-            return JsonResponse(send_msg, status=210)
+            return JsonResponse(send_msg, status=200)
     except user.DoesNotExist:
         send_msg = {
             "version": "2.0",
@@ -178,7 +178,7 @@ def auth(request):
                 ]
             }
         }
-        return JsonResponse(send_msg, status=211)
+        return JsonResponse(send_msg, status=200)
 
 
 @require_POST
@@ -248,7 +248,7 @@ def medicine(request):
                     ]
                 }
             }
-            return JsonResponse(send_msg, status=210)
+            return JsonResponse(send_msg, status=200)
     except user.DoesNotExist:
         send_msg = {
             "version": "2.0",
@@ -262,7 +262,7 @@ def medicine(request):
                 ]
             }
         }
-        return JsonResponse(send_msg, status=211)
+        return JsonResponse(send_msg, status=200)
 
 
 @require_POST
@@ -323,7 +323,7 @@ def prod_info(request):
                     ]
                 }
             }
-            return JsonResponse(send_msg, status=210)
+            return JsonResponse(send_msg, status=200)
     except user.DoesNotExist:
         send_msg = {
             "version": "2.0",
@@ -337,7 +337,7 @@ def prod_info(request):
                 ]
             }
         }
-        return JsonResponse(send_msg, status=211)
+        return JsonResponse(send_msg, status=200)
 
 @require_POST
 @csrf_exempt
@@ -391,7 +391,7 @@ def insu_info(request):
                     ]
                 }
             }
-            return JsonResponse(send_msg, status=210)
+            return JsonResponse(send_msg, status=200)
     except user.DoesNotExist:
         send_msg = {
             "version": "2.0",
@@ -405,7 +405,7 @@ def insu_info(request):
                 ]
             }
         }
-        return JsonResponse(send_msg, status=211)
+        return JsonResponse(send_msg, status=200)
 
 
 @require_POST
@@ -467,7 +467,7 @@ def detail_point(request):
                     ]
                 }
             }
-            return JsonResponse(send_msg, status=210)
+            return JsonResponse(send_msg, status=200)
     except user.DoesNotExist:
         send_msg = {
             "version": "2.0",
@@ -481,4 +481,4 @@ def detail_point(request):
                 ]
             }
         }
-        return JsonResponse(send_msg, status=211)
+        return JsonResponse(send_msg, status=200)
