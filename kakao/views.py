@@ -144,7 +144,7 @@ def auth(request):
                     "outputs": [
                         {
                             "simpleText": {
-                                "text": "인증되었습니다."
+                                "text": "인증되었습니다. 채팅창에 \"검색\"을 입력해보세요."
                             }
                         }
                     ]
@@ -197,7 +197,7 @@ def medicine(request):
     try:
         # 유저 확인 로직
         check_id = user.objects.get(kakao_id=user_id)
-        if check_id.group_is_active == 1 or check_id.is_active == 1:
+        if check_id.group.is_active == 1 or check_id.is_active == 1:
             # 제품 정보 확인
             medicine_info = Medicine.objects.get(name=user_input)
             medicine_name = medicine_info.name.replace(' ', '')
@@ -281,7 +281,7 @@ def prod_info(request):
     try:
         # 유저 확인 로직
         check_id = user.objects.get(kakao_id=user_id)
-        if check_id.group_is_active == 1 or check_id.is_active == 1:
+        if check_id.group.is_active == 1 or check_id.is_active == 1:
             # 제품 정보 확인
             medicine_info = Medicine.objects.get(name=user_input)
             medicine_name = medicine_info.name.replace(' ', '')
@@ -355,7 +355,7 @@ def insu_info(request):
     try:
         # 유저 확인 로직
         check_id = user.objects.get(kakao_id=user_id)
-        if check_id.group_is_active == 1 or check_id.is_active == 1:
+        if check_id.group.is_active == 1 or check_id.is_active == 1:
             # 제품 정보 확인
             medicine_info = Medicine.objects.get(name=user_input)
             medicine_name = medicine_info.name.replace(' ', '')
@@ -424,7 +424,7 @@ def detail_point(request):
     try:
         # 유저 확인 로직
         check_id = user.objects.get(kakao_id=user_id)
-        if check_id.group_is_active == 1 or check_id.is_active == 1:
+        if check_id.group.is_active == 1 or check_id.is_active == 1:
             # 제품 정보 확인
             medicine_info = Medicine.objects.get(name=user_input)
             medicine_name = medicine_info.name.replace(' ', '')
