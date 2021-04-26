@@ -115,6 +115,7 @@ def validation(request):
                     "message": "전화번호가 형식이 올바르지 않습니다. \n\n"
         }
 
+    print(send_msg)
     return send_msg
 
 
