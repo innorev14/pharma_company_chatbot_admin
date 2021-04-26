@@ -56,7 +56,7 @@ def keyboard2(request):
 @require_POST
 @csrf_exempt
 def welcome(request):
-    res = {
+    send_msg = {
         'version': "2.0",
         'template': {
             'outputs': [
@@ -78,15 +78,15 @@ def welcome(request):
         }
     }
 
-    return JsonResponse(res, status=200)
+    return JsonResponse(send_msg, status=200)
 
 
 @require_POST
 @csrf_exempt
 def validation(request):
-    req_kakao = request.body.decode('utf-8')
+    user_req = request.body.decode('utf-8')
     json_req = json.loads(user_req)
-    phone = req_kakao['value']['origin']
+    phone = json_req['value']['origin']
     vali_num = r"^\d{10,11}$"
     vali_num2 = r"^\d{3}-\d{3,4}-\d{4}$"
     vali_num3 = r"^\d{3}.\d{3,4}.\d{4}$"
@@ -131,22 +131,47 @@ def auth(request):
         if match_user.kakao_id == '':
             match_user.kakao_id = user_id
             match_user.save()
+            send_msg = {
+                "version": "2.0",
+                "template": {
+                    "outputs": [
+                        {
+                            "simpleText": {
+                                "text": "인증되었습니다."
+                            }
+                        }
+                    ]
+                }
+            }
+            return JsonResponse(send_msg, status=200)
         else:
-            send_msg = {}
+            send_msg = {
+                "version": "2.0",
+                "template": {
+                    "outputs": [
+                        {
+                            "simpleText": {
+                                "text": "인증에 실패했습니다. 관리자에게 문의 바랍니다."
+                            }
+                        }
+                    ]
+                }
+            }
+            return JsonResponse(send_msg, status=403)
     except user.DoesNotExist:
-        text = {
+        send_msg = {
             "version": "2.0",
             "template": {
                 "outputs": [
                     {
                         "simpleText": {
-                            "text": "관리자에게 문의바랍니다."
+                            "text": "사용자 정보가 미등록 되었습니다. 관리자에게 문의바랍니다."
                         }
                     }
                 ]
             }
         }
-        return JsonResponse(text, status=404)
+        return JsonResponse(send_msg, status=403)
 
 
 @require_POST
@@ -165,7 +190,7 @@ def medicine(request):
         medicine_info = Medicine.objects.get(name=user_input)
         medicine_name = medicine_info.name.replace(' ', '')
 
-        text = {
+        send_msg = {
             'version': "2.0",
             'template': {
                 'outputs': [
@@ -197,7 +222,7 @@ def medicine(request):
             }
         }
 
-        return JsonResponse(text, status=200)
+        return JsonResponse(send_msg, status=200)
     else:
         return JsonResponse(status=404)
 

@@ -50,6 +50,7 @@ class Group(models.Model):
 class User(AbstractUser):
     group = models.ForeignKey('Group', on_delete=models.CASCADE, null=True, verbose_name='그룹이름')
     kakao_id = models.CharField(max_length=50, verbose_name='카카오ID')
+    phone = models.CharField(max_length=11)
 
     class Meta:
         verbose_name = _('사용자')
