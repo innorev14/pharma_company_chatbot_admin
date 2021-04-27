@@ -506,12 +506,12 @@ def detail_point(request):
                                     "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
                                                 + parse.quote(str(medicine_name)) + ".jpg",
                                 },
-                                "description": medicine_info.detail_info.replace("<p>", "\n"),
+                                "description": medicine_info.product_info.replace("<p>", "\n"),
                                 "buttons": [
                                     {
                                         "action": "webLink",
                                         "label": "상세보기",
-                                        "webLinkUrl": medicine_info.detail_url
+                                        "webLinkUrl": medicine_info.product_url
                                     },
                                 ]
                             },
