@@ -188,7 +188,10 @@ def medicine(request):
     json_req = json.loads(user_req)
     print(json_req)
     # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
-    user_input = json_req['action']['params']['product_name']
+    try:
+        user_input = json_req['action']['params']['product_name']
+    except KeyError:
+        user_input = json_req['contexts'][0]['params']['product_name']['value']
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
     print(user_id)
     print(user_input)
@@ -469,6 +472,20 @@ def insu_info(request):
                                 "description": medicine_info.insurance_info.replace("<p>", "\n"),
                             }
                         }
+                    ],
+                    'quickReplies': [
+                        {
+                            "label": "뒤로가기",
+                            "action": "block",
+                            "messageText": medicine_name,
+                            "blockId": "60878449a0ddb07dd0ca0208"
+                        },
+                        {
+                            "label": "다른제품검색",
+                            "action": "block",
+                            "messageText": "제품검색",
+                            "blockId": "6007a388393d9113045a765a"
+                        }
                     ]
                 }
             }
@@ -580,6 +597,20 @@ def detail_point(request):
                                     },
                                     "description": medicine_info.detail_info.replace("<p>", "\n"),
                                 },
+                            }
+                        ],
+                        'quickReplies': [
+                            {
+                                "label": "뒤로가기",
+                                "action": "block",
+                                "messageText": medicine_name,
+                                "blockId": "60878449a0ddb07dd0ca0208"
+                            },
+                            {
+                                "label": "다른제품검색",
+                                "action": "block",
+                                "messageText": "제품검색",
+                                "blockId": "6007a388393d9113045a765a"
                             }
                         ]
                     }
