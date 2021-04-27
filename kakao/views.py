@@ -180,8 +180,7 @@ def auth(request):
                     {
                         "label": "인증하기",
                         "action": "block",
-                        "messageText": "제품검색",
-                        "blockId": "6007a388393d9113045a765a"
+                        "blockId": "5fffb748e301aa34ff3c0230"
                     }
                 ]
             }
@@ -261,8 +260,7 @@ def medicine(request):
                         {
                             "label": "인증하기",
                             "action": "block",
-                            "messageText": "제품검색",
-                            "blockId": "6007a388393d9113045a765a"
+                            "blockId": "5fffb748e301aa34ff3c0230"
                         }
                     ]
                 }
@@ -283,8 +281,7 @@ def medicine(request):
                     {
                         "label": "인증하기",
                         "action": "block",
-                        "messageText": "제품검색",
-                        "blockId": "6007a388393d9113045a765a"
+                        "blockId": "5fffb748e301aa34ff3c0230"
                     }
                 ]
             }
@@ -374,8 +371,7 @@ def medicine_direct(request):
                         {
                             "label": "인증하기",
                             "action": "block",
-                            "messageText": "제품검색",
-                            "blockId": "6007a388393d9113045a765a"
+                            "blockId": "5fffb748e301aa34ff3c0230"
                         }
                     ]
                 }
@@ -396,8 +392,7 @@ def medicine_direct(request):
                     {
                         "label": "인증하기",
                         "action": "block",
-                        "messageText": "제품검색",
-                        "blockId": "6007a388393d9113045a765a"
+                        "blockId": "5fffb748e301aa34ff3c0230"
                     }
                 ]
             }
@@ -445,8 +440,7 @@ def prod_info(request):
                     {
                         "label": "제품검색",
                         "action": "block",
-                        "messageText": "제품검색",
-                        "blockId": "6007a388393d9113045a765a"
+                        "blockId": "5fffb748e301aa34ff3c0230"
                     }
                 ]
             }
@@ -551,8 +545,7 @@ def prod_info(request):
                         {
                             "label": "인증하기",
                             "action": "block",
-                            "messageText": "제품검색",
-                            "blockId": "6007a388393d9113045a765a"
+                            "blockId": "5fffb748e301aa34ff3c0230"
                         }
                     ]
                 }
@@ -573,8 +566,7 @@ def prod_info(request):
                     {
                         "label": "인증하기",
                         "action": "block",
-                        "messageText": "제품검색",
-                        "blockId": "6007a388393d9113045a765a"
+                        "blockId": "5fffb748e301aa34ff3c0230"
                     }
                 ]
             }
@@ -666,8 +658,7 @@ def insu_info(request):
                         {
                             "label": "인증하기",
                             "action": "block",
-                            "messageText": "제품검색",
-                            "blockId": "6007a388393d9113045a765a"
+                            "blockId": "5fffb748e301aa34ff3c0230"
                         }
                     ]
                 }
@@ -688,8 +679,7 @@ def insu_info(request):
                     {
                         "label": "인증하기",
                         "action": "block",
-                        "messageText": "제품검색",
-                        "blockId": "6007a388393d9113045a765a"
+                        "blockId": "5fffb748e301aa34ff3c0230"
                     }
                 ]
             }
@@ -807,8 +797,7 @@ def detail_point(request):
                         {
                             "label": "인증하기",
                             "action": "block",
-                            "messageText": "제품검색",
-                            "blockId": "6007a388393d9113045a765a"
+                            "blockId": "5fffb748e301aa34ff3c0230"
                         }
                     ]
                 }
@@ -829,8 +818,7 @@ def detail_point(request):
                     {
                         "label": "인증하기",
                         "action": "block",
-                        "messageText": "제품검색",
-                        "blockId": "6007a388393d9113045a765a"
+                        "blockId": "5fffb748e301aa34ff3c0230"
                     }
                 ]
             }
