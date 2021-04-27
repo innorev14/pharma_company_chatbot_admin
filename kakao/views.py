@@ -272,7 +272,10 @@ def prod_info(request):
     json_req = json.loads(user_req)
     print(json_req)
     # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
-    user_input = json_req['contexts'][0]['params']['product_name']['value']
+    try:
+        user_input = json_req['contexts'][0]['params']['product_name']['value']
+    except KeyError:
+        user_input = json_req['contexts'][1]['params']['product_name']['value']
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
     print(user_id)
     print(user_input)
@@ -347,7 +350,10 @@ def insu_info(request):
     json_req = json.loads(user_req)
     print(json_req)
     # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
-    user_input = json_req['contexts'][0]['params']['product_name']['value']
+    try:
+        user_input = json_req['contexts'][0]['params']['product_name']['value']
+    except KeyError:
+        user_input = json_req['contexts'][1]['params']['product_name']['value']
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
     print(user_id)
     print(user_input)
@@ -416,7 +422,10 @@ def detail_point(request):
     json_req = json.loads(user_req)
     print(json_req)
     # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
-    user_input = json_req['contexts'][0]['params']['product_name']['value']
+    try:
+        user_input = json_req['contexts'][0]['params']['product_name']['value']
+    except KeyError:
+        user_input = json_req['contexts'][1]['params']['product_name']['value']
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
     print(user_id)
     print(user_input)
