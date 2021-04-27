@@ -900,3 +900,41 @@ def search_category(request):
     }
 
     return JsonResponse(send_msg, status=200)
+
+
+
+@require_POST
+@csrf_exempt
+def search_tag(request):
+    user_req = request.body.decode('utf-8')
+    json_req = json.loads(user_req)
+    print(json_req)
+    user_input = json_req['userRequest']['utterance'].replace(' ', '')
+
+    if MedicineTag.objects.filter(name=user_input).exists():
+        tag_id = MedicineTag.objects.get(name=user_input).id
+        medicine_list = TaggedMedicine.objects.filter(tag=tag_id).all()
+        quick_set = []
+
+        for medi in medicine_list:
+            quick_set.append({
+                        "label": medi.content_object.name,
+                        "action": "message",
+                        "messageText": medi.content_object.name,
+                    })
+
+        send_msg = {
+            "version": "2.0",
+            "template": {
+                "outputs": [
+                    {
+                        "simpleText": {
+                            "text": user_input
+                        }
+                    }
+                ],
+                'quickReplies': quick_set
+            }
+        }
+
+        return JsonResponse(send_msg, status=200)

@@ -14,4 +14,5 @@ urlpatterns = [
     path('detail_point/', detail_point, name='detail_point'),
     path('medicine_direct/', medicine_direct, name='medicine_direct'),
     path('search_category/', search_category, name='search_category'),
+    path('search_tag/', search_tag, name='search_tag'),
 ]
