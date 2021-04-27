@@ -175,6 +175,14 @@ def auth(request):
                             "text": "사용자 정보가 미등록 되었습니다. 관리자에게 문의바랍니다."
                         }
                     }
+                ],
+                'quickReplies': [
+                    {
+                        "label": "인증하기",
+                        "action": "block",
+                        "messageText": "제품검색",
+                        "blockId": "6007a388393d9113045a765a"
+                    }
                 ]
             }
         }
@@ -273,7 +281,7 @@ def medicine(request):
                 "outputs": [
                     {
                         "simpleText": {
-                            "text": "제품명을 다시 확인해주세요."
+                            "text": "제품명을 다시 확인하시고 입력해주세요."
                         }
                     }
                 ]
@@ -281,6 +289,101 @@ def medicine(request):
         }
         return JsonResponse(send_msg, status=200)
 
+@require_POST
+@csrf_exempt
+def medicine_direct(request):
+    user_req = request.body.decode('utf-8')
+    json_req = json.loads(user_req)
+    print(json_req)
+    user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
+    user_id = json_req['userRequest']['user']['id']  # 유저 ID
+    print(user_id)
+    print(user_input)
+    user = get_user_model()
+
+    try:
+        # 유저 확인 로직
+        check_id = user.objects.get(kakao_id=user_id)
+        if check_id.group.is_active == 1 or check_id.is_active == 1:
+            # 제품 정보 확인
+            medicine_info = Medicine.objects.get(name=user_input.replace(' ', ''))
+            medicine_name = medicine_info.name
+
+            send_msg = {
+                'version': "2.0",
+                'template': {
+                    'outputs': [
+                        {
+                            "basicCard": {
+                                "thumbnail": {
+                                    "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
+                                                + parse.quote(str(medicine_name)) + ".jpg",
+                                },
+                                "buttons": [
+                                    {
+                                        "action": "block",
+                                        "label": "제품정보",
+                                        "blockId": "607e7831f1a09324e4b37a19"
+                                    },
+                                    {
+                                        "action": "block",
+                                        "label": "보험정보",
+                                        "blockId": "6007a3be70fd446fa256b643"
+                                    },
+                                    {
+                                        "action": "block",
+                                        "label": "디테일 포인트",
+                                        "blockId": "6007a3c83d34416490cf7ba7"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+            return JsonResponse(send_msg, status=200)
+        else:
+            send_msg = {
+                "version": "2.0",
+                "template": {
+                    "outputs": [
+                        {
+                            "simpleText": {
+                                "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
+                            }
+                        }
+                    ]
+                }
+            }
+            return JsonResponse(send_msg, status=200)
+    except user.DoesNotExist:
+        send_msg = {
+            "version": "2.0",
+            "template": {
+                "outputs": [
+                    {
+                        "simpleText": {
+                            "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
+                        }
+                    }
+                ]
+            }
+        }
+        return JsonResponse(send_msg, status=200)
+    except Medicine.DoesNotExist:
+        send_msg = {
+            "version": "2.0",
+            "template": {
+                "outputs": [
+                    {
+                        "simpleText": {
+                            "text": "제품명을 다시 확인하시고 입력해주세요."
+                        }
+                    }
+                ]
+            }
+        }
+        return JsonResponse(send_msg, status=200)
 
 
 @require_POST
@@ -303,6 +406,14 @@ def prod_info(request):
                         "simpleText": {
                             "text": "응답시간이 초과되었으니 제품명을 다시 입력해주시기 바랍니다."
                         }
+                    }
+                ],
+                'quickReplies': [
+                    {
+                        "label": "제품검색",
+                        "action": "block",
+                        "messageText": "제품검색",
+                        "blockId": "6007a388393d9113045a765a"
                     }
                 ]
             }
