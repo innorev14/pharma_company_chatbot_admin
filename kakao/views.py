@@ -289,6 +289,7 @@ def medicine(request):
         }
         return JsonResponse(send_msg, status=200)
 
+
 @require_POST
 @csrf_exempt
 def medicine_direct(request):
