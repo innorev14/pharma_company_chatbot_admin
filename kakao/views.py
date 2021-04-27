@@ -263,6 +263,21 @@ def medicine(request):
             }
         }
         return JsonResponse(send_msg, status=200)
+    except Medicine.DoesNotExist:
+        send_msg = {
+            "version": "2.0",
+            "template": {
+                "outputs": [
+                    {
+                        "simpleText": {
+                            "text": "제품명을 다시 확인해주세요."
+                        }
+                    }
+                ]
+            }
+        }
+        return JsonResponse(send_msg, status=200)
+
 
 
 @require_POST
