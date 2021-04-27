@@ -340,7 +340,7 @@ def prod_info(request):
                                 },
                             }
                         ],
-                        'quickreplies': [
+                        'quickReplies': [
                             {
                                 "label": "뒤로가기",
                                 "action": "block",
