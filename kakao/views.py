@@ -496,29 +496,47 @@ def detail_point(request):
             medicine_info = Medicine.objects.get(name=user_input.replace(' ', ''))
             medicine_name = medicine_info.name
 
-            res = {
-                'version': "2.0",
-                'template': {
-                    'outputs': [
-                        {
-                            "basicCard": {
-                                "thumbnail": {
-                                    "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
-                                                + parse.quote(str(medicine_name)) + ".jpg",
-                                },
-                                "description": medicine_info.product_info.replace("<p>", "\n"),
-                                "buttons": [
-                                    {
-                                        "action": "webLink",
-                                        "label": "상세보기",
-                                        "webLinkUrl": medicine_info.product_url
+            if medicine_info.detail_url is not None:
+                res = {
+                    'version': "2.0",
+                    'template': {
+                        'outputs': [
+                            {
+                                "basicCard": {
+                                    "thumbnail": {
+                                        "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
+                                                    + parse.quote(str(medicine_name)) + ".jpg",
                                     },
-                                ]
-                            },
-                        }
-                    ]
+                                    "description": medicine_info.detail_info.replace("<p>", "\n"),
+                                    "buttons": [
+                                        {
+                                            "action": "webLink",
+                                            "label": "상세보기",
+                                            "webLinkUrl": medicine_info.detail_url
+                                        },
+                                    ]
+                                },
+                            }
+                        ]
+                    }
                 }
-            }
+            else:
+                res = {
+                    'version': "2.0",
+                    'template': {
+                        'outputs': [
+                            {
+                                "basicCard": {
+                                    "thumbnail": {
+                                        "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
+                                                    + parse.quote(str(medicine_name)) + ".jpg",
+                                    },
+                                    "description": medicine_info.detail_info.replace("<p>", "\n"),
+                                },
+                            }
+                        ]
+                    }
+                }
             return JsonResponse(res, status=200)
         else:
             send_msg = {
