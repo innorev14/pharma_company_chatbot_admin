@@ -144,7 +144,7 @@ def auth(request):
                     "outputs": [
                         {
                             "simpleText": {
-                                "text": "인증되었습니다. 채팅창에 \"검색\"을 입력해보세요."
+                                "text": "인증되었습니다. 채팅창에 \"검색\" 혹은 제품명을 입력해주세요."
                             }
                         }
                     ]
@@ -158,7 +158,7 @@ def auth(request):
                     "outputs": [
                         {
                             "simpleText": {
-                                "text": "인증이 이미 처리되었습니다."
+                                "text": "인증이 이미 처리되었습니다. 원하는 제품명을 입력해주세요."
                             }
                         }
                     ]
@@ -256,6 +256,14 @@ def medicine(request):
                                 "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
                             }
                         }
+                    ],
+                    'quickReplies': [
+                        {
+                            "label": "인증하기",
+                            "action": "block",
+                            "messageText": "제품검색",
+                            "blockId": "6007a388393d9113045a765a"
+                        }
                     ]
                 }
             }
@@ -269,6 +277,14 @@ def medicine(request):
                         "simpleText": {
                             "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
                         }
+                    }
+                ],
+                'quickReplies': [
+                    {
+                        "label": "인증하기",
+                        "action": "block",
+                        "messageText": "제품검색",
+                        "blockId": "6007a388393d9113045a765a"
                     }
                 ]
             }
@@ -353,6 +369,14 @@ def medicine_direct(request):
                                 "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
                             }
                         }
+                    ],
+                    'quickReplies': [
+                        {
+                            "label": "인증하기",
+                            "action": "block",
+                            "messageText": "제품검색",
+                            "blockId": "6007a388393d9113045a765a"
+                        }
                     ]
                 }
             }
@@ -366,6 +390,14 @@ def medicine_direct(request):
                         "simpleText": {
                             "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
                         }
+                    }
+                ],
+                'quickReplies': [
+                    {
+                        "label": "인증하기",
+                        "action": "block",
+                        "messageText": "제품검색",
+                        "blockId": "6007a388393d9113045a765a"
                     }
                 ]
             }
@@ -514,6 +546,14 @@ def prod_info(request):
                                 "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
                             }
                         }
+                    ],
+                    'quickReplies': [
+                        {
+                            "label": "인증하기",
+                            "action": "block",
+                            "messageText": "제품검색",
+                            "blockId": "6007a388393d9113045a765a"
+                        }
                     ]
                 }
             }
@@ -527,6 +567,14 @@ def prod_info(request):
                         "simpleText": {
                             "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
                         }
+                    }
+                ],
+                'quickReplies': [
+                    {
+                        "label": "인증하기",
+                        "action": "block",
+                        "messageText": "제품검색",
+                        "blockId": "6007a388393d9113045a765a"
                     }
                 ]
             }
@@ -613,6 +661,14 @@ def insu_info(request):
                                 "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
                             }
                         }
+                    ],
+                    'quickReplies': [
+                        {
+                            "label": "인증하기",
+                            "action": "block",
+                            "messageText": "제품검색",
+                            "blockId": "6007a388393d9113045a765a"
+                        }
                     ]
                 }
             }
@@ -626,6 +682,14 @@ def insu_info(request):
                         "simpleText": {
                             "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
                         }
+                    }
+                ],
+                'quickReplies': [
+                    {
+                        "label": "인증하기",
+                        "action": "block",
+                        "messageText": "제품검색",
+                        "blockId": "6007a388393d9113045a765a"
                     }
                 ]
             }
@@ -738,6 +802,14 @@ def detail_point(request):
                                 "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
                             }
                         }
+                    ],
+                    'quickReplies': [
+                        {
+                            "label": "인증하기",
+                            "action": "block",
+                            "messageText": "제품검색",
+                            "blockId": "6007a388393d9113045a765a"
+                        }
                     ]
                 }
             }
@@ -751,6 +823,14 @@ def detail_point(request):
                         "simpleText": {
                             "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
                         }
+                    }
+                ],
+                'quickReplies': [
+                    {
+                        "label": "인증하기",
+                        "action": "block",
+                        "messageText": "제품검색",
+                        "blockId": "6007a388393d9113045a765a"
                     }
                 ]
             }
