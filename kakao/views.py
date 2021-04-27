@@ -507,7 +507,7 @@ def prod_info(request):
                                 "basicCard": {
                                     "thumbnail": {
                                         "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
-                                                    + parse.quote(str(medicine_name)) + ".jpg",
+                                                    + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
                                     },
                                     "description": medicine_info.product_info.replace("<p>", "\n"),
                                 },
@@ -619,7 +619,7 @@ def insu_info(request):
                             "basicCard": {
                                 "thumbnail": {
                                     "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
-                                                + parse.quote(str(medicine_name)) + ".jpg",
+                                                + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
                                 },
                                 "description": medicine_info.insurance_info.replace("<p>", "\n"),
                             }
@@ -759,7 +759,7 @@ def detail_point(request):
                                 "basicCard": {
                                     "thumbnail": {
                                         "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
-                                                    + parse.quote(str(medicine_name)) + ".jpg",
+                                                    + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
                                     },
                                     "description": medicine_info.detail_info.replace("<p>", "\n"),
                                 },
