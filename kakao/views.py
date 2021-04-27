@@ -499,14 +499,13 @@ def detail_point(request):
                                         "action": "webLink",
                                         "label": "상세보기",
                                         "webLinkUrl": medicine_info.detail_url
-                                    }
+                                    },
                                 ]
-                            }
+                            },
                         }
                     ]
                 }
             }
-            print("1-2")
             return JsonResponse(res, status=200)
         else:
             print("2")
