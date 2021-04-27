@@ -356,7 +356,20 @@ def prod_info(request):
             }
         }
         return JsonResponse(send_msg, status=200)
-
+    except IndexError:
+        send_msg = {
+            "version": "2.0",
+            "template": {
+                "outputs": [
+                    {
+                        "simpleText": {
+                            "text": "검색 횟수를 초과했습니다. 다시 검색해 주세요."
+                        }
+                    }
+                ]
+            }
+        }
+        return JsonResponse(send_msg, status=200)
 
 @require_POST
 @csrf_exempt
@@ -428,6 +441,20 @@ def insu_info(request):
             }
         }
         return JsonResponse(send_msg, status=200)
+    except IndexError:
+        send_msg = {
+            "version": "2.0",
+            "template": {
+                "outputs": [
+                    {
+                        "simpleText": {
+                            "text": "검색 횟수를 초과했습니다. 다시 검색해 주세요."
+                        }
+                    }
+                ]
+            }
+        }
+        return JsonResponse(send_msg, status=200)
 
 
 @require_POST
@@ -449,7 +476,9 @@ def detail_point(request):
     try:
         # 유저 확인 로직
         check_id = user.objects.get(kakao_id=user_id)
+        print("1")
         if check_id.group.is_active == 1 or check_id.is_active == 1:
+            print("1-1")
             # 제품 정보 확인
             medicine_info = Medicine.objects.get(name=user_input.replace(' ', ''))
             medicine_name = medicine_info.name
@@ -477,8 +506,10 @@ def detail_point(request):
                     ]
                 }
             }
+            print("1-2")
             return JsonResponse(res, status=200)
         else:
+            print("2")
             send_msg = {
                 "version": "2.0",
                 "template": {
@@ -491,8 +522,12 @@ def detail_point(request):
                     ]
                 }
             }
+            print("2-1")
+
             return JsonResponse(send_msg, status=200)
     except user.DoesNotExist:
+        print("3")
+
         send_msg = {
             "version": "2.0",
             "template": {
@@ -500,6 +535,22 @@ def detail_point(request):
                     {
                         "simpleText": {
                             "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
+                        }
+                    }
+                ]
+            }
+        }
+        return JsonResponse(send_msg, status=200)
+    except IndexError:
+        print("4")
+
+        send_msg = {
+            "version": "2.0",
+            "template": {
+                "outputs": [
+                    {
+                        "simpleText": {
+                            "text": "검색 횟수를 초과했습니다. 다시 검색해 주세요."
                         }
                     }
                 ]
