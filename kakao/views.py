@@ -100,20 +100,20 @@ def validation(request):
         }
     elif re.match(vali_num2, phone):
         send_msg = {
-                    "status": "SUCCESS",
-                    "value": phone.replace('-', ''),
+            "status": "SUCCESS",
+            "value": phone.replace('-', ''),
         }
     elif re.match(vali_num2, phone):
         send_msg = {
-                    "status": "SUCCESS",
-                    "value": phone.replace('.', ''),
+            "status": "SUCCESS",
+            "value": phone.replace('.', ''),
         }
     else:
         send_msg = {
-                    "status": "FAIL",
-                    "value": phone,
+            "status": "FAIL",
+            "value": phone,
 
-                    "message": "전화번호의 형식이 올바르지 않습니다. \n\n"
+            "message": "전화번호의 형식이 올바르지 않습니다. \n\n"
         }
 
     print(send_msg)
@@ -135,7 +135,7 @@ def auth(request):
 
     try:
         match_user = user.objects.get(phone=user_phone)
-        if match_user.kakao_id is None:
+        if match_user.kakao_id is None or match_user.kakao_id == '':
             match_user.kakao_id = user_id
             match_user.save()
             send_msg = {
@@ -339,6 +339,7 @@ def prod_info(request):
         }
         return JsonResponse(send_msg, status=200)
 
+
 @require_POST
 @csrf_exempt
 def insu_info(request):
@@ -445,9 +446,9 @@ def detail_point(request):
                                         "action": "webLink",
                                         "label": "상세보기",
                                         "webLinkUrl": medicine_info.detail_url
-                                    },
+                                    }
                                 ]
-                            },
+                            }
                         }
                     ]
                 }
