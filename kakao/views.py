@@ -186,10 +186,10 @@ def auth(request):
 def medicine(request):
     user_req = request.body.decode('utf-8')
     json_req = json.loads(user_req)
+    print(json_req)
     # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
     user_input = json_req['action']['params']['product_name']
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
-    print(json_req)
     print(user_id)
     print(user_input)
     user = get_user_model()
@@ -298,7 +298,7 @@ def prod_info(request):
                 "outputs": [
                     {
                         "simpleText": {
-                            "text": "검색 횟수를 초과했습니다. 다시 검색해 주세요."
+                            "text": "응답시간이 초과되었으니 제품명을 다시 입력해주시기 바랍니다."
                         }
                     }
                 ]
@@ -337,6 +337,20 @@ def prod_info(request):
                                     },
                                 ]
                             },
+                        }
+                    ],
+                    'quickreplies': [
+                        {
+                            "label": "뒤로가기",
+                            "action": "block",
+                            "messageText": medicine_name,
+                            "blockId": ""
+                        },
+                        {
+                            "label": "다른제품검색",
+                            "action": "block",
+                            "messageText": "제품검색",
+                            "blockId": "6007a388393d9113045a765a"
                         }
                     ]
                 }
@@ -389,7 +403,7 @@ def insu_info(request):
                 "outputs": [
                     {
                         "simpleText": {
-                            "text": "검색 횟수를 초과했습니다. 다시 검색해 주세요."
+                            "text": "응답시간이 초과되었으니 제품명을 다시 입력해주시기 바랍니다."
                         }
                     }
                 ]
@@ -476,7 +490,7 @@ def detail_point(request):
                 "outputs": [
                     {
                         "simpleText": {
-                            "text": "검색 횟수를 초과했습니다. 다시 검색해 주세요."
+                            "text": "응답시간이 초과되었으니 제품명을 다시 입력해주시기 바랍니다."
                         }
                     }
                 ]
