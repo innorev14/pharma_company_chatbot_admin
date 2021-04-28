@@ -316,7 +316,6 @@ def medicine_direct(request):
     user = get_user_model()
 
     try:
-        print("1")
         # 유저 확인 로직
         check_id = user.objects.get(kakao_id=user_id)
         if check_id.group.is_active == 1 or check_id.is_active == 1:
@@ -747,7 +746,7 @@ def detail_point(request):
                                 "basicCard": {
                                     "thumbnail": {
                                         "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
-                                                    + parse.quote(str(medicine_name)) + ".jpg",
+                                                    + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
                                     },
                                     "description": medicine_info.detail_info.replace("<p>", "\n"),
                                     "buttons": [
@@ -853,6 +852,8 @@ def search_category(request):
     elif user_input == "비뇨기":
         user_input = "비뇨기용제"
     elif user_input == "고지혈":
+        user_input = "고지혈증치료제"
+    elif user_input == "고지혈증":
         user_input = "고지혈증치료제"
     elif user_input == "고혈압":
         user_input = "고혈압치료제"
