@@ -63,7 +63,7 @@ def welcome(request):
                 {
                     "basicCard": {
                         "thumbnail": {
-                            "imageUrl": "https://cdn.imweb.me/thumbnail/20171207/5a28873a44a07.png"
+                            "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/ilhwa_logo.jpg"
                         },
                         "description": "안녕하세요. 일화제약 제품 안내 챗봇입니다. 최초 인증을 진행해주세요.",
                         "buttons": [
@@ -941,8 +941,11 @@ def search_tag(request):
             "template": {
                 "outputs": [
                     {
-                        "simpleText": {
-                            "text": user_input
+                        "basicCard": {
+                            "thumbnail": {
+                                "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/ilhwa_logo.jpg"
+                            },
+                            "description": "아래 약품명을 클릭해주세요.",
                         }
                     }
                 ],
