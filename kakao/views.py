@@ -353,6 +353,17 @@ def medicine_direct(request):
                             }
                         }
                     ]
+                },
+                "context": {
+                    "values": [
+                        {
+                            "name": "prod_name",
+                            "lifeSpan": 10,
+                            "params": {
+                                "product_name": medicine_name,
+                            }
+                        },
+                    ]
                 }
             }
             return JsonResponse(send_msg, status=200)
