@@ -319,9 +319,13 @@ def medicine_direct(request):
         # 유저 확인 로직
         check_id = user.objects.get(kakao_id=user_id)
         if check_id.group.is_active == 1 or check_id.is_active == 1:
-            # 제품 정보 확인
-            medicine_info = Medicine.objects.get(name=user_input.replace(' ', ''))
-            medicine_name = medicine_info.name
+            if MedicineTag.objects.filter(name=user_input.replace(' ', '')).exists():
+                tag_id = MedicineTag.objects.get(name=user_input).id
+                medicine_name = TaggedMedicine.objects.get(tag=tag_id).content_object.name
+            else:
+                # 제품 정보 확인
+                medicine_info = Medicine.objects.get(name=user_input.replace(' ', ''))
+                medicine_name = medicine_info.name
 
             send_msg = {
                 'version': "2.0",
