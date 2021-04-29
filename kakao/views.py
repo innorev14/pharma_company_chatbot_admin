@@ -849,41 +849,31 @@ def search_category(request):
     print(json_req)
     user_input = json_req['userRequest']['utterance'].replace(' ', '')
 
-    if user_input == "소화기":
+    if user_input == "소화기" or user_input == "소화기질환" or user_input == "소화기질환치료":
         user_input = "소화기질환치료제"
-    elif user_input == "간장질환":
+    elif user_input == "간장" or user_input == "간장질환" or user_input == "간장질환치료":
         user_input = "간장질환치료제"
     elif user_input == "비뇨기":
         user_input = "비뇨기용제"
-    elif user_input == "고지혈":
+    elif user_input == "고지혈" or user_input == "고지혈증" or user_input == "고지혈증치료":
         user_input = "고지혈증치료제"
-    elif user_input == "고지혈증":
-        user_input = "고지혈증치료제"
-    elif user_input == "고혈압":
+    elif user_input == "고혈압" or user_input == "고혈압치료":
         user_input = "고혈압치료제"
-    elif user_input == "뇌기능":
+    elif user_input == "뇌기능" or user_input == "뇌기능개선":
         user_input = "뇌기능개선제"
-    elif user_input == "뇌기능개선":
-        user_input = "뇌기능개선제"
-    elif user_input == "혈행":
-        user_input = "혈행개선제"
-    elif user_input == "혈행개선":
+    elif user_input == "혈행" or user_input == "혈행개선":
         user_input = "혈행개선제"
     elif user_input == "항혈전":
         user_input = "항혈전제"
-    elif user_input == "정신":
+    elif user_input == "정신" or user_input == "신경" or user_input == "정신신경":
         user_input = "정신신경용제"
-    elif user_input == "정신신경":
-        user_input = "정신신경용제"
-    elif user_input == "당뇨":
+    elif user_input == "당뇨" or user_input == "당뇨병" or user_input == "당뇨치료" or user_input = "당뇨병치료":
         user_input = "당뇨병치료제"
-    elif user_input == "호흡기":
+    elif user_input == "호흡기" or user_input == "호흡기질환" or user_input == "호흡기질환치료":
         user_input = "호흡기질환치료제"
     elif user_input == "주사":
         user_input = "주사제"
-    elif user_input == "진통":
-        user_input = "소염진통제"
-    elif user_input == "소염진통":
+    elif user_input == "진통제" or user_input == "소염제" or user_input == "소염진통":
         user_input = "소염진통제"
     elif user_input == "항진균":
         user_input = "항진균제"
@@ -891,9 +881,9 @@ def search_category(request):
         user_input = "항바이러스제"
     elif user_input == "근이완":
         user_input = "근이완제"
-    elif user_input == "골관절":
+    elif user_input == "골관절" or user_input == "관절" or user_input == "골관절치료":
         user_input = "골관절치료제"
-    elif user_input == "부신피질":
+    elif user_input == "부신피질" or user_input == "호르몬" or user_input == "부신피질호르몬":
         user_input = "부신피질호르몬제"
 
     category_id = Category.objects.get(category=user_input).id
