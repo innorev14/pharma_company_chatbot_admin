@@ -867,7 +867,7 @@ def search_category(request):
         user_input = "항혈전제"
     elif user_input == "정신" or user_input == "신경" or user_input == "정신신경":
         user_input = "정신신경용제"
-    elif user_input == "당뇨" or user_input == "당뇨병" or user_input == "당뇨치료" or user_input = "당뇨병치료":
+    elif user_input == "당뇨" or user_input == "당뇨병" or user_input == "당뇨치료" or user_input == "당뇨병치료":
         user_input = "당뇨병치료제"
     elif user_input == "호흡기" or user_input == "호흡기질환" or user_input == "호흡기질환치료":
         user_input = "호흡기질환치료제"
