@@ -221,8 +221,8 @@ def medicine(request):
                                 "thumbnail": {
                                     "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
                                                 + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
-                                    "title": medicine_name,
                                 },
+                                "title": medicine_name,
                                 "buttons": [
                                     {
                                         "action": "block",
@@ -337,8 +337,8 @@ def medicine_direct(request):
                                 "thumbnail": {
                                     "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
                                                 + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
-                                    "title": medicine_name,
                                 },
+                                "title": medicine_name,
                                 "buttons": [
                                     {
                                         "action": "block",
@@ -486,8 +486,8 @@ def prod_info(request):
                                     "thumbnail": {
                                         "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
                                                     + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
-                                        "title": medicine_name,
                                     },
+                                    "title": medicine_name,
                                     "description": medicine_info.product_info.replace("<p>", "\n"),
                                     "buttons": [
                                         {
@@ -526,8 +526,8 @@ def prod_info(request):
                                     "thumbnail": {
                                         "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
                                                     + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
-                                        "title": medicine_name,
                                     },
+                                    "title": medicine_name,
                                     "description": medicine_info.product_info.replace("<p>", "\n"),
                                 },
                             }
@@ -639,8 +639,8 @@ def insu_info(request):
                                 "thumbnail": {
                                     "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
                                                 + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
-                                    "title": medicine_name,
                                 },
+                                "title": medicine_name,
                                 "description": medicine_info.insurance_info.replace("<p>", "\n"),
                             }
                         }
@@ -756,8 +756,8 @@ def detail_point(request):
                                     "thumbnail": {
                                         "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
                                                     + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
-                                        "title": medicine_name,
                                     },
+                                    "title": medicine_name,
                                     "description": medicine_info.detail_info.replace("<p>", "\n"),
                                     "buttons": [
                                         {
@@ -781,8 +781,8 @@ def detail_point(request):
                                     "thumbnail": {
                                         "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
                                                     + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
-                                        "title": medicine_name,
                                     },
+                                    "title": medicine_name,
                                     "description": medicine_info.detail_info.replace("<p>", "\n"),
                                 },
                             }
