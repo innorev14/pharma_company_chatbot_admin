@@ -1,4 +1,5 @@
-{% include 'base.html' %}
+{% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
 {% endblock %}
@@ -7,25 +8,25 @@
 {% endblock %}
 
 {% block content %}
-<table>
+<table class="table">
     <thead>
+        <th>ID</th>
         <th>제품명</th>
-        <th>제품정보</th>
-        <th>보험정보</th>
-        <th>디테일 포인트</th>
+        <th>제품분류</th>
         <th>태그</th>
         <th>수정일</th>
+        <th>조회수</th>
     </thead>
 
     <tbody>
         {% for obj in object_list %}
 <tr>
+        <td>{{obj.id}}</td>
         <td>{{obj.name}}</td>
-        <td>{{obj.product_info}}</td>
-        <td>{{obj.insurance_info}}</td>
-        <td>{{obj.detail_info}}</td>
-        <td>{{obj.tag}}</td>
+        <td>{{obj.category}}</td>
+        <td>{% for tag in obj.tag.all %}{{tag.name}}{% if forloop.last %}{%else%}, {% endif %}{% endfor %}</td>
         <td>{{obj.updated_at}}</td>
+        <td>{{obj.view_count}}</td>
 </tr>
     {% endfor %}
 

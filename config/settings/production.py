@@ -8,3 +8,5 @@ ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS += [
 ]
+
+NPM_BIN_PATH = "/usr/local/bin/npm"

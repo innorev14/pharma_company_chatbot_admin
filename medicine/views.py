@@ -1,12 +1,12 @@
 from django.shortcuts import render
-from django.views.generic import ListView, CreateView, DetailView, DeleteView
+from django.views.generic import ListView, CreateView, DetailView, DeleteView, TemplateView, UpdateView
 
 from .models import Medicine
 
 
 class MedicineListView(ListView):
     model = Medicine
-    template_name = 'medicine_list.html'
+    template_name = 'medicine/medicine_list.html'
 
 
 class MedicineCreateView(CreateView):
@@ -24,6 +24,16 @@ class MedicineDetailView(DetailView):
         return medicine
 
 
+class MedicineUpdateView(UpdateView):
+    model = Medicine
+    template_name = 'medicine_update.html'
+
 class MedicineDeleteView(DeleteView):
     model = Medicine
     template_name = 'medicine_delete.html'
+
+
+class IndexView(TemplateView):
+    template_name = 'medicine/index.html'
+
+
