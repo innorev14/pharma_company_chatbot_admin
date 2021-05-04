@@ -963,7 +963,7 @@ def insu_info_test(request):
     user_req = request.body.decode('utf-8')
     json_req = json.loads(user_req)
     print(json_req)
-    user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
+    user_input = json_req['userRequest']['utterance']  # 유저 발화
     # try:
     #     user_input = json_req['contexts'][0]['params']['product_name']['value']
     # except KeyError:
@@ -1073,7 +1073,7 @@ def detail_point_test(request):
     user_req = request.body.decode('utf-8')
     json_req = json.loads(user_req)
     print(json_req)
-    user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
+    user_input = json_req['userRequest']['utterance']  # 유저 발화
     # try:
     #     user_input = json_req['contexts'][0]['params']['product_name']['value']
     # except KeyError:
