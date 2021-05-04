@@ -56,7 +56,7 @@ INSTALLED_APPS = [
     'taggit',
     'ckeditor',
     'kakao',
-    'tailwind',
+    # 'tailwind',
     'theme',
     'bootstrap5',
 ]
