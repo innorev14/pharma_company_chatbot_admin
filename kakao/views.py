@@ -963,25 +963,25 @@ def insu_info_test(request):
     user_req = request.body.decode('utf-8')
     json_req = json.loads(user_req)
     print(json_req)
-    # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
-    try:
-        user_input = json_req['contexts'][0]['params']['product_name']['value']
-    except KeyError:
-        user_input = json_req['contexts'][1]['params']['product_name']['value']
-    except IndexError:
-        send_msg = {
-            "version": "2.0",
-            "template": {
-                "outputs": [
-                    {
-                        "simpleText": {
-                            "text": "응답시간이 초과되었으니 제품명을 다시 입력해주시기 바랍니다."
-                        }
-                    }
-                ]
-            }
-        }
-        return JsonResponse(send_msg, status=200)
+    user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
+    # try:
+    #     user_input = json_req['contexts'][0]['params']['product_name']['value']
+    # except KeyError:
+    #     user_input = json_req['contexts'][1]['params']['product_name']['value']
+    # except IndexError:
+    #     send_msg = {
+    #         "version": "2.0",
+    #         "template": {
+    #             "outputs": [
+    #                 {
+    #                     "simpleText": {
+    #                         "text": "응답시간이 초과되었으니 제품명을 다시 입력해주시기 바랍니다."
+    #                     }
+    #                 }
+    #             ]
+    #         }
+    #     }
+    #     return JsonResponse(send_msg, status=200)
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
     print(user_id)
     print(user_input)
@@ -1073,25 +1073,25 @@ def detail_point_test(request):
     user_req = request.body.decode('utf-8')
     json_req = json.loads(user_req)
     print(json_req)
-    # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
-    try:
-        user_input = json_req['contexts'][0]['params']['product_name']['value']
-    except KeyError:
-        user_input = json_req['contexts'][1]['params']['product_name']['value']
-    except IndexError:
-        send_msg = {
-            "version": "2.0",
-            "template": {
-                "outputs": [
-                    {
-                        "simpleText": {
-                            "text": "응답시간이 초과되었으니 제품명을 다시 입력해주시기 바랍니다."
-                        }
-                    }
-                ]
-            }
-        }
-        return JsonResponse(send_msg, status=200)
+    user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
+    # try:
+    #     user_input = json_req['contexts'][0]['params']['product_name']['value']
+    # except KeyError:
+    #     user_input = json_req['contexts'][1]['params']['product_name']['value']
+    # except IndexError:
+    #     send_msg = {
+    #         "version": "2.0",
+    #         "template": {
+    #             "outputs": [
+    #                 {
+    #                     "simpleText": {
+    #                         "text": "응답시간이 초과되었으니 제품명을 다시 입력해주시기 바랍니다."
+    #                     }
+    #                 }
+    #             ]
+    #         }
+    #     }
+    #     return JsonResponse(send_msg, status=200)
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
     print(user_id)
     print(user_input)
