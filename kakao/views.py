@@ -1131,7 +1131,10 @@ def detail_point_test(request):
                                     "thumbnail": {
                                         "imageUrl": "https://static.wixstatic.com/media/b647b8_8f92c6051fc84b01b4a8d31b24cacc26~mv2.png/v1/fill/w_1068,h_1436,al_c/"
                                                     + parse.quote("플루카졸") + ".png",
-                                        "link": medicine_info.detail_url
+                                        "link": "https://static.wixstatic.com/media/b647b8_8f92c6051fc84b01b4a8d31b24cacc26~mv2.png/v1/fill/w_1068,h_1436,al_c/"
+                                                    + parse.quote("플루카졸") + ".png",
+                                        "width": 1068,
+                                        "height": 1436,
                                     },
                                 },
                             }
