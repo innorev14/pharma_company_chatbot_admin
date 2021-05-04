@@ -1129,11 +1129,9 @@ def detail_point_test(request):
                             {
                                 "basicCard": {
                                     "thumbnail": {
-                                        "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
-                                                    + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
+                                        "imageUrl": "https://static.wixstatic.com/media/b647b8_8f92c6051fc84b01b4a8d31b24cacc26~mv2.png/v1/fill/w_1068,h_1436,al_c/플루카졸.png",
+                                        "link": medicine_info.detail_url
                                     },
-                                    "title": medicine_name,
-                                    "description": medicine_info.detail_info.replace("<p>", "\n"),
                                 },
                             }
                         ],
