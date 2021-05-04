@@ -955,3 +955,244 @@ def search_tag(request):
         }
 
         return JsonResponse(send_msg, status=200)
+
+
+@require_POST
+@csrf_exempt
+def insu_info_test(request):
+    user_req = request.body.decode('utf-8')
+    json_req = json.loads(user_req)
+    print(json_req)
+    # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
+    try:
+        user_input = json_req['contexts'][0]['params']['product_name']['value']
+    except KeyError:
+        user_input = json_req['contexts'][1]['params']['product_name']['value']
+    except IndexError:
+        send_msg = {
+            "version": "2.0",
+            "template": {
+                "outputs": [
+                    {
+                        "simpleText": {
+                            "text": "응답시간이 초과되었으니 제품명을 다시 입력해주시기 바랍니다."
+                        }
+                    }
+                ]
+            }
+        }
+        return JsonResponse(send_msg, status=200)
+    user_id = json_req['userRequest']['user']['id']  # 유저 ID
+    print(user_id)
+    print(user_input)
+    user = get_user_model()
+
+    try:
+        # 유저 확인 로직
+        check_id = user.objects.get(kakao_id=user_id)
+        if check_id.group.is_active == 1 or check_id.is_active == 1:
+            # 제품 정보 확인
+            medicine_info = Medicine.objects.get(name=user_input.replace(' ', ''))
+            medicine_name = medicine_info.name
+
+            res = {
+                'version': "2.0",
+                'template': {
+                    'outputs': [
+                        {
+                            "simpleText": {
+                                "text": medicine_info.insurance_info.replace("<p>", "\n"),
+                            }
+                        }
+                    ],
+                    'quickReplies': [
+                        {
+                            "label": "뒤로가기",
+                            "action": "block",
+                            "messageText": medicine_name,
+                            "blockId": "60878449a0ddb07dd0ca0208"
+                        },
+                        {
+                            "label": "다른제품검색",
+                            "action": "block",
+                            "messageText": "제품검색",
+                            "blockId": "6007a388393d9113045a765a"
+                        }
+                    ]
+                }
+            }
+
+            return JsonResponse(res, status=200)
+        else:
+            send_msg = {
+                "version": "2.0",
+                "template": {
+                    "outputs": [
+                        {
+                            "simpleText": {
+                                "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
+                            }
+                        }
+                    ],
+                    'quickReplies': [
+                        {
+                            "label": "인증하기",
+                            "action": "block",
+                            "blockId": "5fffb748e301aa34ff3c0230"
+                        }
+                    ]
+                }
+            }
+            return JsonResponse(send_msg, status=200)
+    except user.DoesNotExist:
+        send_msg = {
+            "version": "2.0",
+            "template": {
+                "outputs": [
+                    {
+                        "simpleText": {
+                            "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
+                        }
+                    }
+                ],
+                'quickReplies': [
+                    {
+                        "label": "인증하기",
+                        "action": "block",
+                        "blockId": "5fffb748e301aa34ff3c0230"
+                    }
+                ]
+            }
+        }
+        return JsonResponse(send_msg, status=200)
+
+
+@require_POST
+@csrf_exempt
+def detail_point_test(request):
+    user_req = request.body.decode('utf-8')
+    json_req = json.loads(user_req)
+    print(json_req)
+    # user_input = json_req['userRequest']['utterance'][:-1]  # 유저 발화
+    try:
+        user_input = json_req['contexts'][0]['params']['product_name']['value']
+    except KeyError:
+        user_input = json_req['contexts'][1]['params']['product_name']['value']
+    except IndexError:
+        send_msg = {
+            "version": "2.0",
+            "template": {
+                "outputs": [
+                    {
+                        "simpleText": {
+                            "text": "응답시간이 초과되었으니 제품명을 다시 입력해주시기 바랍니다."
+                        }
+                    }
+                ]
+            }
+        }
+        return JsonResponse(send_msg, status=200)
+    user_id = json_req['userRequest']['user']['id']  # 유저 ID
+    print(user_id)
+    print(user_input)
+    user = get_user_model()
+
+    try:
+        # 유저 확인 로직
+        check_id = user.objects.get(kakao_id=user_id)
+        if check_id.group.is_active == 1 or check_id.is_active == 1:
+            # 제품 정보 확인
+            medicine_info = Medicine.objects.get(name=user_input.replace(' ', ''))
+            medicine_name = medicine_info.name
+
+            if medicine_info.detail_url is not None:
+                res = {
+                    'version': "2.0",
+                    'template': {
+                        'outputs': [
+                            {
+                                "basicCard": {
+                                    "thumbnail": {
+                                        "imageUrl": "https://static.wixstatic.com/media/b647b8_8f92c6051fc84b01b4a8d31b24cacc26~mv2.png/v1/fill/w_1068,h_1436,al_c/플루카졸.png",
+                                        "link": medicine_info.detail_url
+                                    },
+                                },
+                            }
+                        ]
+                    }
+                }
+            else:
+                res = {
+                    'version': "2.0",
+                    'template': {
+                        'outputs': [
+                            {
+                                "basicCard": {
+                                    "thumbnail": {
+                                        "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
+                                                    + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
+                                    },
+                                    "title": medicine_name,
+                                    "description": medicine_info.detail_info.replace("<p>", "\n"),
+                                },
+                            }
+                        ],
+                        'quickReplies': [
+                            {
+                                "label": "뒤로가기",
+                                "action": "block",
+                                "messageText": medicine_name,
+                                "blockId": "60878449a0ddb07dd0ca0208"
+                            },
+                            {
+                                "label": "다른제품검색",
+                                "action": "block",
+                                "messageText": "제품검색",
+                                "blockId": "6007a388393d9113045a765a"
+                            }
+                        ]
+                    }
+                }
+            return JsonResponse(res, status=200)
+        else:
+            send_msg = {
+                "version": "2.0",
+                "template": {
+                    "outputs": [
+                        {
+                            "simpleText": {
+                                "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
+                            }
+                        }
+                    ],
+                    'quickReplies': [
+                        {
+                            "label": "인증하기",
+                            "action": "block",
+                            "blockId": "5fffb748e301aa34ff3c0230"
+                        }
+                    ]
+                }
+            }
+            return JsonResponse(send_msg, status=200)
+    except user.DoesNotExist:
+        send_msg = {
+            "version": "2.0",
+            "template": {
+                "outputs": [
+                    {
+                        "simpleText": {
+                            "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
+                        }
+                    }
+                ],
+                'quickReplies': [
+                    {
+                        "label": "인증하기",
+                        "action": "block",
+                        "blockId": "5fffb748e301aa34ff3c0230"
+                    }
+                ]
+            }
+        }
+        return JsonResponse(send_msg, status=200)
