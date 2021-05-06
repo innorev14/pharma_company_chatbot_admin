@@ -9,7 +9,7 @@ from django.utils.translation import gettext as _
 class Group(models.Model):
     name = models.CharField(max_length=20, verbose_name='그룹이름')
     code = models.CharField(max_length=6, blank=True, verbose_name='그룹코드')
-    is_active = models.PositiveIntegerField(default=1, verbose_name='활성상태')
+    is_active = models.BooleanField(default=True, verbose_name='활성상태')
 
     def gen_code(self):
         letters = string.ascii_lowercase + string.ascii_uppercase + string.digits
@@ -64,3 +64,31 @@ class LoginHistory(models.Model):
 
     class Meta:
         verbose_name = _('LoginHistory')
+
+
+class Member(models.Model):
+    group = models.ForeignKey('Group', on_delete=models.CASCADE, null=True, verbose_name='그룹이름')
+    username = models.CharField(max_length=10, verbose_name='이름')
+    kakao_id = models.CharField(max_length=70, verbose_name='카카오ID', null=True, blank=True)
+    phone = models.CharField(max_length=11)
+    is_superuser = models.BooleanField(verbose_name='최고관리자여부', default=False)
+    is_active = models.BooleanField(verbose_name='활성상태', default=True)
+    is_staff = models.BooleanField(verbose_name='관리자여부', default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = _('사용자')
+        verbose_name_plural = _("사용자")
+
+
+class AccessLog(models.Model):
+    member = models.ForeignKey('Member', on_delete=models.DO_NOTHING)
+    group = models.ForeignKey('Group', on_delete=models.DO_NOTHING)
+    intent_id = models.CharField(max_length=30, verbose_name="발화ID")
+    intent_name = models.CharField(max_length=30, verbose_name="발화블록명")
+    utterance = models.CharField(max_length=30, verbose_name="발화내용")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="발화일시")
+
+    class Meta:
+        verbose_name = _('사용기록')

@@ -16,7 +16,7 @@ class MedicineCreateView(CreateView):
     model = Medicine
     form_class = MedicineForm
     template_name = 'medicine/medicine_create.html'
-    success_url = 'list/'
+    success_url = '/list/'
 
 
 class MedicineDetailView(DetailView):
