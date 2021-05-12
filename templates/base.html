@@ -13,13 +13,15 @@
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+      integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <!-- Font Awesome JS -->
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"
-            integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"
-            crossorigin="anonymous"></script>
-    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"
-            integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"
-            crossorigin="anonymous"></script>
+<!--    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js"-->
+<!--            integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ"-->
+<!--            crossorigin="anonymous"></script>-->
+<!--    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js"-->
+<!--            integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY"-->
+<!--            crossorigin="anonymous"></script>-->
     {% block css %}
     {% endblock %}
 
@@ -52,17 +54,17 @@
                 </ul>
             </li>
             <li>
-                <a href="#">
+                <a href="{% url 'medicine:medicine_list' %}">
                     <i class="fas fa-pills"></i>
                     제품등록
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a href="{% url 'accounts:group_list' %}">
                     <i class="fas fa-users"></i>
                     조직관리
                 </a>
-                <a href="#">
+                <a href="{% url 'accounts:member_list' %}">
                     <i class="fas fa-user"></i>
                     회원관리
                 </a>
@@ -85,9 +87,9 @@
                 </ul>
             </li>
             <li>
-                <a href="#">
+                <a href="{% url 'kakao:talk_create' %}">
                     <i class="fas fa-paper-plane"></i>
-                    Contact
+                    친구톡 보내기
                 </a>
             </li>
         </ul>
@@ -121,16 +123,16 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="#">Page</a>
+                            <a class="nav-link" href="{% url 'medicine:medicine_create' %}">제품등록</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Page</a>
+                            <a class="nav-link" href="{% url 'accounts:group_create' %}">조직등록</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Page</a>
+                            <a class="nav-link" href="{% url 'accounts:member_create' %}">사용자등록</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Page</a>
+                            <a class="nav-link" href="{% url 'kakao:talk_create' %}">친구톡 보내기</a>
                         </li>
                     </ul>
                 </div>

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+<table class="table">
+    <thead>
+        <th>번호</th>
+        <th>내용</th>
+        <th>발신자</th>
+        <th>수신자</th>
+        <th>발송상태</th>
+        <th>상태메세지</th>
+        <th>발송시간</th>
+
+    </thead>
+    {% for obj in object_list %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td><a href="{% url 'kakao:talk_detail' obj.id %}">{{ obj.content }}</a></td>
+        <td>{{ obj.sender }}</td>
+        <td>{{ obj.receiver }}</td>
+        <td>{{ obj.status }}</td>
+        <td>{{ obj.response_msg }}</td>
+        <td>{{ obj.sended_at }}</td>
+    {% endfor %}
+    </tr>
+</table>
+
+{% endblock %}
+
+{% block script %}
+{% endblock %}

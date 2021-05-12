@@ -8,6 +8,30 @@
 {% endblock %}
 
 {% block content %}
+<table class="table">
+    <thead>
+        <th>순서</th>
+        <th>이름</th>
+        <th>조직</th>
+        <th>전화번호</th>
+        <th>관리자</th>
+        <th>활성화</th>
+        <th>등록일</th>
+    </thead>
+    <tbody>
+        <tr>
+            {% for obj in object_list %}
+            <td>{{ forloop.counter }}</td>
+            <td>{{ obj.username }}</td>
+            <td>{{ obj.group }}</td>
+            <td>{{ obj.phone }}</td>
+            <td>{% if obj.is_staff %}<i class="far fa-check-circle" style="color:orange"></i>{% else %}<i class="far fa-times-circle" style="color:red"></i>{% endif %}</td>
+            <td>{% if obj.is_active %}<i class="far fa-check-circle" style="color:orange"></i>{% else %}<i class="far fa-times-circle" style="color:red"></i>{% endif %}</td>
+            <td>{{ obj.created_at}}</td>
+            {% endfor %}
+        </tr>
+    </tbody>
+</table>
 {% endblock %}
 
 {% block script %}

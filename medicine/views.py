@@ -1,6 +1,8 @@
 from urllib import parse
 
+from django.contrib import messages
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, TemplateView, UpdateView
 
 from .forms import MedicineForm
@@ -40,9 +42,16 @@ class MedicineUpdateView(UpdateView):
     form_class = MedicineForm
     template_name = 'medicine/medicine_update.html'
 
+
 class MedicineDeleteView(DeleteView):
     model = Medicine
     template_name = 'medicine/medicine_delete.html'
+    success_url = reverse_lazy('medicine:medicine_list')
+    success_message = '제품이 성공적으로 삭제되었습니다.'
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(MedicineDeleteView, self).delete(request, *args, **kwargs)
 
 
 class IndexView(TemplateView):

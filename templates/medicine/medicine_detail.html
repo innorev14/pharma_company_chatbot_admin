@@ -51,6 +51,13 @@
     </tr>
 </table>
 
+
+<form action="{% url 'medicine:medicine_delete' object.id %}" method="POST">
+    {% csrf_token %}
+    <button class="btn">삭제하기</button>
+
+</form>
+
 {% endblock %}
 
 {% block script %}

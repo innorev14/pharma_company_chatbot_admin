@@ -32,6 +32,8 @@ class Category(models.Model):
     category = models.CharField(max_length=45, verbose_name='제품분류')
 
     class Meta:
+        verbose_name = _('제품분류')
+        verbose_name_plural = _('제품분류')
         unique_together = ["category"]
 
     def __str__(self):
@@ -40,7 +42,7 @@ class Category(models.Model):
 
 class Medicine(models.Model):
     name = models.CharField(max_length=45, verbose_name='제품명')
-    category = models.ForeignKey(Category, on_delete=models.DO_NOTHING)
+    category = models.ForeignKey(Category, on_delete=models.DO_NOTHING, verbose_name='제품분류')
     product_info = RichTextField(verbose_name='제품정보')
     product_url = models.URLField(max_length=200, verbose_name='제품상세URL', null=True, blank=True)
     insurance_info = RichTextField(verbose_name='보험정보')
@@ -53,8 +55,8 @@ class Medicine(models.Model):
         blank=True,
         through='TaggedMedicine',
     )
-    created_at = models.DateTimeField(auto_now=True)
-    updated_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now=True, verbose_name='등록일')
+    updated_at = models.DateTimeField(auto_now_add=True, verbose_name='수정일')
 
     class Meta:
         verbose_name = _('의약품')

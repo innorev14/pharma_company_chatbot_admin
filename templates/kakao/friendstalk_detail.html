@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+<table class="table">
+    <td>{{ forloop.counter }}</td>
+    <td>{{ object.content }}</td>
+    <td>{% if obj.img_link %}{{ obj.img_link }}{% else %}{% endif %}</td>
+    <td>{% if obj.btn_name %}{{ obj.btn_name }}{% else %}{% endif %}</td>
+    <td>{% if obj.weblink_pc %}{{ obj.weblink_pc }}{% else %}{% endif %}</td>
+    <td>{% if obj.weblink_mobile %}{{ obj.weblink_mobile }}{% else %}{% endif %}</td>
+    <td>{{ object.receiver }}</td>
+    <td>{{ object.sender }}</td>
+    <td>{{ object.status }}</td>
+    <td>{{ object.response_msg }}</td>
+    <td>{{ object.created_at}}</td>
+</table>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

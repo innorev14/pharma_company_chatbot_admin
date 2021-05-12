@@ -1,13 +1,9 @@
-{% extends 'base.html' %}
-{% load static %}
+<!--<form action="" method="post">-->
+<!--    <p>Are you sure you want to delete the item?</p>-->
+<!--    <input class="btn btn-primary" type="submit" value="Confirm"/>-->
+<!--    <button onclick="window.history.back();" class="btn btn-default" type="button">Cancel</button>-->
+<!--</form>-->
 
-{% block title %}
-{% endblock %}
-
-{% block css %}
-{% endblock %}
-
-{% block content %}
 <button class="btn" data-toggle="modal" data-target="#fm-modal-grid">Delete</button>
 <div class="modal fade" id="fm-modal-grid" tabindex="-1"
      role="dialog" aria-labelledBy="fm-modal-grid"
@@ -35,7 +31,3 @@
         </div>
     </div>
 </div>
-{% endblock %}
-
-{% block script %}
-{% endblock %}

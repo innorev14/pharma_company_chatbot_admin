@@ -8,6 +8,24 @@
 {% endblock %}
 
 {% block content %}
+<a class="btn btn-primary" href="">전체전송</a><br><br>
+<table class="table">
+    <thead>
+        <th>번호</th>
+        <th>조직명</th>
+        <th>활성상태</th>
+        <th>친구톡</th>
+    </thead>
+    {% for obj in object_list %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ obj.name }}</td>
+        <td>{% if obj.is_active %}<i class="far fa-check-circle" style="color:orange"></i>{% else %}<i class="far fa-times-circle" style="color:red></i>{% endif %}</td>
+        <td><a class="btn btn-primary" href="">보내기</a></td>
+    </tr>
+    {% endfor %}
+</table>
+
 {% endblock %}
 
 {% block script %}

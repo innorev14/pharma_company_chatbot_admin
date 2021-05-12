@@ -1,3 +1,5 @@
+from taggit.admin import Tag
+
 from django.contrib import admin
 
 from django.contrib import admin
@@ -62,3 +64,7 @@ class MedicineAdmin(admin.ModelAdmin):
 @admin.register(MedicineTag)
 class MedicineTagAdmin(admin.ModelAdmin):
     list_display = ['id', 'name']
+
+
+admin.site.unregister(Tag)
+

@@ -1,6 +1,10 @@
 from django.urls import path
 
 from .views import *
+from .talk_views import *
+
+
+app_name = 'kakao'
 
 urlpatterns = [
     path('keyboard/', keyboard, name='keyboard'),
@@ -17,4 +21,9 @@ urlpatterns = [
     path('search_tag/', search_tag, name='search_tag'),
     path('insu_info_test/', insu_info_test, name='insu_info_test'),
     path('detail_point_test/', detail_point_test, name='detail_point_test'),
+
+    path('friends_talk/list/', FriendsTalkListView.as_view(), name='talk_list'),
+    path('friends_talk/create/', FriendsTalkCreateView.as_view(), name='talk_create'),
+    path('friends_talk/<int:pk>/detail/', FriendsTalkDetailView.as_view(), name='talk_detail'),
+    path('friends_talk/<int:pk>/delete/', FriendsTalkDeleteView.as_view(), name='talk_delete'),
 ]

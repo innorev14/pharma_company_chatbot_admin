@@ -22,7 +22,7 @@
         {% for obj in object_list %}
 <tr>
         <td>{{obj.id}}</td>
-        <td>{{obj.name}}</td>
+        <td><a href="{% url 'medicine:medicine_detail' obj.id %}">{{obj.name}}</a></td>
         <td>{{obj.category}}</td>
         <td>{% for tag in obj.tag.all %}{{tag.name}}{% if forloop.last %}{%else%}, {% endif %}{% endfor %}</td>
         <td>{{obj.updated_at}}</td>
