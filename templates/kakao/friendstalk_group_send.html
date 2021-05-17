@@ -39,17 +39,8 @@ $(document).ready(function(){
         웹링크(mobile) {{ form.weblink_mobile }}<br><br>
     </div>
 
-    수신자<br>
-    <input type="radio" id="receiver-whole" name="talk_receiver" value="whole" onchange="setReceiverDisplay()" checked="checked"> 전체발송
     <input type="radio" id="receiver-group" name="talk_receiver" value="group" onchange="setReceiverDisplay()"> 그룹발송
-    <input type="radio" id="receiver-direct" name="talk_receiver" value="direct" onchange="setReceiverDisplay()"> 직접입력 <br><br>
-    <div>{{ form.whole }}</div>
-    <div id="divId3" style="display:none">
-        {{ form.group }}
-    </div>
-    <div id="divId4" style="display:none">
-        {{ form.receiver }}
-    </div>
+    {{ object.id }}
     <br><br>
     발신자 {{ form.sender }} <br><br>
 <!--    {{form.as_p}}-->
@@ -74,31 +65,6 @@ function setBtnDisplay(){
     }else{
         $('#divId2').hide();
     }
-}
-$('input:radio[id="receiver-whole"]').on('change', function () {
-    switch ($(this).val()) {
-        case 'receiver-whole':
-            //ajax GET function
-            break;
-        case 'receiver-group':
-            //ajax GET function
-            break;
-        case 'receiver-direct':
-            //ajax GET function
-            break;
-    }
-});
-function setReceiverDisplay(){
-    if($('input:radio[id=receiver-group]').is(':checked')){
-        $('#divId3').show();
-    }else{
-        $('#divId3').hide();
-    };
-        if($('input:radio[id=receiver-direct]').is(':checked')){
-        $('#divId4').show();
-    }else{
-        $('#divId4').hide();
-    };
 }
 
 </script>

@@ -12,7 +12,18 @@ from .models import Medicine
 class MedicineListView(ListView):
     model = Medicine
     template_name = 'medicine/medicine_list.html'
+    paginate_by = 10
 
+    def get_queryset(self, *args, **kwargs):
+        qs = Medicine.objects.all()
+        query = self.request.GET.get("qs", None)
+        if query is not None:
+            qs = qs.filter(content__icontains=query)
+        return qs
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(MedicineListView, self).get_context_data(*args, **kwargs)
+        return context
 
 class MedicineCreateView(CreateView):
     model = Medicine

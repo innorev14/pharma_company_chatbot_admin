@@ -21,7 +21,7 @@
         <td>{{ forloop.counter }}</td>
         <td>{{ obj.name }}</td>
         <td>{% if obj.is_active %}<i class="far fa-check-circle" style="color:orange"></i>{% else %}<i class="far fa-times-circle" style="color:red></i>{% endif %}</td>
-        <td><a class="btn btn-primary" href="">보내기</a></td>
+        <td><a class="btn btn-primary" href="{% url 'kakao:talk_send_group' obj.id %}">보내기</a></td>
     </tr>
     {% endfor %}
 </table>

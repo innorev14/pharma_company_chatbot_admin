@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load bootstrap5 %}
 
 {% block title %}
 {% endblock %}
@@ -8,45 +9,41 @@
 {% endblock %}
 
 {% block content %}
-
+<div class="container">
 <table class="table-bordered">
     <tr>
-        <th>제품이름</th>
-        <td>{{object.name}}</td>
+        <th colspan="2">제품이름</th>
+        <td colspan="4">{{object.name}}</td>
+        <th colspan="2">조회수</th>
+        <td colspan="4">{{object.view_count}}</td>
     </tr>
     <tr>
-        <th>작성일</th>
-        <td>{{object.created_at}}</td>
+        <th colspan="2">작성일</th>
+        <td colspan="4">{{object.created_at}}</td>
+        <th colspan="2">수정일</th>
+        <td colspan="4">{{object.updated_at}}</td>
     </tr>
     <tr>
-        <th>수정일</th>
-        <td>{{object.updated_at}}</td>
+        <th colspan="2">제품이미지</th>
+        <td colspan="10"><img src="{{product_img}}" alt="{{object.name}}"></td>
     </tr>
     <tr>
-        <th>조회수</th>
-        <td>{{object.view_count}}</td>
-    </tr>
-    <tr>
-        <th>제품이미지</th>
-        <td><img src="{{product_img}}" alr="{{object.name}}"></td>
-    </tr>
-    <tr>
-        <th>제품정보</th>
-        <td>
+        <th colspan="2">제품정보</th>
+        <td colspan="10">
             {{object.product_info|safe}}
             <button class="button"><a href="{{object.product_url}}" target="_blank">제품정보 상세보기</a></button>
         </td>
     </tr>
     <tr>
-        <th>보험정보</th>
+        <th colspan="2">보험정보</th>
         <td>{{object.insurance_info|safe}}</td>
     </tr>
     <tr>
-        <th>디테일포인트</th>
+        <th colspan="2">디테일포인트</th>
         <td>{{object.detail_info|safe}}</td>
     </tr>
     <tr>
-        <th>태그</th>
+        <th colspan="2">태그</th>
         <td>{{object.medicine}}</td>
     </tr>
 </table>
@@ -57,7 +54,7 @@
     <button class="btn">삭제하기</button>
 
 </form>
-
+</div>
 {% endblock %}
 
 {% block script %}

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load bootstrap5 %}
 
 {% block title %}
 {% endblock %}
@@ -21,12 +22,12 @@
     <tbody>
         {% for obj in object_list %}
 <tr>
-        <td>{{obj.id}}</td>
-        <td><a href="{% url 'medicine:medicine_detail' obj.id %}">{{obj.name}}</a></td>
-        <td>{{obj.category}}</td>
-        <td>{% for tag in obj.tag.all %}{{tag.name}}{% if forloop.last %}{%else%}, {% endif %}{% endfor %}</td>
-        <td>{{obj.updated_at}}</td>
-        <td>{{obj.view_count}}</td>
+        <td class="text-center">{{obj.id}}</td>
+        <td class="text-center"><a href="{% url 'medicine:medicine_detail' obj.id %}">{{obj.name}}</a></td>
+        <td class="text-center">{{obj.category}}</td>
+        <td class="text-center">{% for tag in obj.tag.all %}{{tag.name}}{% if forloop.last %}{%else%}, {% endif %}{% endfor %}</td>
+        <td class="text-center">{{obj.updated_at}}</td>
+        <td class="text-center">{{obj.view_count}}</td>
 </tr>
     {% endfor %}
 
@@ -34,6 +35,29 @@
 
 </table>
 
+  {% if is_paginated %}
+            <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                {% if page_obj.has_previous %}
+                <a class="pagination-previous" href="?page={{ page_obj.previous_page_number }}">이전</a>
+                {% else %}
+                <li class="pagination-previous" disabled><span>이전</span></li>
+                {% endif %}
+                <ul class="pagination-list">
+                    {% for i in paginator.page_range %}
+                    {% if page_obj.number == i %}
+                    <li class="active"><span class="pagination-link is-current">{{ i }} <span class="sr-only">(current)</span></span></li>
+                    {% else %}
+                    <a href="?page={{ i }}" class="pagination-link">{{ i }}</a>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+                {% if page_obj.has_next %}
+                <a class="pagination-next" href="?page={{ page_obj.next_page_number }}">다음</a>
+                {% else %}
+                <li class="pagination-next" disabled><span>다음</span></li>
+                {% endif %}
+            </nav>
+            {% endif %}
 
 {% endblock %}
 

@@ -26,4 +26,9 @@ urlpatterns = [
     path('friends_talk/create/', FriendsTalkCreateView.as_view(), name='talk_create'),
     path('friends_talk/<int:pk>/detail/', FriendsTalkDetailView.as_view(), name='talk_detail'),
     path('friends_talk/<int:pk>/delete/', FriendsTalkDeleteView.as_view(), name='talk_delete'),
+
+    path('friends_talk/group_send/<int:pk>/', FriendsTalkGroupSendView.as_view(), name='talk_send_group'),
+    # path('friends_talk/whole_send/', FriendsTalkWholeSendView.as_view(), name='talk_send_whole'),
+    # path('friends_talk/group_send/', FriendsTalkGroupSendView.as_view(), name='talk_send_group'),
+
 ]

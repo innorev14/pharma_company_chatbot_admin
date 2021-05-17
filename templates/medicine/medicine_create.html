@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load bootstrap5 %}
 
 {% block title %}
 {% endblock %}
@@ -8,10 +9,11 @@
 {% endblock %}
 
 {% block content %}
+
 <form method="POST" class="form">
     {%csrf_token%}
     {{form.media}}
-    {{form.as_p}}
+    {% bootstrap_form form  %}
     <button type="submit" class="save btn btn-default">저장하기</button>
 </form>
 {% endblock %}
