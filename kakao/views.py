@@ -360,9 +360,10 @@ def medicine_direct(request):
                                         "blockId": "6007a3be70fd446fa256b643"
                                     },
                                     {
-                                        "action": "block",
+                                        "action": "weblink",
                                         "label": "디테일 포인트",
-                                        "blockId": "6007a3c83d34416490cf7ba7"
+                                        "webLinkUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/detail_point/"
+                                                + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg"
                                     }
                                 ]
                             }
@@ -662,19 +663,45 @@ def insu_info(request):
             medicine_info = Medicine.objects.get(name=user_input.replace(' ', ''))
             medicine_name = medicine_info.name
 
+            # res = {
+            #     'version': "2.0",
+            #     'template': {
+            #         'outputs': [
+            #             {
+            #                 "basicCard": {
+            #                     "thumbnail": {
+            #                         "imageUrl":
+            #                             "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/product_img/"
+            #                             + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
+            #                     },
+            #                     "title": medicine_name,
+            #                     "description": medicine_info.insurance_info.replace("<p>", "\n"),
+            #                 }
+            #             }
+            #         ],
+            #         'quickReplies': [
+            #             {
+            #                 "label": "뒤로가기",
+            #                 "action": "block",
+            #                 "messageText": medicine_name,
+            #                 "blockId": "60878449a0ddb07dd0ca0208"
+            #             },
+            #             {
+            #                 "label": "다른제품검색",
+            #                 "action": "block",
+            #                 "messageText": "제품검색",
+            #                 "blockId": "6007a388393d9113045a765a"
+            #             }
+            #         ]
+            #     }
+            # }
             res = {
                 'version': "2.0",
                 'template': {
                     'outputs': [
                         {
-                            "basicCard": {
-                                "thumbnail": {
-                                    "imageUrl":
-                                        "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/product_img/"
-                                        + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
-                                },
-                                "title": medicine_name,
-                                "description": medicine_info.insurance_info.replace("<p>", "\n"),
+                            "simpleText": {
+                                "text": medicine_info.insurance_info.replace("<p>", "\n"),
                             }
                         }
                     ],
