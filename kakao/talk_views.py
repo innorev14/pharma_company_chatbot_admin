@@ -26,8 +26,8 @@ class FriendsTalkCreateView(CreateView):
         msg = {}
         if self.request.POST['talk_type'] == 'img':
             msg['img'] = {}
-            msg['img']['img_path'] = self.request.POST['img_path']
-            msg['img']['img_link'] = self.requeest.POST['img_link']
+            msg['img']['img_url'] = self.request.FILES['img_url']
+            msg['img']['img_link'] = self.request.POST['img_link']
         else:
             msg['img'] = None
 
@@ -78,8 +78,7 @@ class FriendsTalkGroupSendView(CreateView):
     success_url = '/kakao/friends_talk/list/'
 
     def get_context_data(self, **kwargs):
-        kwargs['id'] = Group.objects.get(pk=self.kwargs['pk'])
-        print(kwargs['id'])
+        kwargs['group_name'] = Group.objects.get(pk=self.kwargs['pk'])
         return super().get_context_data(**kwargs)
 
     def form_valid(self, form):
@@ -109,7 +108,8 @@ class FriendsTalkGroupSendView(CreateView):
                     user_list.append(user.phone)
                 msg['receiver'] = ','.join(user_list)
         elif self.request.POST['talk_receiver'] == 'group':
-            group_id = self.request.POST['group']
+            group = self.get_context_data()
+            group_id = Group.objects.get(name=group['group_name']).id
             users = get_user_model().objects.filter(group_id=group_id)
             user_list = list()
             for user in users:
@@ -131,9 +131,66 @@ class FriendsTalkGroupSendView(CreateView):
         return super().form_valid(form)
 
 
+class FriendsTalkWholeSendView(CreateView):
+    model = FriendsTalk
+    form_class = FriendsTalkForm
+    template_name = 'kakao/friendstalk_whole_send.html'
+    success_url = '/kakao/friends_talk/list/'
+
+
+    def form_valid(self, form):
+        msg = {}
+        if self.request.POST['talk_type'] == 'img':
+            msg['img'] = {}
+            msg['img']['img_path'] = self.request.POST['img_path']
+            msg['img']['img_link'] = self.requeest.POST['img_link']
+        else:
+            msg['img'] = None
+
+        if self.request.POST['talk_button'] == 'weblink':
+            msg['weblink'] = {}
+            msg['weblink']['btn_name'] = self.request.POST['btn_name']
+            msg['weblink']['weblink_pc'] = self.request.POST['weblink_pc']
+            msg['weblink']['weblink_mobile'] = self.request.POST['weblink_pc']
+        else:
+            msg['weblink'] = None
+
+        whole = Group.objects.all()
+        user_list = list()
+        for group in whole:
+            group_id = Group.objects.get(name=group).id
+            users = get_user_model().objects.filter(group_id=group_id)
+            for user in users:
+                user_list.append(user.phone)
+            msg['receiver'] = ','.join(user_list)
+
+        msg['sender'] = form.get_sender()
+        msg['content'] = self.request.POST['content']
+        talk_res = send_talk(msg)
+
+        talk = form.save(commit=False)
+        talk.receiver = msg['receiver']
+        talk.status = talk_res['code']
+        talk.response_msg = talk_res['message']
+        talk.save()
+
+        return super().form_valid(form)
+
+
 def send_talk(msg):
     aligo_token = get_token()
     return send_friend_msg(aligo_token, msg)
+
+
+# class GroupChangeActive(View):
+#     def get_context_data(self, **kwargs):
+#         kwargs['group_name'] = Group.objects.get(pk=self.kwargs['pk'])
+#         return super().get_context_data(**kwargs)
+#
+#     def save(self):
+#         pass
+
+
 
 # class FriendsTalkCreateView(FormView):
 #     form_class = FriendsTalkForm

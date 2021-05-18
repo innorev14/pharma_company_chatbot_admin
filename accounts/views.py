@@ -47,6 +47,16 @@ class MemberDeleteView(DeleteView):
     success_url = '/accounts/member/list/'
 
 
+def member_change_active(request, pk):
+    status = Member.objects.get(id=pk)
+    if status.is_active:
+        status.is_active = False
+    else:
+        status.is_active = True
+    status.save()
+    return redirect('/accounts/member/list/')
+
+
 class GroupListView(ListView):
     model = Group
     template_name = 'accounts/group_list.html'
@@ -63,6 +73,16 @@ class GroupUpdateView(UpdateView):
     model = Group
     form_class = GroupForm
     template_name = 'accounts/group_update.html'
+
+
+def group_change_active(request, pk):
+    status = Group.objects.get(id=pk)
+    if status.is_active:
+        status.is_active = False
+    else:
+        status.is_active = True
+    status.save()
+    return redirect('/accounts/group/list')
 
 
 class GroupDeleteView(DeleteView):

@@ -16,13 +16,17 @@ $(document).ready(function(){
 {% endblock %}
 
 {% block content %}
-<form method="POST" class="form" id="data">
+<button class="btn btn-primary"><a href="https://smartsms.aligo.in/shop/result_list.html" target="_blank">알리고 전송결과보기</a></button>
+<button class="btn btn-primary"><a href="https://smartsms.aligo.in/shop/friendtalk.html" target="_blank">알리고 친구톡보내기</a></button>
+<button class="btn btn-primary"><a href="https://smartsms.aligo.in/shop/charge.html" target="_blank">알리고 충전하기</a></button>
+
+<form method="POST" class="form" id="data" enctype="multipart/form-data">
     {%csrf_token%}
     친구톡 형태<br>
     <input type="radio" id="type-text" name="talk_type" value="text" onchange="setTypeDisplay()" checked="checked"> 텍스트형
     <input type="radio" id="type-img" name="talk_type" value="img" onchange="setTypeDisplay()"> 이미지형
     <div id="divId" style="display:none">
-        <input type="file" name="myfile">
+        이미지 업로드 {{ form.img_url }}
         <br>
         이미지 링크 {{ form.img_link }} <br>
     </div><br><br>
@@ -35,8 +39,7 @@ $(document).ready(function(){
     <input type="radio" id="btn-weblink" name="talk_button" value="weblink" onchange="setBtnDisplay()"> 웹링크 <br><br>
     <div id="divId2" style="display:none">
         버튼이름 {{ form.btn_name }}<br><br>
-        웹링크(pc) {{ form.weblink_pc }}<br><br>
-        웹링크(mobile) {{ form.weblink_mobile }}<br><br>
+        웹링크 {{ form.weblink_pc }}<br><br>
     </div>
 
     수신자<br>

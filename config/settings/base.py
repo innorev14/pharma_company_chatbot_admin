@@ -212,8 +212,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
 ]
 
-MEDIA_URL = '/image/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'image')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AWS_ACCESS_KEY_ID = get_secret('AWS_ID')
 AWS_SECRET_ACCESS_KEY = get_secret('AWS_KEY')

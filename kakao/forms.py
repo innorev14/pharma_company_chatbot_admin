@@ -7,7 +7,6 @@ from accounts.models import Group
 
 
 class FriendsTalkForm(forms.ModelForm):
-    # whole = forms.CharField(initial=1)
     group = forms.ModelChoiceField(queryset=Group.objects.all().order_by('name'), required=False)
     sender = forms.CharField(initial=get_user_model().objects.get(is_superuser=True).phone)
 

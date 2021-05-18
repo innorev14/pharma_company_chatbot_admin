@@ -6,7 +6,8 @@ from django.db import models
 
 class FriendsTalk(models.Model):
     content = models.TextField(max_length=1000, verbose_name='내용')
-    img_link = models.URLField(null=True, blank=True, verbose_name='이미지URL')
+    img_url = models.ImageField(upload_to='friendstalk', verbose_name='이미지URL')
+    img_link = models.URLField(null=True, blank=True, verbose_name='이미지 링크')
     btn_name = models.CharField(max_length=14, null=True, blank=True, verbose_name='버튼이름')
     weblink_pc = models.URLField(null=True, blank=True, verbose_name='웹링크PC')
     weblink_mobile = models.URLField(null=True, blank=-True, verbose_name='웹링크Mobile')
@@ -19,3 +20,4 @@ class FriendsTalk(models.Model):
     class Meta:
         verbose_name = _("친구톡")
         verbose_name_plural = _("친구톡")
+        ordering = ['-sended_at']

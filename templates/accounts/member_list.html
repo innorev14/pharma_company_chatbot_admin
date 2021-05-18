@@ -17,6 +17,7 @@
         <th>관리자</th>
         <th>활성화</th>
         <th>등록일</th>
+        <th>상태변경</th>
     </thead>
     <tbody>
         <tr>
@@ -28,6 +29,7 @@
             <td>{% if obj.is_staff %}<i class="far fa-check-circle" style="color:orange"></i>{% else %}<i class="far fa-times-circle" style="color:red"></i>{% endif %}</td>
             <td>{% if obj.is_active %}<i class="far fa-check-circle" style="color:orange"></i>{% else %}<i class="far fa-times-circle" style="color:red"></i>{% endif %}</td>
             <td>{{ obj.created_at}}</td>
+            <td><a class="btn btn-primary" href="{% url 'accounts:member_change_active' obj.pk %}">변경</a></td>
             {% endfor %}
         </tr>
     </tbody>
