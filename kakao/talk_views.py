@@ -2,6 +2,7 @@ import json
 
 from django.contrib.auth import get_user_model
 from django.http import HttpResponse
+from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import TemplateView, ListView, CreateView, DeleteView, FormView, DetailView
 
@@ -23,6 +24,7 @@ class FriendsTalkCreateView(CreateView):
     success_url = '/kakao/friends_talk/list/'
 
     def form_valid(self, form):
+        print(self.request.POST)
         msg = {}
         if self.request.POST['talk_type'] == 'img':
             msg['img'] = {}
@@ -178,7 +180,11 @@ class FriendsTalkWholeSendView(CreateView):
 
 
 def send_talk(msg):
-    aligo_token = get_token()
+    print("send_talk")
+    try:
+        aligo_token = get_token()
+    except:
+        return {'code': '-98', 'message': '등록된 IP가 아닙니다.'}
     return send_friend_msg(aligo_token, msg)
 
 

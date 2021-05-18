@@ -10,29 +10,25 @@
 {% block content %}
 <table class="table">
     <thead>
-        <th>순서</th>
-        <th>이름</th>
-        <th>조직</th>
-        <th>전화번호</th>
-        <th>관리자</th>
-        <th>활성화</th>
-        <th>등록일</th>
-        <th>상태변경</th>
+        <th>번호</th>
+        <th>사용자발화</th>
+        <th>인텐트이름</th>
+        <th>인텐트ID</th>
+        <th>유저ID</th>
+        <th>유저그룹</th>
+        <th>발화시간</th>
     </thead>
-    <tbody>
-        <tr>
-            {% for obj in object_list %}
-            <td class="text-center">{{ forloop.counter }}</td>
-            <td class="text-center">{{ obj.username }}</td>
-            <td class="text-center">{{ obj.group }}</td>
-            <td class="text-center">{{ obj.phone }}</td>
-            <td class="text-center">{% if obj.is_staff %}<i class="far fa-check-circle" style="color:orange"></i>{% else %}<i class="far fa-times-circle" style="color:red"></i>{% endif %}</td>
-            <td class="text-center">{% if obj.is_active %}<i class="far fa-check-circle" style="color:orange"></i>{% else %}<i class="far fa-times-circle" style="color:red"></i>{% endif %}</td>
-            <td class="text-center">{{ obj.created_at}}</td>
-            <td class="text-center"><a class="btn btn-primary" href="{% url 'accounts:member_change_active' obj.pk %}">변경</a></td>
-            {% endfor %}
-        </tr>
-    </tbody>
+    {% for obj in object_list %}
+    <tr>
+        <td class="text-center">{{ forloop.counter }}</td>
+        <td class="text-center">{{ obj.utterance }}</td>
+        <td class="text-center">{{ obj.intent_name}}</td>
+        <td class="text-center">{{ obj.intent_id}}</td>
+        <td class="text-center">{{ obj.user }}<</td>
+        <td class="text-center">{{ obj.group }}<</td>
+        <td class="text-center">{{ obj.created_at }}<</td>
+    </tr>
+    {% endfor %}
 </table>
 
 {% if is_paginated %}

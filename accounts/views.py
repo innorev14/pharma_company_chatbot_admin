@@ -4,7 +4,7 @@ from django.views.generic import CreateView, UpdateView, DeleteView, DetailView,
 from rest_framework.views import APIView
 
 from accounts.forms import MemberForm, GroupForm, UserForm
-from accounts.models import Group, Member
+from accounts.models import Group, Member, AccessLog
 
 
 class KakaoAPIView(APIView):
@@ -21,6 +21,18 @@ class KakaoAPIView(APIView):
 class MemberListView(ListView):
     model = Member
     template_name = 'accounts/member_list.html'
+    paginate_by = 20
+
+    def get_queryset(self, *args, **kwargs):
+        qs = Member.objects.all()
+        query = self.request.GET.get("qs", None)
+        if query is not None:
+            qs = qs.filter(content__icontains=query)
+        return qs
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(MemberListView, self).get_context_data(*args, **kwargs)
+        return context
 
 
 class MemberCreateView(CreateView):
@@ -60,6 +72,18 @@ def member_change_active(request, pk):
 class GroupListView(ListView):
     model = Group
     template_name = 'accounts/group_list.html'
+    paginate_by = 20
+
+    def get_queryset(self, *args, **kwargs):
+        qs = Group.objects.all()
+        query = self.request.GET.get("qs", None)
+        if query is not None:
+            qs = qs.filter(content__icontains=query)
+        return qs
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(GroupListView, self).get_context_data(*args, **kwargs)
+        return context
 
 
 class GroupCreateView(CreateView):
@@ -82,7 +106,7 @@ def group_change_active(request, pk):
     else:
         status.is_active = True
     status.save()
-    return redirect('/accounts/group/list')
+    return redirect('/accounts/group/list/')
 
 
 class GroupDeleteView(DeleteView):
@@ -103,7 +127,12 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            return redirect('/')
+            return redirect('/list/')
     else:
         form = UserForm()
     return render(request, 'accounts/signup.html', {'form': form})
+
+
+class AccessListView(ListView):
+    model = AccessLog
+    template_name = 'accounts/access_list.html'

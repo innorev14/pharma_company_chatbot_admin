@@ -6,7 +6,7 @@ from config.settings.base import get_secret
 
 
 def get_token():
-    basic_send_url = 'https://kakaoapi.aligo.in/akv10/token/create/1/h/'  # 요청을 던지는 URL, 현재는 토큰생성
+    basic_send_url = 'https://kakaoapi.aligo.in/akv10/token/create/30/s/'  # 요청을 던지는 URL, 현재는 토큰생성
     # token/create/토큰 유효시간/{y(년)/m(월)/d(일)/h(시)/i(분)/s(초)}/
 
     # ================================================================== 토큰 생성 필수 key값
@@ -81,18 +81,15 @@ def send_friend_msg(aligo_token, msg):
     try:
         sms_data['image_url'] = msg['img']['img_link']  # 첨부이미지에 삽입되는 링크
         s3_base = 'https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/friendstalk/'
-        images = {'image' : s3_base.join(msg['img']['img_url'].name)} # 첨부 이미지 경로
+        images = {'image' : s3_base.join(msg['img']['img_url'].name)}  # 첨부 이미지 경로
         # images.update({'fimage': open(image['path'], 'rb')}) # 실패시 첨부이미지 경로
-
         # =================================================================================================
         # 첨부 이미지 포함 전송
         friend_send_response = requests.post(basic_send_url, data=sms_data, files=images)
-
     except TypeError:
         # =================================================================================================
         # 첨부 이미지 없이 전송
         friend_send_response = requests.post(basic_send_url, data=sms_data)
-        print('텍스트')
 
 
 

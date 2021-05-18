@@ -24,4 +24,6 @@ urlpatterns = [
 
     path('group/change_active/<int:pk>/', group_change_active, name='group_change_active'),
     path('member/change_active/<int:pk>/', member_change_active, name='member_change_active'),
+
+    path('log/access_log/', AccessLog, name='access_log'),
 ]

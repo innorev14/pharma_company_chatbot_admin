@@ -1,17 +1,16 @@
 import re
 from urllib import parse
 
-from django.contrib.auth import get_user_model
 from django.shortcuts import render
 
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse  # 카카오톡과 연동하기 위해선 JsonResponse로 출력
-from django.views.decorators.csrf import csrf_exempt  # 보안 이슈를 피하기 위한 csrf_exempt decorator 필요
+from django.views.decorators.csrf import csrf_exempt
 import json
 
 from django.views.decorators.http import require_POST
 
-from accounts.models import User
+from accounts.models import User, Group, Member, AccessLog
 from medicine.models import *
 
 
@@ -131,7 +130,7 @@ def auth(request):
     print(user_id)
     print(user_phone)
 
-    user = get_user_model()
+    user = Member
 
     try:
         match_user = user.objects.get(phone=user_phone)
@@ -202,7 +201,7 @@ def medicine(request):
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
     print(user_id)
     print(user_input)
-    user = get_user_model()
+    user = Member
 
     try:
         # 유저 확인 로직
@@ -210,6 +209,7 @@ def medicine(request):
         if check_id.group.is_active == 1 or check_id.is_active == 1:
             # 제품 정보 확인
             medicine_info = Medicine.objects.get(name=user_input.replace(' ', ''))
+            medicine_info.increment_view_count()
             medicine_name = medicine_info.name
 
             send_msg = {
@@ -219,7 +219,7 @@ def medicine(request):
                         {
                             "basicCard": {
                                 "thumbnail": {
-                                    "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
+                                    "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/product_img/"
                                                 + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
                                 },
                                 "title": medicine_name,
@@ -245,6 +245,13 @@ def medicine(request):
                     ]
                 }
             }
+            new_log = AccessLog.objects.create(
+                member=user.objects.get(id=check_id.id),
+                group=Group.objects.get(user_id=check_id.id),
+                intent_id=json_req['intent']['id'],
+                intent_name=json_req['intent']['name'],
+                utterance=json_req['userRequest']['utterance']
+            )
             return JsonResponse(send_msg, status=200)
         else:
             send_msg = {
@@ -314,7 +321,7 @@ def medicine_direct(request):
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
     print(user_id)
     print(user_input)
-    user = get_user_model()
+    user = Member
 
     try:
         # 유저 확인 로직
@@ -323,9 +330,11 @@ def medicine_direct(request):
             if MedicineTag.objects.filter(name=user_input.replace(' ', '')).exists():
                 tag_id = MedicineTag.objects.get(name=user_input).id
                 medicine_name = TaggedMedicine.objects.get(tag=tag_id).content_object.name
+                Medicine.objects.get(name=medicine_name).increment_view_count()
             else:
                 # 제품 정보 확인
                 medicine_info = Medicine.objects.get(name=user_input.replace(' ', ''))
+                medicine_info.increment_view_count()
                 medicine_name = medicine_info.name
 
             send_msg = {
@@ -335,7 +344,7 @@ def medicine_direct(request):
                         {
                             "basicCard": {
                                 "thumbnail": {
-                                    "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
+                                    "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/product_img/"
                                                 + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
                                 },
                                 "title": medicine_name,
@@ -372,6 +381,13 @@ def medicine_direct(request):
                     ]
                 }
             }
+            new_log = AccessLog.objects.create(
+                member=user.objects.get(id=check_id.id),
+                group=Group.objects.get(user_id=check_id.id),
+                intent_id=json_req['intent']['id'],
+                intent_name=json_req['intent']['name'],
+                utterance=json_req['userRequest']['utterance']
+            )
             return JsonResponse(send_msg, status=200)
         else:
             send_msg = {
@@ -466,7 +482,7 @@ def prod_info(request):
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
     print(user_id)
     print(user_input)
-    user = get_user_model()
+    user = Member
 
     try:
         # 유저 확인 로직
@@ -484,8 +500,9 @@ def prod_info(request):
                             {
                                 "basicCard": {
                                     "thumbnail": {
-                                        "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
-                                                    + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
+                                        "imageUrl":
+                                            "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/product_img/"
+                                            + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
                                     },
                                     "title": medicine_name,
                                     "description": medicine_info.product_info.replace("<p>", "\n"),
@@ -515,6 +532,13 @@ def prod_info(request):
                         ]
                     }
                 }
+                new_log = AccessLog.objects.create(
+                    member=user.objects.get(id=check_id.id),
+                    group=Group.objects.get(user_id=check_id.id),
+                    intent_id=json_req['intent']['id'],
+                    intent_name=json_req['intent']['name'],
+                    utterance=json_req['userRequest']['utterance']
+                )
                 return JsonResponse(res, status=200)
             else:
                 res = {
@@ -524,8 +548,9 @@ def prod_info(request):
                             {
                                 "basicCard": {
                                     "thumbnail": {
-                                        "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
-                                                    + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
+                                        "imageUrl":
+                                            "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/product_img/"
+                                            + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
                                     },
                                     "title": medicine_name,
                                     "description": medicine_info.product_info.replace("<p>", "\n"),
@@ -548,6 +573,13 @@ def prod_info(request):
                         ]
                     }
                 }
+                new_log = AccessLog.objects.create(
+                    member=user.objects.get(id=check_id.id),
+                    group=Group.objects.get(user_id=check_id.id),
+                    intent_id=json_req['intent']['id'],
+                    intent_name=json_req['intent']['name'],
+                    utterance=json_req['userRequest']['utterance']
+                )
                 return JsonResponse(res, status=200)
         else:
             send_msg = {
@@ -620,7 +652,7 @@ def insu_info(request):
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
     print(user_id)
     print(user_input)
-    user = get_user_model()
+    user = Member
 
     try:
         # 유저 확인 로직
@@ -637,8 +669,9 @@ def insu_info(request):
                         {
                             "basicCard": {
                                 "thumbnail": {
-                                    "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
-                                                + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
+                                    "imageUrl":
+                                        "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/product_img/"
+                                        + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
                                 },
                                 "title": medicine_name,
                                 "description": medicine_info.insurance_info.replace("<p>", "\n"),
@@ -661,7 +694,13 @@ def insu_info(request):
                     ]
                 }
             }
-
+            new_log = AccessLog.objects.create(
+                member=user.objects.get(id=check_id.id),
+                group=Group.objects.get(user_id=check_id.id),
+                intent_id=json_req['intent']['id'],
+                intent_name=json_req['intent']['name'],
+                utterance=json_req['userRequest']['utterance']
+            )
             return JsonResponse(res, status=200)
         else:
             send_msg = {
@@ -707,7 +746,6 @@ def insu_info(request):
         return JsonResponse(send_msg, status=200)
 
 
-
 @require_POST
 @csrf_exempt
 def detail_point(request):
@@ -736,17 +774,17 @@ def detail_point(request):
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
     print(user_id)
     print(user_input)
-    user = get_user_model()
+    user = Member
 
     try:
         # 유저 확인 로직
         check_id = user.objects.get(kakao_id=user_id)
         if check_id.group.is_active == 1 or check_id.is_active == 1:
             # 제품 정보 확인
-            medicine_info = Medicine.objects.get(name=user_input.replace(' ', ''))
-            medicine_name = medicine_info.name
+            medicine = Medicine.objects.get(name=user_input.replace(' ', ''))
+            medicine_name = medicine.name
 
-            if medicine_info.detail_url is not None:
+            if medicine.detail_url is not None:
                 res = {
                     'version': "2.0",
                     'template': {
@@ -754,16 +792,17 @@ def detail_point(request):
                             {
                                 "basicCard": {
                                     "thumbnail": {
-                                        "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
-                                                    + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
+                                        "imageUrl":
+                                            "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/product_img/"
+                                            + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
                                     },
                                     "title": medicine_name,
-                                    "description": medicine_info.detail_info.replace("<p>", "\n"),
+                                    "description": medicine.detail_info.replace("<p>", "\n"),
                                     "buttons": [
                                         {
                                             "action": "webLink",
                                             "label": "상세보기",
-                                            "webLinkUrl": medicine_info.detail_url
+                                            "webLinkUrl": medicine.detail_url
                                         },
                                     ]
                                 },
@@ -779,11 +818,12 @@ def detail_point(request):
                             {
                                 "basicCard": {
                                     "thumbnail": {
-                                        "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/"
-                                                    + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
+                                        "imageUrl":
+                                            "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/product_img/"
+                                            + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
                                     },
                                     "title": medicine_name,
-                                    "description": medicine_info.detail_info.replace("<p>", "\n"),
+                                    "description": medicine.detail_info.replace("<p>", "\n"),
                                 },
                             }
                         ],
@@ -803,6 +843,13 @@ def detail_point(request):
                         ]
                     }
                 }
+                new_log = AccessLog.objects.create(
+                    member=user.objects.get(id=check_id.id),
+                    group=Group.objects.get(user_id=check_id.id),
+                    intent_id=json_req['intent']['id'],
+                    intent_name=json_req['intent']['name'],
+                    utterance=json_req['userRequest']['utterance']
+                )
             return JsonResponse(res, status=200)
         else:
             send_msg = {
@@ -912,7 +959,13 @@ def search_category(request):
             ]
         }
     }
-
+    new_log = AccessLog.objects.create(
+        member=user.objects.get(id=check_id.id),
+        group=Group.objects.get(user_id=check_id.id),
+        intent_id=json_req['intent']['id'],
+        intent_name=json_req['intent']['name'],
+        utterance=json_req['userRequest']['utterance']
+    )
     return JsonResponse(send_msg, status=200)
 
 
@@ -953,7 +1006,13 @@ def search_tag(request):
                 'quickReplies': quick_set
             }
         }
-
+        new_log = AccessLog.objects.create(
+            member=user.objects.get(id=check_id.id),
+            group=Group.objects.get(user_id=check_id.id),
+            intent_id=json_req['intent']['id'],
+            intent_name=json_req['intent']['name'],
+            utterance=json_req['userRequest']['utterance']
+        )
         return JsonResponse(send_msg, status=200)
 
 
@@ -985,7 +1044,7 @@ def insu_info_test(request):
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
     print(user_id)
     print(user_input)
-    user = get_user_model()
+    user = Member
 
     try:
         # 유저 확인 로직
@@ -1021,7 +1080,13 @@ def insu_info_test(request):
                     ]
                 }
             }
-
+            new_log = AccessLog.objects.create(
+                member=user.objects.get(id=check_id.id),
+                group=Group.objects.get(user_id=check_id.id),
+                intent_id=json_req['intent']['id'],
+                intent_name=json_req['intent']['name'],
+                utterance=json_req['userRequest']['utterance']
+            )
             return JsonResponse(res, status=200)
         else:
             send_msg = {
@@ -1095,7 +1160,7 @@ def detail_point_test(request):
     user_id = json_req['userRequest']['user']['id']  # 유저 ID
     print(user_id)
     print(user_input)
-    user = get_user_model()
+    user = Member
 
     try:
         # 유저 확인 로직

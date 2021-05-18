@@ -19,15 +19,38 @@
     </thead>
     {% for obj in object_list %}
     <tr>
-        <td>{{ forloop.counter }}</td>
-        <td>{{ obj.name }}</td>
-        <td>{% if obj.is_active %}<i class="far fa-check-circle" style="color:orange"></i>{% else %}<i class="far fa-times-circle" style="color:red"></i>{% endif %}</td>
-        <td><a class="btn btn-primary" href="{% url 'kakao:talk_send_group' obj.pk %}">보내기</a></td>
-        <td><a class="btn btn-primary" href="{% url 'accounts:group_change_active' obj.pk %}">변경</a></td>
+        <td class="text-center">{{ forloop.counter }}</td>
+        <td class="text-center">{{ obj.name }}</td>
+        <td class="text-center">{% if obj.is_active %}<i class="far fa-check-circle" style="color:orange"></i>{% else %}<i class="far fa-times-circle" style="color:red"></i>{% endif %}</td>
+        <td class="text-center"><a class="btn btn-primary" href="{% url 'kakao:talk_send_group' obj.pk %}">보내기</a></td>
+        <td class="text-center"><a class="btn btn-primary" href="{% url 'accounts:group_change_active' obj.pk %}">변경</a></td>
     </tr>
     {% endfor %}
 </table>
 
+{% if is_paginated %}
+            <nav class="pagination is-centered" role="navigation" aria-label="pagination">
+                {% if page_obj.has_previous %}
+                <a class="pagination-previous" href="?page={{ page_obj.previous_page_number }}">이전</a>
+                {% else %}
+                <li class="pagination-previous" disabled><span>이전</span></li>
+                {% endif %}
+                <ul class="pagination-list">
+                    {% for i in paginator.page_range %}
+                    {% if page_obj.number == i %}
+                    <li class="active"><span class="pagination-link is-current">{{ i }} <span class="sr-only">(current)</span></span></li>
+                    {% else %}
+                    <a href="?page={{ i }}" class="pagination-link">{{ i }}</a>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+                {% if page_obj.has_next %}
+                <a class="pagination-next" href="?page={{ page_obj.next_page_number }}">다음</a>
+                {% else %}
+                <li class="pagination-next" disabled><span>다음</span></li>
+                {% endif %}
+            </nav>
+            {% endif %}
 {% endblock %}
 
 {% block script %}
