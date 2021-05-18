@@ -363,7 +363,7 @@ def medicine_direct(request):
                                         "action": "webLink",
                                         "label": "디테일 포인트",
                                         "webLinkUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/detail_point/"
-                                                      + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg"
+                                                      + parse.quote(str(medicine_name.replace("/", ""))) + ".JPG"
                                     }
                                 ]
                             }
