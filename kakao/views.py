@@ -246,8 +246,8 @@ def medicine(request):
                 }
             }
             new_log = AccessLog.objects.create(
-                member=user.objects.get(id=check_id.id),
-                group=Group.objects.get(user_id=check_id.id),
+                member_id=check_id.id,
+                group_id=user.objects.get(user_id=check_id.id).group_id,
                 intent_id=json_req['intent']['id'],
                 intent_name=json_req['intent']['name'],
                 utterance=json_req['userRequest']['utterance']
@@ -382,7 +382,7 @@ def medicine_direct(request):
                 }
             }
             new_log = AccessLog.objects.create(
-                member_id=user.objects.get(id=check_id.id),
+                member_id=check_id.id,
                 group_id=user.objects.get(id=check_id.id).group_id,
                 intent_id=json_req['intent']['id'],
                 intent_name=json_req['intent']['name'],
@@ -533,7 +533,7 @@ def prod_info(request):
                     }
                 }
                 new_log = AccessLog.objects.create(
-                    member_id=user.objects.get(id=check_id.id),
+                    member_id=check_id.id,
                     group_id=user.objects.get(id=check_id.id).group_id,
                     intent_id=json_req['intent']['id'],
                     intent_name=json_req['intent']['name'],
@@ -574,7 +574,7 @@ def prod_info(request):
                     }
                 }
                 new_log = AccessLog.objects.create(
-                    member_id=user.objects.get(id=check_id.id),
+                    member_id=check_id.id,
                     group_id=user.objects.get(id=check_id.id).group_id,
                     intent_id=json_req['intent']['id'],
                     intent_name=json_req['intent']['name'],
@@ -695,7 +695,7 @@ def insu_info(request):
                 }
             }
             new_log = AccessLog.objects.create(
-                member_id=user.objects.get(id=check_id.id),
+                member_id=check_id.id,
                 group_id=user.objects.get(id=check_id.id).group_id,
                 intent_id=json_req['intent']['id'],
                 intent_name=json_req['intent']['name'],
@@ -844,7 +844,7 @@ def detail_point(request):
                     }
                 }
                 new_log = AccessLog.objects.create(
-                    member_id=user.objects.get(id=check_id.id),
+                    member_id=check_id.id,
                     group_id=user.objects.get(id=check_id.id).group_id,
                     intent_id=json_req['intent']['id'],
                     intent_name=json_req['intent']['name'],
@@ -959,8 +959,10 @@ def search_category(request):
             ]
         }
     }
+    user_id = json_req['userRequest']['user']['id']
+    check_id = Member.objects.get(kakao_id=user_id)
     new_log = AccessLog.objects.create(
-        member_id=user.objects.get(id=check_id.id),
+        member_id=check_id.id,
         group_id=user.objects.get(id=check_id.id).group_id,
         intent_id=json_req['intent']['id'],
         intent_name=json_req['intent']['name'],
@@ -1006,8 +1008,10 @@ def search_tag(request):
                 'quickReplies': quick_set
             }
         }
+        user_id = json_req['userRequest']['user']['id']
+        check_id = Member.objects.get(kakao_id=user_id)
         new_log = AccessLog.objects.create(
-            member_id=user.objects.get(id=check_id.id),
+            member_id=check_id.id,
             group_id=user.objects.get(id=check_id.id).group_id,
             intent_id=json_req['intent']['id'],
             intent_name=json_req['intent']['name'],
@@ -1081,7 +1085,7 @@ def insu_info_test(request):
                 }
             }
             new_log = AccessLog.objects.create(
-                member_id=user.objects.get(id=check_id.id),
+                member_id=check_id.id,
                 group_id=user.objects.get(id=check_id.id).group_id,
                 intent_id=json_req['intent']['id'],
                 intent_name=json_req['intent']['name'],
