@@ -963,7 +963,7 @@ def search_category(request):
     check_id = Member.objects.get(kakao_id=user_id)
     new_log = AccessLog.objects.create(
         member_id=check_id.id,
-        group_id=user.objects.get(id=check_id.id).group_id,
+        group_id=Member.objects.get(id=check_id.id).group_id,
         intent_id=json_req['intent']['id'],
         intent_name=json_req['intent']['name'],
         utterance=json_req['userRequest']['utterance']
