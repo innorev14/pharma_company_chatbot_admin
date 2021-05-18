@@ -42,6 +42,7 @@ class Group(models.Model):
     class Meta:
         verbose_name = _('그룹')
         verbose_name_plural = _("그룹")
+        ordering = ('name',)
 
     def __str__(self):
         return self.name
@@ -80,6 +81,7 @@ class Member(models.Model):
     class Meta:
         verbose_name = _('사용자')
         verbose_name_plural = _("사용자")
+        ordering = ('username',)
 
 
 class AccessLog(models.Model):

@@ -382,8 +382,8 @@ def medicine_direct(request):
                 }
             }
             new_log = AccessLog.objects.create(
-                member=user.objects.get(id=check_id.id),
-                group=Group.objects.get(user_id=check_id.id),
+                member_id=user.objects.get(id=check_id.id),
+                group_id=user.objects.get(id=check_id.id).group_id,
                 intent_id=json_req['intent']['id'],
                 intent_name=json_req['intent']['name'],
                 utterance=json_req['userRequest']['utterance']
@@ -533,8 +533,8 @@ def prod_info(request):
                     }
                 }
                 new_log = AccessLog.objects.create(
-                    member=user.objects.get(id=check_id.id),
-                    group=Group.objects.get(user_id=check_id.id),
+                    member_id=user.objects.get(id=check_id.id),
+                    group_id=user.objects.get(id=check_id.id).group_id,
                     intent_id=json_req['intent']['id'],
                     intent_name=json_req['intent']['name'],
                     utterance=json_req['userRequest']['utterance']
@@ -574,8 +574,8 @@ def prod_info(request):
                     }
                 }
                 new_log = AccessLog.objects.create(
-                    member=user.objects.get(id=check_id.id),
-                    group=Group.objects.get(user_id=check_id.id),
+                    member_id=user.objects.get(id=check_id.id),
+                    group_id=user.objects.get(id=check_id.id).group_id,
                     intent_id=json_req['intent']['id'],
                     intent_name=json_req['intent']['name'],
                     utterance=json_req['userRequest']['utterance']
@@ -695,8 +695,8 @@ def insu_info(request):
                 }
             }
             new_log = AccessLog.objects.create(
-                member=user.objects.get(id=check_id.id),
-                group=Group.objects.get(user_id=check_id.id),
+                member_id=user.objects.get(id=check_id.id),
+                group_id=user.objects.get(id=check_id.id).group_id,
                 intent_id=json_req['intent']['id'],
                 intent_name=json_req['intent']['name'],
                 utterance=json_req['userRequest']['utterance']
@@ -844,8 +844,8 @@ def detail_point(request):
                     }
                 }
                 new_log = AccessLog.objects.create(
-                    member=user.objects.get(id=check_id.id),
-                    group=Group.objects.get(user_id=check_id.id),
+                    member_id=user.objects.get(id=check_id.id),
+                    group_id=user.objects.get(id=check_id.id).group_id,
                     intent_id=json_req['intent']['id'],
                     intent_name=json_req['intent']['name'],
                     utterance=json_req['userRequest']['utterance']
@@ -960,8 +960,8 @@ def search_category(request):
         }
     }
     new_log = AccessLog.objects.create(
-        member=user.objects.get(id=check_id.id),
-        group=Group.objects.get(user_id=check_id.id),
+        member_id=user.objects.get(id=check_id.id),
+        group_id=user.objects.get(id=check_id.id).group_id,
         intent_id=json_req['intent']['id'],
         intent_name=json_req['intent']['name'],
         utterance=json_req['userRequest']['utterance']
@@ -1007,8 +1007,8 @@ def search_tag(request):
             }
         }
         new_log = AccessLog.objects.create(
-            member=user.objects.get(id=check_id.id),
-            group=Group.objects.get(user_id=check_id.id),
+            member_id=user.objects.get(id=check_id.id),
+            group_id=user.objects.get(id=check_id.id).group_id,
             intent_id=json_req['intent']['id'],
             intent_name=json_req['intent']['name'],
             utterance=json_req['userRequest']['utterance']
@@ -1081,8 +1081,8 @@ def insu_info_test(request):
                 }
             }
             new_log = AccessLog.objects.create(
-                member=user.objects.get(id=check_id.id),
-                group=Group.objects.get(user_id=check_id.id),
+                member_id=user.objects.get(id=check_id.id),
+                group_id=user.objects.get(id=check_id.id).group_id,
                 intent_id=json_req['intent']['id'],
                 intent_name=json_req['intent']['name'],
                 utterance=json_req['userRequest']['utterance']
