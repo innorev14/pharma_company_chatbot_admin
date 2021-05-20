@@ -1,8 +1,10 @@
 import json
 
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.urls import reverse_lazy, reverse
+from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import TemplateView, ListView, CreateView, DeleteView, FormView, DetailView
 
@@ -12,11 +14,13 @@ from kakao.friendtalk import get_token, send_friend_msg
 from kakao.models import FriendsTalk
 
 
+@method_decorator(login_required, name="dispatch")
 class FriendsTalkListView(ListView):
     model = FriendsTalk
     template_name = 'kakao/friendstalk_list.html'
 
 
+@method_decorator(login_required, name="dispatch")
 class FriendsTalkCreateView(CreateView):
     model = FriendsTalk
     form_class = FriendsTalkForm
@@ -73,6 +77,7 @@ class FriendsTalkCreateView(CreateView):
         return super().form_valid(form)
 
 
+@method_decorator(login_required, name="dispatch")
 class FriendsTalkGroupSendView(CreateView):
     model = FriendsTalk
     form_class = FriendsTalkForm
@@ -133,6 +138,7 @@ class FriendsTalkGroupSendView(CreateView):
         return super().form_valid(form)
 
 
+@method_decorator(login_required, name="dispatch")
 class FriendsTalkWholeSendView(CreateView):
     model = FriendsTalk
     form_class = FriendsTalkForm

@@ -8,56 +8,62 @@
 {% endblock %}
 
 {% block content %}
+<p class="h3">사용자 관리</p>
 <table class="table">
     <thead>
         <th>순서</th>
         <th>이름</th>
         <th>조직</th>
         <th>전화번호</th>
-        <th>관리자</th>
+<!--        <th>관리자</th>-->
         <th>활성화</th>
         <th>등록일</th>
         <th>상태변경</th>
     </thead>
     <tbody>
+    {% for obj in object_list %}
         <tr>
-            {% for obj in object_list %}
             <td class="text-center">{{ forloop.counter }}</td>
-            <td class="text-center">{{ obj.username }}</td>
+            <td class="text-center"><strong>{{ obj.username }}</strong></td>
             <td class="text-center">{{ obj.group }}</td>
             <td class="text-center">{{ obj.phone }}</td>
-            <td class="text-center">{% if obj.is_staff %}<i class="far fa-check-circle" style="color:orange"></i>{% else %}<i class="far fa-times-circle" style="color:red"></i>{% endif %}</td>
-            <td class="text-center">{% if obj.is_active %}<i class="far fa-check-circle" style="color:orange"></i>{% else %}<i class="far fa-times-circle" style="color:red"></i>{% endif %}</td>
-            <td class="text-center">{{ obj.created_at}}</td>
-            <td class="text-center"><a class="btn btn-primary" href="{% url 'accounts:member_change_active' obj.pk %}">변경</a></td>
-            {% endfor %}
+<!--            <td class="text-center">{% if obj.is_staff %}<i class="far fa-check-circle" style="color:orange"></i>{% else %}<i class="far fa-times-circle" style="color:red"></i>{% endif %}</td>-->
+            <td class="text-center">{% if obj.is_active %}<i class="far fa-check-circle" style="color:orange"></i>이용가능
+                {% else %}<i class="far fa-times-circle" style="color:red"></i>이용불가{% endif %}</td>
+            <td class="text-center">{{ obj.created_at|date:"Y-m-d"}}</td>
+            <td class="text-center"><a class="btn btn-info" href="{% url 'accounts:member_change_active' obj.pk %}">변경</a></td>
         </tr>
+    {% endfor %}
     </tbody>
 </table>
 
 {% if is_paginated %}
-            <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-                {% if page_obj.has_previous %}
-                <a class="pagination-previous" href="?page={{ page_obj.previous_page_number }}">이전</a>
-                {% else %}
-                <li class="pagination-previous" disabled><span>이전</span></li>
-                {% endif %}
-                <ul class="pagination-list">
-                    {% for i in paginator.page_range %}
-                    {% if page_obj.number == i %}
-                    <li class="active"><span class="pagination-link is-current">{{ i }} <span class="sr-only">(current)</span></span></li>
-                    {% else %}
-                    <a href="?page={{ i }}" class="pagination-link">{{ i }}</a>
-                    {% endif %}
-                    {% endfor %}
-                </ul>
-                {% if page_obj.has_next %}
-                <a class="pagination-next" href="?page={{ page_obj.next_page_number }}">다음</a>
-                {% else %}
-                <li class="pagination-next" disabled><span>다음</span></li>
-                {% endif %}
-            </nav>
+<nav aria-label="pagination">
+    <ul class="pagination justify-content-center">
+        <li class="page-item">
+            {% if page_obj.has_previous %}
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">이전</a>
+            {% else %}
+                <li class="page-link disabled"<span class="page-link">이전</span><span class="sr-only"></span></li>
             {% endif %}
+        </li>
+        {% for i in paginator.page_range %}
+        {% if page_obj.number == i %}
+        <li class="page-item active"><span class="page-link is-current">{{ i }} <span class="sr-only">(current)</span></span></li>
+        {% else %}
+        <li class="page-item"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
+        {% endif %}
+        {% endfor %}
+        <li class="page-item">
+            {% if page_obj.has_next %}
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">다음</a>
+            {% else %}
+                <li class="page-link disabled"<span class="page-link">다음</span></li>
+            {% endif %}
+        </li>
+    </ul>
+</nav>
+{% endif %}
 {% endblock %}
 
 {% block script %}

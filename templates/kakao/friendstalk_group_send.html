@@ -16,13 +16,18 @@ $(document).ready(function(){
 {% endblock %}
 
 {% block content %}
-<button class="btn btn-primary"><a href="https://smartsms.aligo.in/shop/result_list.html" target="_blank">알리고 전송결과보기</a></button>
-<button class="btn btn-primary"><a href="https://smartsms.aligo.in/shop/friendtalk.html" target="_blank">알리고 친구톡보내기</a></button>
-<button class="btn btn-primary"><a href="https://smartsms.aligo.in/shop/charge.html" target="_blank">알리고 충전하기</a></button>
-
+    <button class="btn btn-secondary"><a href="https://smartsms.aligo.in/shop/result_list.html" target="_blank">알리고
+        전송결과보기</a></button>
+    <button class="btn btn-warning"><a href="https://smartsms.aligo.in/shop/friendtalk.html" target="_blank">알리고
+        친구톡보내기</a></button>
+    <button class="btn btn-info"><a href="https://smartsms.aligo.in/shop/charge.html" target="_blank">알리고 충전하기</a>
+    </button>
+    <br><br>
+<div class="col-lg-6 align-self-center">
 <form method="POST" class="form" id="data" enctype="multipart/form-data">
     {%csrf_token%}
-    친구톡 형태<br>
+        <p class="h3">친구톡 보내기</p><br>
+    <strong>친구톡 형태</strong><br>
     <input type="radio" id="type-text" name="talk_type" value="text" onchange="setTypeDisplay()" checked="checked"> 텍스트형
     <input type="radio" id="type-img" name="talk_type" value="img" onchange="setTypeDisplay()"> 이미지형
     <div id="divId" style="display:none">
@@ -32,9 +37,9 @@ $(document).ready(function(){
     </div><br><br>
 
 
-    내용 {{form.media}}
+    <strong>내용</strong> {{form.media}}
         {{ form.content }}<br><br>
-    버튼 넣기<br>
+    <strong>버튼 넣기</strong><br>
     <input type="radio" id="btn-text" name="talk_button" value="none" onchange="setBtnDisplay()" checked="checked"> 없음
     <input type="radio" id="btn-weblink" name="talk_button" value="weblink" onchange="setBtnDisplay()"> 웹링크 <br><br>
     <div id="divId2" style="display:none">
@@ -42,15 +47,17 @@ $(document).ready(function(){
         웹링크 {{ form.weblink_pc }}<br><br>
     </div>
 
-    수신자<input id="receiver-group" name="talk_receiver" value="group" style="display:none">
+    <strong>수신자</strong><input id="receiver-group" name="talk_receiver" value="group" style="display:none">
     {{ group_name }}
     <br><br>
-    발신자 {{ form.sender }} <br><br>
+    <strong>발신자</strong> {{ form.sender }} <br><br>
 <!--    {{form.as_p}}-->
-    <button type="submit" class="save btn btn-default">전송하기</button>
-</form>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button type="submit" class="save btn btn-warning btn-lg">전송하기</button>
+        </div></form>
 
 <div id="out"></div>
+</div>
 {% endblock %}
 
 {% block script %}

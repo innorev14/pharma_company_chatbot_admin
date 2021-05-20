@@ -25,5 +25,8 @@ urlpatterns = [
     path('group/change_active/<int:pk>/', group_change_active, name='group_change_active'),
     path('member/change_active/<int:pk>/', member_change_active, name='member_change_active'),
 
-    path('log/access_log/', AccessLog, name='access_log'),
+    path('access_log/', AccessListView.as_view(), name='access_log'),
+    path('access_log/day/', AccessGroupDayList.as_view(), name='access_day_log'),
+    path('access_log/week/', AccessGroupWeekList.as_view(), name='access_week_log'),
+    path('access_log/month/', AccessGroupMonthList.as_view(), name='access_month_log'),
 ]

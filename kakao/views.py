@@ -1,4 +1,5 @@
 import re
+import unicodedata
 from urllib import parse
 
 from django.shortcuts import render
@@ -220,7 +221,9 @@ def medicine(request):
                             "basicCard": {
                                 "thumbnail": {
                                     "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/product_img/"
-                                                + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
+                                                + parse.quote(
+                                                    unicodedata.normalize('NFC', str(medicine_name.replace("/", "")))
+                                                ) + ".jpg",
                                 },
                                 "title": medicine_name,
                                 "buttons": [
@@ -345,7 +348,9 @@ def medicine_direct(request):
                             "basicCard": {
                                 "thumbnail": {
                                     "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/product_img/"
-                                                + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
+                                                + parse.quote(
+                                                    unicodedata.normalize('NFC', str(medicine_name.replace("/", "")))
+                                                ) + ".jpg",
                                 },
                                 "title": medicine_name,
                                 "buttons": [
@@ -362,8 +367,11 @@ def medicine_direct(request):
                                     {
                                         "action": "webLink",
                                         "label": "디테일 포인트",
-                                        "webLinkUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/detail_point/"
-                                                      + str(medicine_name.replace("/", "")) + ".JPG"
+                                        "webLinkUrl":
+                                            "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/detail_point/"
+                                            + parse.quote(
+                                                unicodedata.normalize('NFC', str(medicine_name.replace("/", "")))
+                                            ) + ".JPG"
                                     }
                                 ]
                             }
@@ -503,7 +511,9 @@ def prod_info(request):
                                     "thumbnail": {
                                         "imageUrl":
                                             "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/product_img/"
-                                            + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
+                                            + parse.quote(
+                                                unicodedata.normalize('NFC', str(medicine_name.replace("/", "")))
+                                            ) + ".jpg",
                                     },
                                     "title": medicine_name,
                                     "description": medicine_info.product_info.replace("<p>", "\n"),
@@ -551,7 +561,9 @@ def prod_info(request):
                                     "thumbnail": {
                                         "imageUrl":
                                             "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/product_img/"
-                                            + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
+                                            + parse.quote(
+                                                unicodedata.normalize('NFC', str(medicine_name.replace("/", "")))
+                                            ) + ".jpg",
                                     },
                                     "title": medicine_name,
                                     "description": medicine_info.product_info.replace("<p>", "\n"),
@@ -821,7 +833,9 @@ def detail_point(request):
                                     "thumbnail": {
                                         "imageUrl":
                                             "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/product_img/"
-                                            + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
+                                            + parse.quote(
+                                                unicodedata.normalize('NFC', str(medicine_name.replace("/", "")))
+                                            ) + ".jpg",
                                     },
                                     "title": medicine_name,
                                     "description": medicine.detail_info.replace("<p>", "\n"),
@@ -847,7 +861,9 @@ def detail_point(request):
                                     "thumbnail": {
                                         "imageUrl":
                                             "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/product_img/"
-                                            + parse.quote(str(medicine_name.replace("/", ""))) + ".jpg",
+                                            + parse.quote(
+                                                unicodedata.normalize('NFC', str(medicine_name.replace("/", "")))
+                                            )+ ".jpg",
                                     },
                                     "title": medicine_name,
                                     "description": medicine.detail_info.replace("<p>", "\n"),

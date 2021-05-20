@@ -8,7 +8,10 @@
 {% endblock %}
 
 {% block content %}
-<a class="btn btn-primary" href="{% url 'kakao:talk_send_whole' %}">전체전송</a><br><br>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <a class="btn btn-danger" href="{% url 'kakao:talk_send_whole' %}">전체전송</a>
+    </div>
+<p class="h3">조직관리</p>
 <table class="table">
     <thead>
         <th>번호</th>
@@ -20,37 +23,41 @@
     {% for obj in object_list %}
     <tr>
         <td class="text-center">{{ forloop.counter }}</td>
-        <td class="text-center">{{ obj.name }}</td>
-        <td class="text-center">{% if obj.is_active %}<i class="far fa-check-circle" style="color:orange"></i>{% else %}<i class="far fa-times-circle" style="color:red"></i>{% endif %}</td>
-        <td class="text-center"><a class="btn btn-primary" href="{% url 'kakao:talk_send_group' obj.pk %}">보내기</a></td>
-        <td class="text-center"><a class="btn btn-primary" href="{% url 'accounts:group_change_active' obj.pk %}">변경</a></td>
+        <td class="text-center"><strong>{{ obj.name }}</strong></td>
+        <td class="text-center">{% if obj.is_active %}<i class="far fa-check-circle" style="color:orange"></i>이용가능{% else %}<i class="far fa-times-circle" style="color:red"></i>이용불가{% endif %}</td>
+        <td class="text-center"><a class="btn btn-warning" href="{% url 'kakao:talk_send_group' obj.pk %}">보내기</a></td>
+        <td class="text-center"><a class="btn btn-info" href="{% url 'accounts:group_change_active' obj.pk %}">변경</a></td>
     </tr>
     {% endfor %}
 </table>
 
 {% if is_paginated %}
-            <nav class="pagination is-centered" role="navigation" aria-label="pagination">
-                {% if page_obj.has_previous %}
-                <a class="pagination-previous" href="?page={{ page_obj.previous_page_number }}">이전</a>
-                {% else %}
-                <li class="pagination-previous" disabled><span>이전</span></li>
-                {% endif %}
-                <ul class="pagination-list">
-                    {% for i in paginator.page_range %}
-                    {% if page_obj.number == i %}
-                    <li class="active"><span class="pagination-link is-current">{{ i }} <span class="sr-only">(current)</span></span></li>
-                    {% else %}
-                    <a href="?page={{ i }}" class="pagination-link">{{ i }}</a>
-                    {% endif %}
-                    {% endfor %}
-                </ul>
-                {% if page_obj.has_next %}
-                <a class="pagination-next" href="?page={{ page_obj.next_page_number }}">다음</a>
-                {% else %}
-                <li class="pagination-next" disabled><span>다음</span></li>
-                {% endif %}
-            </nav>
+<nav aria-label="pagination">
+    <ul class="pagination justify-content-center">
+        <li class="page-item">
+            {% if page_obj.has_previous %}
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">이전</a>
+            {% else %}
+                <li class="page-link disabled"<span class="page-link">이전</span><span class="sr-only"></span></li>
             {% endif %}
+        </li>
+        {% for i in paginator.page_range %}
+        {% if page_obj.number == i %}
+        <li class="page-item active"><span class="page-link is-current">{{ i }} <span class="sr-only">(current)</span></span></li>
+        {% else %}
+        <li class="page-item"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
+        {% endif %}
+        {% endfor %}
+        <li class="page-item">
+            {% if page_obj.has_next %}
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">다음</a>
+            {% else %}
+                <li class="page-link disabled"<span class="page-link">다음</span></li>
+            {% endif %}
+        </li>
+    </ul>
+</nav>
+{% endif %}
 {% endblock %}
 
 {% block script %}

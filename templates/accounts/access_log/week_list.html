@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+<div id="container">
+    <p class="h3">지점별 주간 사용건수</p><br>
+<canvas id="chart" height="100vh" ></canvas>
+<br>
+    <table class="table col-12">
+    <thead>
+    <th>순서</th>
+    <th>지점이름</th>
+    <th>이용건수</th>
+    </thead>
+    <tbody>
+    {% for obj in object_list %}
+    <tr>
+        <td class="text-center">{{ obj.group_id}}</td>
+        <td class="text-center">{{ obj.group_name }}</td>
+        <td class="text-center">{{ obj.group_count}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}
+
+{% block script %}<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    let ctx = document.getElementById("chart").getContext("2d");
+
+let chart = new Chart(ctx, {
+  type: "line",
+  data: {
+     labels: [{% for obj in object_list %}"{{ obj.group_name|safe }}"{% if forloop.last %}{%else%},{% endif %}{% endfor %}],
+     datasets: [
+        {
+          label: "지점별 주간 사용건수",
+            borderWidth: 1,
+          data: [{% for obj in object_list %}"{{ obj.group_count|safe }}"{% if forloop.last %}{%else%},{% endif %}{% endfor %}]
+        }
+     ]
+  },
+  options: {
+     title: {
+        text: "지점별 주간 사용건수",
+        display: true
+     }
+  }
+});
+</script>
+{% endblock %}

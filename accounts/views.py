@@ -1,5 +1,11 @@
+from datetime import datetime, timedelta
+
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
+from django.db.models import Count
+from django.db.models.functions import TruncMonth, TruncDay
 from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, UpdateView, DeleteView, DetailView, ListView
 from rest_framework.views import APIView
 
@@ -18,6 +24,7 @@ class KakaoAPIView(APIView):
         print('kakao_id : ', kakao_id)
 
 
+@method_decorator(login_required, name="dispatch")
 class MemberListView(ListView):
     model = Member
     template_name = 'accounts/member_list.html'
@@ -35,6 +42,7 @@ class MemberListView(ListView):
         return context
 
 
+@method_decorator(login_required, name="dispatch")
 class MemberCreateView(CreateView):
     model = Member
     form_class = MemberForm
@@ -42,17 +50,20 @@ class MemberCreateView(CreateView):
     success_url = '/accounts/member/list/'
 
 
+@method_decorator(login_required, name="dispatch")
 class MemberUpdateView(UpdateView):
     model = Member
     form_class = MemberForm
     template_name = 'accounts/member_update.html'
 
 
+@method_decorator(login_required, name="dispatch")
 class MemberDetailView(DetailView):
     model = Member
     template_name = 'accounts/member_detail.html'
 
 
+@method_decorator(login_required, name="dispatch")
 class MemberDeleteView(DeleteView):
     model = Member
     template_name = 'accounts/member_delete.html'
@@ -69,6 +80,7 @@ def member_change_active(request, pk):
     return redirect('/accounts/member/list/')
 
 
+@method_decorator(login_required, name="dispatch")
 class GroupListView(ListView):
     model = Group
     template_name = 'accounts/group_list.html'
@@ -86,6 +98,7 @@ class GroupListView(ListView):
         return context
 
 
+@method_decorator(login_required, name="dispatch")
 class GroupCreateView(CreateView):
     model = Group
     form_class = GroupForm
@@ -93,6 +106,7 @@ class GroupCreateView(CreateView):
     success_url = '/accounts/group/list/'
 
 
+@method_decorator(login_required, name="dispatch")
 class GroupUpdateView(UpdateView):
     model = Group
     form_class = GroupForm
@@ -109,6 +123,7 @@ def group_change_active(request, pk):
     return redirect('/accounts/group/list/')
 
 
+@method_decorator(login_required, name="dispatch")
 class GroupDeleteView(DeleteView):
     model = Group
     template_name = 'accounts/group_delete.html'
@@ -133,6 +148,89 @@ def signup(request):
     return render(request, 'accounts/signup.html', {'form': form})
 
 
+@method_decorator(login_required, name="dispatch")
 class AccessListView(ListView):
     model = AccessLog
-    template_name = 'accounts/access_list.html'
+    template_name = 'accounts/access_log/access_list.html'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs\
+            .values("group_id")\
+            .annotate(group_count=Count("group_id"))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        for group in context['accesslog_list']:
+            name = Group.objects.get(id=group['group_id']).name
+            group['group_name'] = name
+        print(context)
+        return context
+
+
+@method_decorator(login_required, name="dispatch")
+class AccessGroupDayList(ListView):
+    model = AccessLog
+    template_name = 'accounts/access_log/day_list.html'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        today = datetime.today()
+        return qs\
+            .filter(created_at__year=today.year,
+                    created_at__month=today.month,
+                    created_at__day=today.day)\
+            .values("group_id")\
+            .annotate(group_count=Count("group_id"))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        for group in context['accesslog_list']:
+            name = Group.objects.get(id=group['group_id']).name
+            group['group_name'] = name
+        print(context)
+        return context
+
+
+@method_decorator(login_required, name="dispatch")
+class AccessGroupWeekList(ListView):
+    model = AccessLog
+    template_name = 'accounts/access_log/week_list.html'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        today = datetime.today()
+        start = today - timedelta(days=7)
+        return qs\
+            .filter(created_at__range=[start, today])\
+            .values("group_id")\
+            .annotate(group_count=Count("group_id"))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        for group in context['accesslog_list']:
+            name = Group.objects.get(id=group['group_id']).name
+            group['group_name'] = name
+        return context
+
+
+@method_decorator(login_required, name="dispatch")
+class AccessGroupMonthList(ListView):
+    model = AccessLog
+    template_name = 'accounts/access_log/month_list.html'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        today = datetime.today()
+        start = today - timedelta(days=30)
+        return qs\
+            .filter(created_at__range=[start, today])\
+            .values("group_id")\
+            .annotate(group_count=Count("group_id"))
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        for group in context['accesslog_list']:
+            name = Group.objects.get(id=group['group_id']).name
+            group['group_name'] = name
+        return context

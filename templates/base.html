@@ -6,10 +6,10 @@
 {% bootstrap_messages %}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}Title{% endblock %}</title>
+    <title>{% block title %}일화제약 챗봇 관리자{% endblock %}</title>
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
@@ -32,7 +32,7 @@
     <nav id="sidebar">
         <div class="sidebar-header">
             <h3>일화제약</h3>
-            <strong>일화</strong>
+            <strong><img src="{% static 'ilhwa_logo.jpg' %}" width="40vw"></strong>
         </div>
 
         <ul class="list-unstyled components">
@@ -68,7 +68,7 @@
             <li>
                 <a href="{% url 'accounts:group_list' %}">
                     <i class="fas fa-users"></i>
-                    조직관리
+                    지점관리
                 </a>
                 <a href="{% url 'accounts:member_list' %}">
                     <i class="fas fa-user"></i>
@@ -82,13 +82,16 @@
                 </a>
                 <ul class="collapse list-unstyled" id="pageSubmenu">
                     <li>
-                        <a href="#">Page 1</a>
+                        <a href="{% url 'accounts:access_log' %}">전체사용통계</a>
                     </li>
                     <li>
-                        <a href="#">Page 2</a>
+                        <a href="{% url 'accounts:access_day_log' %}">일간사용통계</a>
                     </li>
                     <li>
-                        <a href="#">Page 3</a>
+                        <a href="{% url 'accounts:access_week_log' %}">주간사용통계</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'accounts:access_month_log' %}">월간사용통계</a>
                     </li>
                 </ul>
             </li>

@@ -61,7 +61,7 @@ class Medicine(models.Model):
     class Meta:
         verbose_name = _('의약품')
         verbose_name_plural = _('의약품 리스트')
-        ordering = ('-updated_at',)
+        ordering = ('-view_count',)
 
     def __str__(self):
         return self.name

@@ -1,14 +1,17 @@
 from urllib import parse
 
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, TemplateView, UpdateView
 
 from .forms import MedicineForm
 from .models import Medicine
 
 
+@method_decorator(login_required, name="dispatch")
 class MedicineListView(ListView):
     model = Medicine
     template_name = 'medicine/medicine_list.html'
@@ -25,6 +28,8 @@ class MedicineListView(ListView):
         context = super(MedicineListView, self).get_context_data(*args, **kwargs)
         return context
 
+
+@method_decorator(login_required, name="dispatch")
 class MedicineCreateView(CreateView):
     model = Medicine
     form_class = MedicineForm
@@ -32,13 +37,14 @@ class MedicineCreateView(CreateView):
     success_url = '/list/'
 
 
+@method_decorator(login_required, name="dispatch")
 class MedicineDetailView(DetailView):
     model = Medicine
     template_name = 'medicine/medicine_detail.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['product_img'] = "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/image/" \
+        context['product_img'] = "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/product_img/" \
                                  + parse.quote(str(context['object'].name.replace("/", ""))) + ".jpg"
         return context
 
@@ -48,12 +54,14 @@ class MedicineDetailView(DetailView):
     #     return medicine
 
 
+@method_decorator(login_required, name="dispatch")
 class MedicineUpdateView(UpdateView):
     model = Medicine
     form_class = MedicineForm
     template_name = 'medicine/medicine_update.html'
 
 
+@method_decorator(login_required, name="dispatch")
 class MedicineDeleteView(DeleteView):
     model = Medicine
     template_name = 'medicine/medicine_delete.html'
