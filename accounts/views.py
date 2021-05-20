@@ -164,7 +164,7 @@ class AccessListView(ListView):
         for group in context['accesslog_list']:
             name = Group.objects.get(id=group['group_id']).name
             group['group_name'] = name
-        print(context)
+        # print(context)
         return context
 
 
@@ -188,7 +188,7 @@ class AccessGroupDayList(ListView):
         for group in context['accesslog_list']:
             name = Group.objects.get(id=group['group_id']).name
             group['group_name'] = name
-        print(context)
+        # print(context)
         return context
 
 

@@ -8,14 +8,14 @@
 {% endblock %}
 
 {% block content %}
+<p class="h3">지점관리</p>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <a class="btn btn-danger" href="{% url 'kakao:talk_send_whole' %}">전체전송</a>
-    </div>
-<p class="h3">조직관리</p>
+    </div><br>
 <table class="table">
     <thead>
         <th>번호</th>
-        <th>조직명</th>
+        <th>지점명</th>
         <th>활성상태</th>
         <th>친구톡</th>
         <th>상태변경</th>

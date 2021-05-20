@@ -8,6 +8,21 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+    body {
+        font-family: 'Noto Sans KR', sans-serif;
+        background: #fafafa;
+    }
+
+    p {
+        font-family: 'Noto Sans KR', sans-serif;
+        font-size: 1.1em;
+        font-weight: 300;
+        line-height: 1.7em;
+        color: #999;
+    }
+    </style>
     <meta charset="UTF-8">
     <title>{% block title %}일화제약 챗봇 관리자{% endblock %}</title>
 
@@ -56,29 +71,29 @@
             <li>
                 <a href="{% url 'medicine:medicine_list' %}">
                     <i class="fas fa-home"></i>
-                    Home
+                    <div>Home</div>
                 </a>
             </li>
             <li>
                 <a href="{% url 'medicine:medicine_list' %}">
                     <i class="fas fa-pills"></i>
-                    제품목록
+                    <div>제품목록</div>
                 </a>
             </li>
             <li>
                 <a href="{% url 'accounts:group_list' %}">
                     <i class="fas fa-users"></i>
-                    지점관리
+                    <div>지점관리</div>
                 </a>
                 <a href="{% url 'accounts:member_list' %}">
                     <i class="fas fa-user"></i>
-                    회원관리
+                    <div>회원관리</div>
                 </a>
             </li>
             <li>
                 <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
                     <i class="fas fa-chart-bar"></i>
-                    사용통계
+                    <div>사용통계</div>
                 </a>
                 <ul class="collapse list-unstyled" id="pageSubmenu">
                     <li>
@@ -98,7 +113,7 @@
             <li>
                 <a href="{% url 'kakao:talk_create' %}">
                     <i class="fas fa-paper-plane"></i>
-                    친구톡 보내기
+                    <div>친구톡 보내기</div>
                 </a>
             </li>
         </ul>

@@ -14,14 +14,14 @@
 <br>
     <table class="table col-12"일>
     <thead>
-    <th>순서</th>
+    <th>번호</th>
     <th>지점이름</th>
     <th>이용건수</th>
     </thead>
     <tbody>
     {% for obj in object_list %}
     <tr>
-        <td class="text-center">{{ obj.group_id}}</td>
+        <td class="text-center">{{ forloop.counter }}</td>
         <td class="text-center">{{ obj.group_name }}</td>
         <td class="text-center">{{ obj.group_count}}</td>
     </tr>
