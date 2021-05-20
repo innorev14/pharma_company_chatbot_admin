@@ -370,7 +370,7 @@ def medicine_direct(request):
                                         "webLinkUrl":
                                             "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/detail_point/"
                                             + parse.quote(
-                                                unicodedata.normalize('NFC', str(medicine_name.replace("/", "")))
+                                                unicodedata.normalize('NFD', str(medicine_name.replace("/", "")))
                                             ) + ".JPG"
                                     }
                                 ]
