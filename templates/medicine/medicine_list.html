@@ -10,6 +10,10 @@
 
 {% block content %}
 <p class="h3">제품목록</p><br>
+{% if q %}
+<h5 style="color: gray; font-weight: 550;"><i class="fas fa-search"></i>&nbsp;'{{ q }}' 검색 결과입니다.</h5>
+{% endif %}
+
 <table class="table">
     <thead>
         <th class="text-center">번호</th>
@@ -63,6 +67,51 @@
     </ul>
 </nav>
 {% endif %}
+
+{% if q %}
+{% for obj in q %}
+<tr class="text-center">
+    <td>{{ obj.name }}</td>
+</tr>
+{% endfor %}
+{% endif %}
+
+{% if object_list %}
+{% else %}              <!-- 게시글 쿼리셋이 존재하지 않을 때 -->
+    {% if q %}          <!-- 검색어가 있어 q가 context로 넘어오면 검색결과가 없음 -->
+    <tr class="text-center">
+        <td colspan="5">
+            일치하는 검색 결과가 없습니다.
+        </td>
+    </tr>
+    {% else %}          <!-- q가 없으면 검색어가 아니며 게시글이 존재하지 않으므로 게시글 미작성 -->
+    <tr class="text-center">
+        <td colspan="5">
+            작성된 게시글이 없습니다.
+        </td>
+    </tr>
+    {% endif %}
+{% endif %}
+
+
+ <div style="margin-top: 30px;">
+    <form action="" method="GET">
+        <div class="col">
+            <div style="float: right;" class="form-row">
+                <div class="form-row">
+                    <div class="col" >
+                        <input type="text" name="q" value="{{ q }}" class="form-control form-control-md"
+                            style="width: 15em;" placeholder="검색어를 입력해주세요.">
+                    </div>
+                    <div class="col" style="margin-top: 3px;">
+                        <!-- <button class="btn btn-md btn-outline-dark" type="submit">검색</button> -->
+                        <button class="btn btn-sm btn-secondary" type="submit" id="search_btn">검색</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+<div>
 
 {% endblock %}
 

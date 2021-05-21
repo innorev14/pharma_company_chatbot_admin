@@ -18,14 +18,16 @@ class MedicineListView(ListView):
     paginate_by = 15
 
     def get_queryset(self, *args, **kwargs):
-        qs = Medicine.objects.all()
-        query = self.request.GET.get("qs", None)
+        qs = Medicine.objects.order_by('-view_count')
+        query = self.request.GET.get("q", None)
         if query is not None:
-            qs = qs.filter(content__icontains=query)
+            qs = qs.filter(name__icontains=query)
         return qs
 
     def get_context_data(self, *args, **kwargs):
         context = super(MedicineListView, self).get_context_data(*args, **kwargs)
+        qs = self.request.GET.get('q', '')
+        context['q'] = qs
         return context
 
 
