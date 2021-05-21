@@ -59,8 +59,6 @@ INSTALLED_APPS = [
     'bootstrap5',
 ]
 
-TAILWIND_APP_NAME = 'theme'
-
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -226,3 +224,11 @@ INTERNAL_IPS = [
 
 LOGIN_REDIRECT_URL = '/list/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
+
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'allowedContent': True,
+        'extraAllowedContent': '*(*)',
+    }
+}
