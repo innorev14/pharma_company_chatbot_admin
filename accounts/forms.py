@@ -8,7 +8,7 @@ from .models import Member, Group
 class MemberForm(forms.ModelForm):
     class Meta:
         model = Member
-        fields = ['group', 'username', 'phone', 'is_active', 'is_staff']
+        fields = ['group', 'username', 'phone', 'is_active']
 
 
 class GroupForm(forms.ModelForm):

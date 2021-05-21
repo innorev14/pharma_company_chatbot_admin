@@ -7,7 +7,7 @@ from django.utils.translation import gettext as _
 
 
 class Group(models.Model):
-    name = models.CharField(max_length=20, verbose_name='그룹이름')
+    name = models.CharField(max_length=20, verbose_name='지점이름')
     code = models.CharField(max_length=6, blank=True, verbose_name='그룹코드')
     is_active = models.BooleanField(default=True, verbose_name='활성상태')
 
@@ -40,8 +40,8 @@ class Group(models.Model):
             self.save()
 
     class Meta:
-        verbose_name = _('그룹')
-        verbose_name_plural = _("그룹")
+        verbose_name = _('지점')
+        verbose_name_plural = _('지점')
         ordering = ('name',)
 
     def __str__(self):
@@ -49,7 +49,7 @@ class Group(models.Model):
 
 
 class User(AbstractUser):
-    group = models.ForeignKey('Group', on_delete=models.CASCADE, null=True, verbose_name='그룹이름')
+    group = models.ForeignKey('Group', on_delete=models.CASCADE, null=True, verbose_name='지점이름')
     kakao_id = models.CharField(max_length=70, verbose_name='카카오ID', null=True, blank=True)
     phone = models.CharField(max_length=11)
 
@@ -68,10 +68,10 @@ class LoginHistory(models.Model):
 
 
 class Member(models.Model):
-    group = models.ForeignKey('Group', on_delete=models.CASCADE, null=True, verbose_name='그룹이름')
+    group = models.ForeignKey('Group', on_delete=models.CASCADE, null=True, verbose_name='지점이름')
     username = models.CharField(max_length=10, verbose_name='이름')
     kakao_id = models.CharField(max_length=70, verbose_name='카카오ID', null=True, blank=True)
-    phone = models.CharField(max_length=11)
+    phone = models.CharField(max_length=11, unique=True, verbose_name='전화번호')
     is_superuser = models.BooleanField(verbose_name='최고관리자여부', default=False)
     is_active = models.BooleanField(verbose_name='활성상태', default=True)
     is_staff = models.BooleanField(verbose_name='관리자여부', default=False)

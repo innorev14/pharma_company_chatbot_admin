@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load bootstrap5 %}
 
 {% block title %}
 {% endblock %}
@@ -8,12 +9,15 @@
 {% endblock %}
 
 {% block content %}
-<form method="POST" class="form">
-    {%csrf_token%}
-    {{form.media}}
-    {{form.as_p}}
-    <button type="submit" class="save btn btn-default">저장하기</button>
-</form>
+<div class="col-lg-6 d-flex flex-column justify-content-center">
+
+    <form method="POST" class="form">
+        {%csrf_token%}
+        {% bootstrap_form form %}
+        {% bootstrap_button "등록하기" button_type="submit" button_class="btn-secondary" %}
+    </form>
+</div>
+
 {% endblock %}
 
 {% block script %}
