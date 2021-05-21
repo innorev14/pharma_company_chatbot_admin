@@ -43,7 +43,8 @@ let chart = new Chart(ctx, {
      datasets: [
         {
           label: "지점별 금일 사용건수",
-            borderWidth: 1,
+            borderColor: '#003136',
+            borderWidth: 2,
           data: [{% for obj in object_list %}"{{ obj.group_count|safe }}"{% if forloop.last %}{%else%},{% endif %}{% endfor %}]
         }
      ]
