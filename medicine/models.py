@@ -46,7 +46,7 @@ class Medicine(models.Model):
     product_info = RichTextField(verbose_name='제품정보')
     product_url = models.URLField(max_length=200, verbose_name='제품상세URL', null=True, blank=True)
     insurance_info = RichTextField(verbose_name='보험정보')
-    detail_info = RichTextField(verbose_name='디테일 포인트')
+    detail_info = RichTextField(verbose_name='디테일 포인트', null=True, blank=True)
     detail_url = models.URLField(max_length=200, verbose_name='디테일 정보', null=True, blank=True)
     view_count = models.PositiveIntegerField(default=0, verbose_name='조회수')
     tag = TaggableManager(
