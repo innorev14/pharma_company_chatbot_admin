@@ -51,7 +51,7 @@
     {% endif %}
     <tr>
         <th style="width: 20%">태그</th>
-        <td style="width: 80%" colspan="9">{{object.medicine}}</td>
+        <td style="width: 80%" colspan="9">{% for tag in object.tag.all %}{{tag.name}}{% if forloop.last %}{%else%}, {% endif %}{% endfor %}</td>
     </tr>
 </table>
 
