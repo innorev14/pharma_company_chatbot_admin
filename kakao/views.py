@@ -2,7 +2,7 @@ import re
 import ssl
 import unicodedata
 from urllib import parse, request as url_req
-from urllib.error import URLError, HTTPError
+from urllib.error import HTTPError
 
 from django.shortcuts import render
 
@@ -326,82 +326,103 @@ def medicine_direct(request):
     print(user_input)
     user = Member
 
-    # try:
-    # 유저 확인 로직
-    check_id = user.objects.get(kakao_id=user_id)
-    if check_id.group.is_active == 1 or check_id.is_active == 1:
-        if MedicineTag.objects.filter(name=user_input.replace(' ', '')).exists():
-            tag_id = MedicineTag.objects.get(name=user_input).id
-            medicine_name = TaggedMedicine.objects.get(tag=tag_id).content_object.name
-            Medicine.objects.get(name=medicine_name).increment_view_count()
-        else:
-            # 제품 정보 확인
-            medicine_info = Medicine.objects.get(name=user_input.replace(' ', ''))
-            medicine_info.increment_view_count()
-            medicine_name = medicine_info.name
+    try:
+        # 유저 확인 로직
+        check_id = user.objects.get(kakao_id=user_id)
+        if check_id.group.is_active == 1 or check_id.is_active == 1:
+            if MedicineTag.objects.filter(name=user_input.replace(' ', '')).exists():
+                tag_id = MedicineTag.objects.get(name=user_input).id
+                medicine_name = TaggedMedicine.objects.get(tag=tag_id).content_object.name
+                Medicine.objects.get(name=medicine_name).increment_view_count()
+            else:
+                # 제품 정보 확인
+                medicine_info = Medicine.objects.get(name=user_input.replace(' ', ''))
+                medicine_info.increment_view_count()
+                medicine_name = medicine_info.name
 
-        context = ssl._create_unverified_context()
-        url = "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/detail_point/" \
-              + parse.quote(str(medicine_name.replace(' ', '').replace('/', ''))) + ".JPG"
-        url_req.urlopen(url, context=context).status
+            context = ssl._create_unverified_context()
+            url = "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/detail_point/" \
+                  + parse.quote(str(medicine_name.replace(' ', '').replace('/', ''))) + ".JPG"
+            url_req.urlopen(url, context=context).status
 
-        send_msg = {
-            'version': "2.0",
-            'template': {
-                'outputs': [
-                    {
-                        "basicCard": {
-                            "thumbnail": {
-                                "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/product_img/"
-                                            + parse.quote(str(medicine_name.replace(' ', '').replace('/', '')))
-                                            + ".jpg",
-                            },
-                            "title": medicine_name,
-                            "buttons": [
-                                {
-                                    "action": "block",
-                                    "label": "제품정보",
-                                    "blockId": "607e7831f1a09324e4b37a19"
+            send_msg = {
+                'version': "2.0",
+                'template': {
+                    'outputs': [
+                        {
+                            "basicCard": {
+                                "thumbnail": {
+                                    "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/product_img/"
+                                                + parse.quote(str(medicine_name.replace(' ', '').replace('/', '')))
+                                                + ".jpg",
                                 },
-                                {
-                                    "action": "block",
-                                    "label": "보험정보",
-                                    "blockId": "6007a3be70fd446fa256b643"
-                                },
-                                {
-                                    "action": "webLink",
-                                    "label": "디테일 포인트",
-                                    "webLinkUrl":
-                                        "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/detail_point/"
-                                        + parse.quote(str(medicine_name.replace(' ', '')
-                                                          .replace('/', ''))) + ".JPG"
-                                }
-                            ]
+                                "title": medicine_name,
+                                "buttons": [
+                                    {
+                                        "action": "block",
+                                        "label": "제품정보",
+                                        "blockId": "607e7831f1a09324e4b37a19"
+                                    },
+                                    {
+                                        "action": "block",
+                                        "label": "보험정보",
+                                        "blockId": "6007a3be70fd446fa256b643"
+                                    },
+                                    {
+                                        "action": "webLink",
+                                        "label": "디테일 포인트",
+                                        "webLinkUrl":
+                                            "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/detail_point/"
+                                            + parse.quote(str(medicine_name.replace(' ', '')
+                                                              .replace('/', ''))) + ".JPG"
+                                    }
+                                ]
+                            }
                         }
-                    }
-                ]
-            },
-            "context": {
-                "values": [
-                    {
-                        "name": "prod_name",
-                        "lifeSpan": 10,
-                        "params": {
-                            "product_name": medicine_name,
-                        }
-                    },
-                ]
+                    ]
+                },
+                "context": {
+                    "values": [
+                        {
+                            "name": "prod_name",
+                            "lifeSpan": 10,
+                            "params": {
+                                "product_name": medicine_name,
+                            }
+                        },
+                    ]
+                }
             }
-        }
-        new_log = AccessLog.objects.create(
-            member_id=check_id.id,
-            group_id=user.objects.get(id=check_id.id).group_id,
-            intent_id=json_req['intent']['id'],
-            intent_name=json_req['intent']['name'],
-            utterance=json_req['userRequest']['utterance']
-        )
-        return JsonResponse(send_msg, status=200)
-    else:
+            new_log = AccessLog.objects.create(
+                member_id=check_id.id,
+                group_id=user.objects.get(id=check_id.id).group_id,
+                intent_id=json_req['intent']['id'],
+                intent_name=json_req['intent']['name'],
+                utterance=json_req['userRequest']['utterance']
+            )
+            return JsonResponse(send_msg, status=200)
+        else:
+            send_msg = {
+                "version": "2.0",
+                "template": {
+                    "outputs": [
+                        {
+                            "simpleText": {
+                                "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
+                            }
+                        }
+                    ],
+                    'quickReplies': [
+                        {
+                            "label": "인증하기",
+                            "action": "block",
+                            "blockId": "5fffb748e301aa34ff3c0230"
+                        }
+                    ]
+                }
+            }
+            return JsonResponse(send_msg, status=200)
+    except user.DoesNotExist:
         send_msg = {
             "version": "2.0",
             "template": {
@@ -422,119 +443,98 @@ def medicine_direct(request):
             }
         }
         return JsonResponse(send_msg, status=200)
-    # except user.DoesNotExist:
-    #     send_msg = {
-    #         "version": "2.0",
-    #         "template": {
-    #             "outputs": [
-    #                 {
-    #                     "simpleText": {
-    #                         "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
-    #                     }
-    #                 }
-    #             ],
-    #             'quickReplies': [
-    #                 {
-    #                     "label": "인증하기",
-    #                     "action": "block",
-    #                     "blockId": "5fffb748e301aa34ff3c0230"
-    #                 }
-    #             ]
-    #         }
-    #     }
-    #     return JsonResponse(send_msg, status=200)
-    # except Medicine.DoesNotExist:
-    #     send_msg = {
-    #         "version": "2.0",
-    #         "template": {
-    #             "outputs": [
-    #                 {
-    #                     "simpleText": {
-    #                         "text": "제품명을 다시 확인하시고 입력해주세요."
-    #                     }
-    #                 }
-    #             ]
-    #         }
-    #     }
-    #     return JsonResponse(send_msg, status=200)
-    # except:
-    #     # 유저 확인 로직
-    #     check_id = user.objects.get(kakao_id=user_id)
-    #     if check_id.group.is_active == 1 or check_id.is_active == 1:
-    #         if MedicineTag.objects.filter(name=user_input.replace(' ', '')).exists():
-    #             tag_id = MedicineTag.objects.get(name=user_input).id
-    #             medicine_name = TaggedMedicine.objects.get(tag=tag_id).content_object.name
-    #             Medicine.objects.get(name=medicine_name).increment_view_count()
-    #         else:
-    #             # 제품 정보 확인
-    #             medicine_info = Medicine.objects.get(name=user_input.replace(' ', ''))
-    #             medicine_info.increment_view_count()
-    #             medicine_name = medicine_info.name
-    #
-    #         send_msg = {
-    #             'version': "2.0",
-    #             'template': {
-    #                 'outputs': [
-    #                     {
-    #                         "basicCard": {
-    #                             "thumbnail": {
-    #                                 "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/product_img/"
-    #                                             + parse.quote(str(medicine_name.replace(" ", "").replace("/", "")))
-    #                                             + ".jpg",
-    #                             },
-    #                             "title": medicine_name,
-    #                             "buttons": [
-    #                                 {
-    #                                     "action": "block",
-    #                                     "label": "제품정보",
-    #                                     "blockId": "607e7831f1a09324e4b37a19"
-    #                                 },
-    #                                 {
-    #                                     "action": "block",
-    #                                     "label": "보험정보",
-    #                                     "blockId": "6007a3be70fd446fa256b643"
-    #                                 },
-    #                                 {
-    #                                     "action": "block",
-    #                                     "label": "디테일 포인트",
-    #                                     "blockId": "6007a3c83d34416490cf7ba7"
-    #                                 }
-    #                             ]
-    #                         }
-    #                     }
-    #                 ]
-    #             }
-    #         }
-    #         new_log = AccessLog.objects.create(
-    #             member_id=check_id.id,
-    #             group_id=user.objects.get(id=check_id.id).group_id,
-    #             intent_id=json_req['intent']['id'],
-    #             intent_name=json_req['intent']['name'],
-    #             utterance=json_req['userRequest']['utterance']
-    #         )
-    #         print(send_msg)
-    #         return JsonResponse(send_msg, status=200)
-    #     else:
-    #         send_msg = {
-    #             "version": "2.0",
-    #             "template": {
-    #                 "outputs": [
-    #                     {
-    #                         "simpleText": {
-    #                             "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
-    #                         }
-    #                     }
-    #                 ],
-    #                 'quickReplies': [
-    #                     {
-    #                         "label": "인증하기",
-    #                         "action": "block",
-    #                         "blockId": "5fffb748e301aa34ff3c0230"
-    #                     }
-    #                 ]
-    #             }
-    #         }
-    #         return JsonResponse(send_msg, status=200)
+    except Medicine.DoesNotExist:
+        send_msg = {
+            "version": "2.0",
+            "template": {
+                "outputs": [
+                    {
+                        "simpleText": {
+                            "text": "제품명을 다시 확인하시고 입력해주세요."
+                        }
+                    }
+                ]
+            }
+        }
+        return JsonResponse(send_msg, status=200)
+    except HTTPError:
+        # 유저 확인 로직
+        check_id = user.objects.get(kakao_id=user_id)
+        if check_id.group.is_active == 1 or check_id.is_active == 1:
+            if MedicineTag.objects.filter(name=user_input.replace(' ', '')).exists():
+                tag_id = MedicineTag.objects.get(name=user_input).id
+                medicine_name = TaggedMedicine.objects.get(tag=tag_id).content_object.name
+                Medicine.objects.get(name=medicine_name).increment_view_count()
+            else:
+                # 제품 정보 확인
+                medicine_info = Medicine.objects.get(name=user_input.replace(' ', ''))
+                medicine_info.increment_view_count()
+                medicine_name = medicine_info.name
+
+            send_msg = {
+                'version': "2.0",
+                'template': {
+                    'outputs': [
+                        {
+                            "basicCard": {
+                                "thumbnail": {
+                                    "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/product_img/"
+                                                + parse.quote(str(medicine_name.replace(" ", "").replace("/", "")))
+                                                + ".jpg",
+                                },
+                                "title": medicine_name,
+                                "buttons": [
+                                    {
+                                        "action": "block",
+                                        "label": "제품정보",
+                                        "blockId": "607e7831f1a09324e4b37a19"
+                                    },
+                                    {
+                                        "action": "block",
+                                        "label": "보험정보",
+                                        "blockId": "6007a3be70fd446fa256b643"
+                                    },
+                                    {
+                                        "action": "block",
+                                        "label": "디테일 포인트",
+                                        "blockId": "6007a3c83d34416490cf7ba7"
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+            new_log = AccessLog.objects.create(
+                member_id=check_id.id,
+                group_id=user.objects.get(id=check_id.id).group_id,
+                intent_id=json_req['intent']['id'],
+                intent_name=json_req['intent']['name'],
+                utterance=json_req['userRequest']['utterance']
+            )
+            print(send_msg)
+            return JsonResponse(send_msg, status=200)
+        else:
+            send_msg = {
+                "version": "2.0",
+                "template": {
+                    "outputs": [
+                        {
+                            "simpleText": {
+                                "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
+                            }
+                        }
+                    ],
+                    'quickReplies': [
+                        {
+                            "label": "인증하기",
+                            "action": "block",
+                            "blockId": "5fffb748e301aa34ff3c0230"
+                        }
+                    ]
+                }
+            }
+            return JsonResponse(send_msg, status=200)
 
 
 @require_POST
