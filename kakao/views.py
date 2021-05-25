@@ -1,7 +1,7 @@
 import re
 import ssl
 import unicodedata
-from urllib import parse, request
+from urllib import parse, request as url_req
 from urllib.error import URLError, HTTPError
 
 from django.shortcuts import render
@@ -343,7 +343,7 @@ def medicine_direct(request):
         context = ssl._create_unverified_context()
         url = "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/detail_point/" \
               + parse.quote(str(medicine_name.replace(' ', '').replace('/', ''))) + ".JPG"
-        request.urlopen(url, context=context).status
+        url_req.urlopen(url, context=context).status
 
         send_msg = {
             'version': "2.0",
