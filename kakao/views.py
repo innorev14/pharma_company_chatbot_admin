@@ -503,6 +503,17 @@ def medicine_direct(request):
                             }
                         }
                     ]
+                },
+                "context": {
+                    "values": [
+                        {
+                            "name": "prod_name",
+                            "lifeSpan": 10,
+                            "params": {
+                                "product_name": medicine_name,
+                            }
+                        },
+                    ]
                 }
             }
             new_log = AccessLog.objects.create(
@@ -512,7 +523,6 @@ def medicine_direct(request):
                 intent_name=json_req['intent']['name'],
                 utterance=json_req['userRequest']['utterance']
             )
-            print(send_msg)
             return JsonResponse(send_msg, status=200)
         else:
             send_msg = {
@@ -715,6 +725,7 @@ def prod_info(request):
             }
         }
         return JsonResponse(send_msg, status=200)
+
 
 @require_POST
 @csrf_exempt
