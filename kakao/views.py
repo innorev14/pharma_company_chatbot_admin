@@ -327,8 +327,14 @@ def medicine_direct(request):
     user = Member
 
     try:
-        medicine_info = Medicine.objects.get(name=user_input.replace(' ', ''))
-        medicine_name = medicine_info.name
+        if MedicineTag.objects.filter(name=user_input.replace(' ', '')).exists():
+            tag_id = MedicineTag.objects.get(name=user_input).id
+            medicine_name = TaggedMedicine.objects.get(tag=tag_id).content_object.name
+        else:
+            # 제품 정보 확인
+            medicine_info = Medicine.objects.get(name=user_input.replace(' ', ''))
+            medicine_name = medicine_info.name
+
         context = ssl._create_unverified_context()
         url = "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/detail_point/"\
               + parse.quote(str(medicine_name.replace(' ', '').replace('/', ''))) + ".JPG"
