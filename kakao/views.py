@@ -472,11 +472,12 @@ def medicine_direct(request):
             }
             new_log = AccessLog.objects.create(
                 member_id=check_id.id,
-                group_id=user.objects.get(user_id=check_id.id).group_id,
+                group_id=user.objects.get(id=check_id.id).group_id,
                 intent_id=json_req['intent']['id'],
                 intent_name=json_req['intent']['name'],
                 utterance=json_req['userRequest']['utterance']
             )
+            print(send_msg)
             return JsonResponse(send_msg, status=200)
         else:
             send_msg = {
