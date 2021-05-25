@@ -2,10 +2,10 @@ import re
 import ssl
 import unicodedata
 from urllib import parse, request
+from urllib.error import URLError, HTTPError
 
 from django.shortcuts import render
 
-from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse  # 카카오톡과 연동하기 위해선 JsonResponse로 출력
 from django.views.decorators.csrf import csrf_exempt
 import json
@@ -422,42 +422,7 @@ def medicine_direct(request):
                 }
             }
             return JsonResponse(send_msg, status=200)
-    except user.DoesNotExist:
-        send_msg = {
-            "version": "2.0",
-            "template": {
-                "outputs": [
-                    {
-                        "simpleText": {
-                            "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
-                        }
-                    }
-                ],
-                'quickReplies': [
-                    {
-                        "label": "인증하기",
-                        "action": "block",
-                        "blockId": "5fffb748e301aa34ff3c0230"
-                    }
-                ]
-            }
-        }
-        return JsonResponse(send_msg, status=200)
-    except Medicine.DoesNotExist:
-        send_msg = {
-            "version": "2.0",
-            "template": {
-                "outputs": [
-                    {
-                        "simpleText": {
-                            "text": "제품명을 다시 확인하시고 입력해주세요."
-                        }
-                    }
-                ]
-            }
-        }
-        return JsonResponse(send_msg, status=200)
-    except request.HTTPError:
+    except HTTPError:
         # 유저 확인 로직
         check_id = user.objects.get(kakao_id=user_id)
         if check_id.group.is_active == 1 or check_id.is_active == 1:
@@ -513,6 +478,62 @@ def medicine_direct(request):
                 utterance=json_req['userRequest']['utterance']
             )
             return JsonResponse(send_msg, status=200)
+        else:
+            send_msg = {
+                "version": "2.0",
+                "template": {
+                    "outputs": [
+                        {
+                            "simpleText": {
+                                "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
+                            }
+                        }
+                    ],
+                    'quickReplies': [
+                        {
+                            "label": "인증하기",
+                            "action": "block",
+                            "blockId": "5fffb748e301aa34ff3c0230"
+                        }
+                    ]
+                }
+            }
+            return JsonResponse(send_msg, status=200)
+    except user.DoesNotExist:
+        send_msg = {
+            "version": "2.0",
+            "template": {
+                "outputs": [
+                    {
+                        "simpleText": {
+                            "text": "권한이 없습니다. 관리자에게 문의 바랍니다."
+                        }
+                    }
+                ],
+                'quickReplies': [
+                    {
+                        "label": "인증하기",
+                        "action": "block",
+                        "blockId": "5fffb748e301aa34ff3c0230"
+                    }
+                ]
+            }
+        }
+        return JsonResponse(send_msg, status=200)
+    except Medicine.DoesNotExist:
+        send_msg = {
+            "version": "2.0",
+            "template": {
+                "outputs": [
+                    {
+                        "simpleText": {
+                            "text": "제품명을 다시 확인하시고 입력해주세요."
+                        }
+                    }
+                ]
+            }
+        }
+        return JsonResponse(send_msg, status=200)
 
 
 @require_POST
