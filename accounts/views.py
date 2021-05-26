@@ -32,13 +32,15 @@ class MemberListView(ListView):
 
     def get_queryset(self, *args, **kwargs):
         qs = Member.objects.all()
-        query = self.request.GET.get("qs", None)
+        query = self.request.GET.get("q", None)
         if query is not None:
-            qs = qs.filter(content__icontains=query)
+            qs = qs.filter(username__icontains=query)
         return qs
 
     def get_context_data(self, *args, **kwargs):
         context = super(MemberListView, self).get_context_data(*args, **kwargs)
+        qs = self.request.GET.get('q', '')
+        context['q'] = qs
         return context
 
 
@@ -88,13 +90,15 @@ class GroupListView(ListView):
 
     def get_queryset(self, *args, **kwargs):
         qs = Group.objects.all()
-        query = self.request.GET.get("qs", None)
+        query = self.request.GET.get("q", None)
         if query is not None:
-            qs = qs.filter(content__icontains=query)
+            qs = qs.filter(name__icontains=query)
         return qs
 
     def get_context_data(self, *args, **kwargs):
         context = super(GroupListView, self).get_context_data(*args, **kwargs)
+        qs = self.request.GET.get('q', '')
+        context['q'] = qs
         return context
 
 

@@ -27,3 +27,5 @@ abc/
 #tailwind
 /theme/
 static/
+
+*.ipynb
