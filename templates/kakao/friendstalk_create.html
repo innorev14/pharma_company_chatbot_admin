@@ -16,16 +16,25 @@
 {% endblock %}
 
 {% block content %}
+<div class="d-flex  p-2" >
+<div style="margin-right: 10px">
     <button class="btn btn-secondary"><a href="https://smartsms.aligo.in/shop/result_list.html" target="_blank">알리고
         전송결과보기</a></button>
+    </div>
+    <div style="margin-right: 10px">
     <button class="btn btn-warning"><a href="https://smartsms.aligo.in/shop/friendtalk.html" target="_blank">알리고
         친구톡보내기</a></button>
+    </div>
+    <div style="margin-right: 10px">
     <button class="btn btn-info"><a href="https://smartsms.aligo.in/shop/charge.html" target="_blank">알리고 충전하기</a>
     </button>
+        </div>
+</div>
     <br><br>
-<div class="col-lg-6 align-self-center">
+<div class="d-flex align-self-center">
     <form method="POST" class="form" id="data" enctype="multipart/form-data">
         {%csrf_token%}
+        {% include "form_errors.html" %}
         <p class="h3">친구톡 보내기</p><br>
         <strong>친구톡 형태</strong><br>
         <input type="radio" id="type-text" name="talk_type" value="text" onchange="setTypeDisplay()" checked="checked">
@@ -69,13 +78,13 @@
         * 저녁 8시~아침 8시 (20:00~08:00) 사이에 친구톡을<br/>
         발송하는 경우 모두 실패처리 됩니다.
         <br>
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+</div>
+        <di class="d-flex justify-content-center align-self-center">
         <button type="submit" class="save btn btn-warning btn-lg">전송하기</button>
-        </div>
+        </di>
     </form>
 
     <div id="out"></div>
-</div>
 {% endblock %}
 
 {% block script %}
@@ -85,6 +94,8 @@
             $('#divId').show();
         } else {
             $('#divId').hide();
+            $('#id_img_url').val('');
+            $('#id_img_link').val('');
         }
     }
 
@@ -93,6 +104,9 @@
             $('#divId2').show();
         } else {
             $('#divId2').hide();
+            $('#id_btn_name').val('');
+            $('#id_weblink_pc').val('');
+
         }
     }
 
@@ -115,12 +129,14 @@
             $('#divId3').show();
         } else {
             $('#divId3').hide();
+            $('#id_group').val('');
         }
 
         if ($('input:radio[id=receiver-direct]').is(':checked')) {
             $('#divId4').show();
         } else {
             $('#divId4').hide();
+            $('#id_receiver').val('');
         }
 
     }

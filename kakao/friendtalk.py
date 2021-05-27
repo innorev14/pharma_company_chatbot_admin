@@ -18,7 +18,7 @@ def get_token():
     }
 
     create_token_response = requests.post(basic_send_url, data=sms_data)
-    print(create_token_response.json())
+    print('token_response :\n', create_token_response.json())
 
     return create_token_response.json()
 
@@ -81,7 +81,7 @@ def send_friend_msg(aligo_token, msg):
     try:
         sms_data['image_url'] = msg['img']['img_link']  # 첨부이미지에 삽입되는 링크
         s3_base = 'https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/friendstalk/'
-        images = {'image' : s3_base + msg['img']['img_url'].name}  # 첨부 이미지 경로
+        images = {'image': s3_base + msg['img']['img_url'].name}  # 첨부 이미지 경로
         print("경로명 :    ", images)
         # images.update({'fimage': open(image['path'], 'rb')}) # 실패시 첨부이미지 경로
         # =================================================================================================
@@ -92,10 +92,7 @@ def send_friend_msg(aligo_token, msg):
         # 첨부 이미지 없이 전송
         friend_send_response = requests.post(basic_send_url, data=sms_data)
 
-
-
-
-    print(friend_send_response.json())
+    print('send_response : \n', friend_send_response.json())
 
     return friend_send_response.json()
 
