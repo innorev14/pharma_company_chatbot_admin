@@ -32,7 +32,7 @@ class FriendsTalkCreateView(CreateView):
         msg = {}
         if self.request.POST['talk_type'] == 'img':
             msg['img'] = {}
-            msg['img']['img_url'] = self.request.FILES['img_url']
+            msg['img']['img_url'] = self.request.FILES
             msg['img']['img_link'] = self.request.POST['img_link']
         else:
             msg['img'] = None

@@ -80,9 +80,10 @@ def send_friend_msg(aligo_token, msg):
 
     try:
         sms_data['image_url'] = msg['img']['img_link']  # 첨부이미지에 삽입되는 링크
-        s3_base = 'https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/friendstalk/'
-        images = {'image': s3_base + msg['img']['img_url'].name}  # 첨부 이미지 경로
-        print("경로명 :    ", images)
+        # s3_base = 'https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/media/friendstalk/'
+        # images = {'image': s3_base + msg['img']['img_url'].name}  # 첨부 이미지 경로
+        # print("경로명 :    ", images)
+        images = {'image' : open(msg['img']['img_url'], 'rb')}
         # images.update({'fimage': open(image['path'], 'rb')}) # 실패시 첨부이미지 경로
         # =================================================================================================
         # 첨부 이미지 포함 전송
