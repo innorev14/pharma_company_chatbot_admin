@@ -13,7 +13,7 @@ from .models import Medicine
 
 
 @method_decorator(login_required, name="dispatch")
-@method_decorator(staff_member_required, name='dispatch')
+@method_decorator(staff_member_required(login_url='accounts:login'), name='dispatch')
 class MedicineListView(ListView):
     model = Medicine
     template_name = 'medicine/medicine_list.html'

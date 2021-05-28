@@ -7,83 +7,182 @@
 {% block css %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script type="text/javascript">
-$(document).ready(function(){
-	$("#data").keyup(function(){
-		$("#out").text($("#data").val());
-	});
-});
+    $(document).ready(function () {
+        $("#data").keyup(function () {
+            $("#out").text($("#data").val());
+        });
+    });
 </script>
 <style>
-#id_content {
-    padding: 20px;
-    width: 300px;
-    height: 400px;
-}
+    #id_content {
+        padding: 20px;
+        width: 300px;
+        height: 400px;
+    }
 </style>
 {% endblock %}
 
 {% block content %}
-    <button class="btn btn-secondary"><a href="https://smartsms.aligo.in/shop/result_list.html" target="_blank">알리고
-        전송결과보기</a></button>
-    <button class="btn btn-warning"><a href="https://smartsms.aligo.in/shop/friendtalk.html" target="_blank">알리고
-        친구톡보내기</a></button>
-    <button class="btn btn-info"><a href="https://smartsms.aligo.in/shop/charge.html" target="_blank">알리고 충전하기</a>
-    </button>
-    <br><br>
-<div class="col-lg-6 align-self-center">
-<form method="POST" class="form" id="data" enctype="multipart/form-data">
-    {%csrf_token%}
-        <p class="h3">친구톡 보내기</p><br>
-    <strong>친구톡 형태</strong><br>
-    <input type="radio" id="type-text" name="talk_type" value="text" onchange="setTypeDisplay()" checked="checked"> 텍스트형
-    <input type="radio" id="type-img" name="talk_type" value="img" onchange="setTypeDisplay()"> 이미지형
-    <div id="divId" style="display:none">
-        이미지 업로드 {{ form.img_url }}
-        <br>
-        이미지 링크 {{ form.img_link }} <br>
-    </div><br><br>
-
-
-    <strong>내용</strong> {{form.media}}
-        {{ form.content }}<br><br>
-    <strong>버튼 넣기</strong><br>
-    <input type="radio" id="btn-text" name="talk_button" value="none" onchange="setBtnDisplay()" checked="checked"> 없음
-    <input type="radio" id="btn-weblink" name="talk_button" value="weblink" onchange="setBtnDisplay()"> 웹링크 <br><br>
-    <div id="divId2" style="display:none">
-        버튼이름 {{ form.btn_name }}<br><br>
-        웹링크 {{ form.weblink_pc }}<br><br>
+<div class="container">
+    <div class="d-flex justify-content-end">
+        <div style="margin-right: 10px">
+            <button class="btn btn-sm btn-secondary"><a href="https://smartsms.aligo.in/shop/result_list.html"
+                                                        target="_blank">알리고
+                전송결과보기</a></button>
+        </div>
+        <div style="margin-right: 10px">
+            <button class="btn btn-sm btn-warning"><a href="https://smartsms.aligo.in/shop/friendtalk.html"
+                                                      target="_blank">알리고
+                친구톡보내기</a></button>
+        </div>
+        <div style="margin-right: 10px">
+            <button class="btn btn-sm btn-info"><a href="https://smartsms.aligo.in/shop/charge.html" target="_blank">알리고
+                충전하기</a>
+            </button>
+        </div>
     </div>
+    <div class="d-flex bd-highlight mb-3">
+        <p class="h3">친구톡 보내기</p><br>
+    </div>
+</div>
+<div class="row justify-content-center mt-5">
+    <form method="POST" class="form" id="data" enctype="multipart/form-data">
+        {%csrf_token%}
+        {% include "form_errors.html" %}
+        <div class="row" style="margin-bottom: 20px">
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <strong>친구톡 형태</strong><br>
+            </div>
+            <div class="col-lg-8 col-md-6 col-sm-6">
+                <input type="radio" id="type-text" name="talk_type" value="text" onchange="setTypeDisplay()"
+                       checked="checked">
+                텍스트형
+<!--                <input type="radio" id="type-img" name="talk_type" value="img" onchange="setTypeDisplay()"> 이미지형-->
+<!--                <div id="divId" style="display:none; margin: 20px;">-->
+<!--                    <div class="row" style="margin-bottom: 20px">-->
+<!--                        이미지 업로드 {{ form.img_url }}-->
+<!--                    </div>-->
+<!--                    <div style="margin-bottom: 20px">-->
+<!--                        이미지 링크 {{ form.img_link }}-->
+<!--                    </div>-->
+<!--                </div>-->
+            </div>
+        </div>
 
-    <strong>수신자</strong> 전체발송
-    <br><br>
-    <strong>발신자</strong> {{ form.sender }} <br><br>
-        * 저녁 8시~아침 8시 (20:00~08:00) 사이에 친구톡을<br/>
-        발송하는 경우 모두 실패처리 됩니다.
-<!--    {{form.as_p}}-->
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button type="submit" class="save btn btn-warning btn-lg">전송하기</button>
-        </div></form>
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <strong>내용</strong><br/> {{form.media}}
+            </div>
+            <div class="col-lg-8 col-md-6 col-sm-6">
+                {{ form.content }}<br><br>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <strong>버튼 넣기</strong><br>
+            </div>
+            <div class="col-lg-8 col-md-6 col-sm-6">
+                <input type="radio" id="btn-text" name="talk_button" value="none" onchange="setBtnDisplay()"
+                       checked="checked">
+                없음
+                <input type="radio" id="btn-weblink" name="talk_button" value="weblink" onchange="setBtnDisplay()">
+                웹링크
+                <br><br>
+                <div id="divId2" style="display:none">
+                    <div style="margin-bottom: 20px">
+                        버튼이름 {{ form.btn_name }}
+                    </div>
+                    <div style="margin-bottom: 20px">
+                        웹링크 {{ form.weblink_pc }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row" style="margin-bottom: 20px">
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <strong>수신자</strong><br>
+            </div>
+            <div class="col-lg-8 col-md-6 col-sm-6">
+               전체발송
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <strong>발신자</strong>
+            </div>
+            <div class="col-lg-8 col-md-6 col-sm-6">
+                {{ form.sender }} <br><br>
+            </div>
+        </div>
+        * 저녁 8시~아침 8시 (20:00~08:00) 사이에 친구톡을 발송하는 경우 모두 실패처리 됩니다.
+        <br/>
+</div>
+<div class="row justify-content-center mt-5">
+    <button type="submit" class="save btn btn-warning btn-lg">전송하기</button>
+</div>
+</form>
+</div>
 
 <div id="out"></div>
-</div>
 {% endblock %}
 
 {% block script %}
 <script>
-function setTypeDisplay(){
-    if($('input:radio[id=type-img]').is(':checked')){
-        $('#divId').show();
-    }else{
-        $('#divId').hide();
+    function setTypeDisplay() {
+        if ($('input:radio[id=type-img]').is(':checked')) {
+            $('#divId').show();
+        } else {
+            $('#divId').hide();
+            $('#id_img_url').val('');
+            $('#id_img_link').val('');
+        }
     }
-}
-function setBtnDisplay(){
-    if($('input:radio[id=btn-weblink]').is(':checked')){
-        $('#divId2').show();
-    }else{
-        $('#divId2').hide();
+
+    function setBtnDisplay() {
+        if ($('input:radio[id=btn-weblink]').is(':checked')) {
+            $('#divId2').show();
+        } else {
+            $('#divId2').hide();
+            $('#id_btn_name').val('');
+            $('#id_weblink_pc').val('');
+
+        }
     }
-}
+
+    $('input:radio[id="receiver-whole"]').on('change', function () {
+        switch ($(this).val()) {
+            case 'receiver-whole':
+                //ajax GET function
+                break;
+            case 'receiver-group':
+                //ajax GET function
+                break;
+            case 'receiver-direct':
+                //ajax GET function
+                break;
+        }
+    });
+
+    function setReceiverDisplay() {
+        if ($('input:radio[id=receiver-group]').is(':checked')) {
+            $('#divId3').show();
+        } else {
+            $('#divId3').hide();
+            $('#id_group').val('');
+        }
+
+        if ($('input:radio[id=receiver-direct]').is(':checked')) {
+            $('#divId4').show();
+        } else {
+            $('#divId4').hide();
+            $('#id_receiver').val('');
+        }
+
+    }
 
 </script>
 {% endblock %}

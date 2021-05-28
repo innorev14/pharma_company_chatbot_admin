@@ -5,7 +5,7 @@ from .views import *
 app_name = 'medicine'
 
 urlpatterns = [
-    path('', MedicineListView.as_view()),
+    path('', MedicineListView.as_view(), name='home'),
     path('create/', MedicineCreateView.as_view(), name='medicine_create'),
     path('<int:pk>/detail/', MedicineDetailView.as_view(), name='medicine_detail'),
     path('<int:pk>/update/', MedicineUpdateView.as_view(), name='medicine_update'),
