@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+<p class="h3">관리자 관리</p><br>
+<table class="table">
+    <thead>
+        <th class="text-center">번호</th>
+        <th class="text-center">이름</th>
+<!--        <th>관리자</th>-->
+        <th class="text-center">활성화</th>
+        <th class="text-center">등록일</th>
+        <th class="text-center">마지막 로그인</th>
+        <th class="text-center">인증</th>
+    </thead>
+    <tbody>
+    {% for obj in object_list %}
+        <tr>
+            <td class="text-center">{{ forloop.counter }}</td>
+            <td class="text-center"><strong>{{ obj.username }}</strong></td>
+<!--            <td class="text-center">{% if obj.is_staff %}<i class="far fa-check-circle" style="color:orange"></i>{% else %}<i class="far fa-times-circle" style="color:red"></i>{% endif %}</td>-->
+            <td class="text-center">{% if obj.is_staff %}<i class="far fa-check-circle" style="color:orange"></i>이용가능
+                {% else %}<i class="far fa-times-circle" style="color:red"></i>이용불가{% endif %}</td>
+            <td class="text-center">{{ obj.date_joined|date:"Y-m-d"}}</td>
+            <td class="text-center">{{ obj.last_login|date:"Y-m-d H:m:s"}}</td>
+            <td class="text-center"><a class="btn btn-info" href="{% url 'accounts:staff_active' obj.pk %}">인증</a></td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% if is_paginated %}
+<nav aria-label="pagination">
+    <ul class="pagination justify-content-center">
+        <li class="page-item">
+            {% if page_obj.has_previous %}
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">이전</a>
+            {% else %}
+                <li class="page-link disabled"<span class="page-link">이전</span><span class="sr-only"></span></li>
+            {% endif %}
+        </li>
+        {% for i in paginator.page_range %}
+        {% if page_obj.number == i %}
+        <li class="page-item active"><span class="page-link is-current">{{ i }} <span class="sr-only">(current)</span></span></li>
+        {% else %}
+        <li class="page-item"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
+        {% endif %}
+        {% endfor %}
+        <li class="page-item">
+            {% if page_obj.has_next %}
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">다음</a>
+            {% else %}
+                <li class="page-link disabled"<span class="page-link">다음</span></li>
+            {% endif %}
+        </li>
+    </ul>
+</nav>
+{% endif %}
+
+ <div style="margin-top: 30px;">
+    <form action="" method="GET">
+        <div class="col">
+            <div style="float: right;" class="form-row">
+                <div class="form-row">
+                    <div class="col" >
+                        <input type="text" name="q" value="{{ q }}" class="form-control form-control-md"
+                            style="width: 15em;" placeholder="관리자를 입력해주세요.">
+                    </div>
+                    <div class="col">
+                        <!-- <button class="btn btn-md btn-outline-dark" type="submit">검색</button> -->
+                        <button class="btn btn-secondary" type="submit" id="search_btn">검색</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+<div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

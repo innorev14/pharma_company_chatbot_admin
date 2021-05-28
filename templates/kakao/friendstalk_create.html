@@ -13,6 +13,13 @@
         });
     });
 </script>
+<style>
+#id_content {
+    padding: 20px;
+    width: 300px;
+    height: 400px;
+}
+</style>
 {% endblock %}
 
 {% block content %}
@@ -48,7 +55,7 @@
         <br><br>
 
 
-        <strong>내용</strong> {{form.media}}
+        <strong>내용</strong><br/> {{form.media}}
         {{ form.content }}<br><br>
         <strong>버튼 넣기</strong><br>
         <input type="radio" id="btn-text" name="talk_button" value="none" onchange="setBtnDisplay()" checked="checked">
@@ -75,7 +82,7 @@
         <br>
         <strong>발신자</strong> {{ form.sender }} <br><br>
         <!--    {{form.as_p}}-->
-        * 저녁 8시~아침 8시 (20:00~08:00) 사이에 친구톡을<br/>
+        * 저녁 8시~아침 8시 (20:00~08:00) 사이에 친구톡을
         발송하는 경우 모두 실패처리 됩니다.
         <br>
 </div>

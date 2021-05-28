@@ -56,6 +56,7 @@ class User(AbstractUser):
     class Meta:
         verbose_name = _('사용자')
         verbose_name_plural = _("사용자")
+        ordering = ['username']
 
 
 class LoginHistory(models.Model):
@@ -94,3 +95,6 @@ class AccessLog(models.Model):
 
     class Meta:
         verbose_name = _('사용기록')
+
+    def dispatch(self, *args, **kwargs):
+        return super(AccessLog, self).dispatch(*args, **kwargs)

@@ -1,6 +1,7 @@
 from urllib import parse
 
 from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -12,6 +13,7 @@ from .models import Medicine
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(staff_member_required, name='dispatch')
 class MedicineListView(ListView):
     model = Medicine
     template_name = 'medicine/medicine_list.html'
@@ -32,6 +34,7 @@ class MedicineListView(ListView):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(staff_member_required, name='dispatch')
 class MedicineCreateView(CreateView):
     model = Medicine
     form_class = MedicineForm
@@ -40,6 +43,7 @@ class MedicineCreateView(CreateView):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(staff_member_required, name='dispatch')
 class MedicineDetailView(DetailView):
     model = Medicine
     template_name = 'medicine/medicine_detail.html'
@@ -57,6 +61,7 @@ class MedicineDetailView(DetailView):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(staff_member_required, name='dispatch')
 class MedicineUpdateView(UpdateView):
     model = Medicine
     form_class = MedicineForm
@@ -64,6 +69,7 @@ class MedicineUpdateView(UpdateView):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(staff_member_required, name='dispatch')
 class MedicineDeleteView(DeleteView):
     model = Medicine
     template_name = 'medicine/medicine_delete.html'

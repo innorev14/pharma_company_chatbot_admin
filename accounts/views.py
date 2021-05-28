@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
-from django.contrib.auth import authenticate, login
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db.models import Count
 from django.db.models.functions import TruncMonth, TruncDay
@@ -25,6 +26,38 @@ class KakaoAPIView(APIView):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(staff_member_required, name='dispatch')
+class StaffListView(ListView):
+    model = get_user_model()
+    template_name = 'accounts/staff_list.html'
+    paginate_by = 20
+
+    def get_queryset(self, *args, **kwargs):
+        qs = get_user_model().objects.filter(group=None)
+        query = self.request.GET.get("q", None)
+        if query is not None:
+            qs = qs.filter(username__icontains=query)
+        return qs
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(StaffListView, self).get_context_data(*args, **kwargs)
+        qs = self.request.GET.get('q', '')
+        context['q'] = qs
+        return context
+
+
+def staff_active(request, pk):
+    status = get_user_model().objects.get(id=pk)
+    if status.is_staff:
+        status.is_staff = False
+    else:
+        status.is_staff = True
+    status.save()
+    return redirect('/accounts/staff/list/')
+
+
+@method_decorator(login_required, name="dispatch")
+@method_decorator(staff_member_required, name='dispatch')
 class MemberListView(ListView):
     model = Member
     template_name = 'accounts/member_list.html'
@@ -45,6 +78,7 @@ class MemberListView(ListView):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(staff_member_required, name='dispatch')
 class MemberCreateView(CreateView):
     model = Member
     form_class = MemberForm
@@ -53,6 +87,7 @@ class MemberCreateView(CreateView):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(staff_member_required, name='dispatch')
 class MemberUpdateView(UpdateView):
     model = Member
     form_class = MemberForm
@@ -60,12 +95,14 @@ class MemberUpdateView(UpdateView):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(staff_member_required, name='dispatch')
 class MemberDetailView(DetailView):
     model = Member
     template_name = 'accounts/member_detail.html'
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(staff_member_required, name='dispatch')
 class MemberDeleteView(DeleteView):
     model = Member
     template_name = 'accounts/member_delete.html'
@@ -83,6 +120,7 @@ def member_change_active(request, pk):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(staff_member_required, name='dispatch')
 class GroupListView(ListView):
     model = Group
     template_name = 'accounts/group_list.html'
@@ -103,6 +141,7 @@ class GroupListView(ListView):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(staff_member_required, name='dispatch')
 class GroupCreateView(CreateView):
     model = Group
     form_class = GroupForm
@@ -111,6 +150,7 @@ class GroupCreateView(CreateView):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(staff_member_required, name='dispatch')
 class GroupUpdateView(UpdateView):
     model = Group
     form_class = GroupForm
@@ -128,6 +168,7 @@ def group_change_active(request, pk):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(staff_member_required, name='dispatch')
 class GroupDeleteView(DeleteView):
     model = Group
     template_name = 'accounts/group_delete.html'
@@ -153,6 +194,7 @@ def signup(request):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(staff_member_required, name='dispatch')
 class AccessListView(ListView):
     model = AccessLog
     template_name = 'accounts/access_log/access_list.html'
@@ -173,6 +215,7 @@ class AccessListView(ListView):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(staff_member_required, name='dispatch')
 class AccessGroupDayList(ListView):
     model = AccessLog
     template_name = 'accounts/access_log/day_list.html'
@@ -197,6 +240,7 @@ class AccessGroupDayList(ListView):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(staff_member_required, name='dispatch')
 class AccessGroupWeekList(ListView):
     model = AccessLog
     template_name = 'accounts/access_log/week_list.html'
@@ -219,6 +263,7 @@ class AccessGroupWeekList(ListView):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(staff_member_required, name='dispatch')
 class AccessGroupMonthList(ListView):
     model = AccessLog
     template_name = 'accounts/access_log/month_list.html'

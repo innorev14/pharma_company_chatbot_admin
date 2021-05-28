@@ -1,6 +1,6 @@
 import json
 
-from django.contrib.auth import get_user_model
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.urls import reverse_lazy, reverse
@@ -8,7 +8,7 @@ from django.utils.decorators import method_decorator
 from django.views import View
 from django.views.generic import TemplateView, ListView, CreateView, DeleteView, FormView, DetailView
 
-from accounts.models import Group
+from accounts.models import Group, Member
 from kakao.forms import FriendsTalkForm
 from kakao.friendtalk import get_token, send_friend_msg
 from kakao.models import FriendsTalk
@@ -21,6 +21,7 @@ class FriendsTalkListView(ListView):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(staff_member_required, name='dispatch')
 class FriendsTalkCreateView(CreateView):
     model = FriendsTalk
     form_class = FriendsTalkForm
@@ -50,13 +51,13 @@ class FriendsTalkCreateView(CreateView):
             user_list = list()
             for group in whole:
                 group_id = Group.objects.get(name=group).id
-                users = get_user_model().objects.filter(group_id=group_id)
+                users = Member.objects.filter(group_id=group_id)
                 for user in users:
                     user_list.append(user.phone)
                 msg['receiver'] = ','.join(user_list)
         elif self.request.POST['talk_receiver'] == 'group':
             group_id = self.request.POST['group']
-            users = get_user_model().objects.filter(group_id=group_id)
+            users = Member.objects.filter(group_id=group_id)
             user_list = list()
             for user in users:
                 user_list.append(user.phone)
@@ -78,6 +79,7 @@ class FriendsTalkCreateView(CreateView):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(staff_member_required, name='dispatch')
 class FriendsTalkGroupSendView(CreateView):
     model = FriendsTalk
     form_class = FriendsTalkForm
@@ -110,14 +112,14 @@ class FriendsTalkGroupSendView(CreateView):
             user_list = list()
             for group in whole:
                 group_id = Group.objects.get(name=group).id
-                users = get_user_model().objects.filter(group_id=group_id)
+                users = Member.objects.filter(group_id=group_id)
                 for user in users:
                     user_list.append(user.phone)
                 msg['receiver'] = ','.join(user_list)
         elif self.request.POST['talk_receiver'] == 'group':
             group = self.get_context_data()
             group_id = Group.objects.get(name=group['group_name']).id
-            users = get_user_model().objects.filter(group_id=group_id)
+            users = Member.objects.filter(group_id=group_id)
             user_list = list()
             for user in users:
                 user_list.append(user.phone)
@@ -139,6 +141,7 @@ class FriendsTalkGroupSendView(CreateView):
 
 
 @method_decorator(login_required, name="dispatch")
+@method_decorator(staff_member_required, name='dispatch')
 class FriendsTalkWholeSendView(CreateView):
     model = FriendsTalk
     form_class = FriendsTalkForm
@@ -167,7 +170,7 @@ class FriendsTalkWholeSendView(CreateView):
         user_list = list()
         for group in whole:
             group_id = Group.objects.get(name=group).id
-            users = get_user_model().objects.filter(group_id=group_id)
+            users = Member.objects.filter(group_id=group_id)
             for user in users:
                 user_list.append(user.phone)
             msg['receiver'] = ','.join(user_list)
@@ -238,6 +241,8 @@ class FriendsTalkDetailView(DetailView):
 #     #     return medicine
 
 
+@method_decorator(login_required, name='dispatch')
+@method_decorator(staff_member_required, name='dispatch')
 class FriendsTalkDeleteView(DeleteView):
     model = FriendsTalk
     template_name = 'kakao/friendstalk_delete.html'

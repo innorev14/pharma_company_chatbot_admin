@@ -69,12 +69,12 @@ def send_friend_msg(aligo_token, msg):
         button_info = {'button': [{'name': msg['weblink']['btn_name'],  # 버튼명
                                    'linkType': 'WL',  # DS, WL, AL, BK, MD
                                    'linkTypeName': '웹링크',  # 배송조회, 웹링크, 앱링크, 봇키워드, 메시지전달 중에서 1개
-                                   'linkM': msg['weblink']['mobile link'],  # WL일 때 필수
-                                   'linkP': msg['web_link']['pc link']  # WL일 때 필수
+                                   'linkM': msg['weblink']['weblink_mobile'],  # WL일 때 필수
+                                   'linkP': msg['weblink']['weblink_pc']  # WL일 때 필수
                                    # 'linkI': 'IOS app link', # AL일 때 필수
                                    # 'linkA': 'Android app link' # AL일 때 필수
                                    }]}
-        sms_data['button_1'] = button_info  # 버튼 정보
+        sms_data['button_1'] = json.dumps(button_info)  # 버튼 정보
     except:
         pass
 
