@@ -66,7 +66,7 @@ def welcome(request):
                         "thumbnail": {
                             "imageUrl": "https://ilhwa-pharm.s3.ap-northeast-2.amazonaws.com/ilhwa_logo.jpg"
                         },
-                        "description": "안녕하세요. 일화제약 제품 안내 챗봇입니다. 최초 인증을 진행해주세요.",
+                        "description": "■ 인증 프로세스를 시작합니다\n 등록된 전화번호를 입력해주세요.\n■ 예) 01012341234",
                         "buttons": [
                             {
                                 "action": "block",
