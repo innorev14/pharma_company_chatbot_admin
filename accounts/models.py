@@ -86,8 +86,8 @@ class Member(models.Model):
 
 
 class AccessLog(models.Model):
-    member = models.ForeignKey('Member', on_delete=models.DO_NOTHING)
-    group = models.ForeignKey('Group', on_delete=models.DO_NOTHING)
+    member = models.ForeignKey('Member', on_delete=models.CASCADE)
+    group = models.ForeignKey('Group', on_delete=models.CASCADE)
     intent_id = models.CharField(max_length=30, verbose_name="발화ID")
     intent_name = models.CharField(max_length=30, verbose_name="발화블록명")
     utterance = models.CharField(max_length=30, verbose_name="발화내용")
