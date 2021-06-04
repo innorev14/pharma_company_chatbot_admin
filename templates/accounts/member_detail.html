@@ -13,31 +13,32 @@
 {% endblock %}
 
 {% block content %}
-<p class="h3" >사용자</p><br>
+<p class="h3">사용자</p><br>
 <div class="container">
 
     <table class="table">
         <tr>
-            <th class="text-center">이  름</th>
+            <th class="text-center">이 름</th>
             <td class="text-center"><strong>{{ object.username }}</strong></td>
-            </tr>
+        </tr>
         <tr>
-            <th class="text-center">지  점</th>
-            <td class="text-center"><a href="{% url 'accounts:group_detail' object.group.id %}">{{ object.group }}</a></td>
+            <th class="text-center">지 점</th>
+            <td class="text-center"><a href="{% url 'accounts:group_detail' object.group.id %}">{{ object.group }}</a>
+            </td>
         </tr>
         <tr>
             <th class="text-center">전화번호</th>
             <td class="text-center">{{ object.phone }}</td>
-                    </tr>
+        </tr>
         <tr>
             <th class="text-center">챗봇사용</th>
             <td class="text-center ">{% if object.kakao_id %}<i class="far fa-check-circle" style="color:orange"></i>{% else %}<i class="far fa-times-circle" style="color:red"></i>{% endif %}
         </tr>
 
-<!--        <tr>-->
-<!--            <th class="text-center">관리자 여부</th>-->
-<!--            <td class="text-center">{% if object.is_staff %}<i class="far fa-check-circle" style="color:orange"></i>{% else %}<i class="far fa-times-circle" style="color:red"></i>{% endif %}-->
-<!--                    </tr>-->
+        <!--        <tr>-->
+        <!--            <th class="text-center">관리자 여부</th>-->
+        <!--            <td class="text-center">{% if object.is_staff %}<i class="far fa-check-circle" style="color:orange"></i>{% else %}<i class="far fa-times-circle" style="color:red"></i>{% endif %}-->
+        <!--                    </tr>-->
         <tr>
             <th class="text-center">활성화 상태</th>
             <td class="text-center">{% if object.is_active %}<i class="far fa-check-circle" style="color:orange"></i>{% else %}<i class="far fa-times-circle" style="color:red"></i>{% endif %}
@@ -46,7 +47,7 @@
             <th class="text-center">등록일</th>
             <td class="text-center">{{ object.created_at|date:"Y-m-d" }}</td>
         </tr>
-                <tr>
+        <tr>
             <th class="text-center">수정일</th>
             <td class="text-center">{{ object.updated_at|date:"Y-m-d" }}</td>
         </tr>
@@ -54,44 +55,69 @@
 
 </div>
 
-    <div class="row justify-content-center">
-        <a href="{% url 'accounts:member_update' object.pk %}">
-            <button class="btn btn-warning">사용자수정</button>
-        </a>
-        <button class="btn btn-danger" data-toggle="modal" data-target="#fm-modal-grid" style="margin-left: 10px">사용자삭제
-        </button>
-    </div>
+<div class="row justify-content-center">
+    <a href="{% url 'accounts:member_update' object.pk %}">
+        <button class="btn btn-warning">사용자수정</button>
+    </a>
+    <button class="btn btn-danger" data-toggle="modal" data-target="#fm-modal-grid" style="margin-left: 10px">사용자삭제
+    </button>
+</div>
 
 
-    <div class="modal fade" id="fm-modal-grid" tabindex="-1"
-         role="dialog" aria-labelledBy="fm-modal-grid"
-         aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button class="close" data-dismiss="modal" aria-label="Cerrar">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-12 col-sm-6">
-                                <p>정말 {{object.username}} 을(를) 삭제 하시겠습니까?</p>
-                            </div>
+<div class="modal fade" id="fm-modal-grid" tabindex="-1"
+     role="dialog" aria-labelledBy="fm-modal-grid"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <p>정말 {{object.username}} 을(를) 삭제 하시겠습니까?</p>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <form action="{% url 'accounts:member_delete' object.pk %}" method="POST">
-                        {% csrf_token %}
-                        <button class="btn btn-outline-danger">예</button>
-                    </form>
-                    <button class="btn btn-success" data-dismiss="modal" style="margin-bottom: 15px">아니요</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <form action="{% url 'accounts:member_delete' object.pk %}" method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-danger">예</button>
+                </form>
+                <button class="btn btn-success" data-dismiss="modal" style="margin-bottom: 15px">아니요</button>
             </div>
         </div>
     </div>
+</div>
+
+<p class="h3" style="margin-top: 100px">최근 챗봇 사용기록</p><br>
+<div class="container">
+
+    <table class="table">
+        <thead>
+        <th>발화동작</th>
+        <th>발화내용</th>
+        <th>발화시간</th>
+        </thead>
+        <tbody>
+        {% for i in log %}
+        {% if i.intent_name != '뒤로가기' %}
+        <tr>
+            <td>{{ i.intent_name }}</td>
+            <td>{{ i.utterance }}</td>
+            <td>{{ i.created_at }}</td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+
+        </tbody>
+
+    </table>
+</div>
 {% endblock %}
 
 {% block script %}

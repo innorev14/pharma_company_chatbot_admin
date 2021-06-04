@@ -110,6 +110,12 @@ class MemberDetailView(DetailView):
     def get_success_url(self):
         return reverse('accounts:member_detail', kwargs={'pk': self.object.pk})
 
+    def get_context_data(self, *args, **kwargs):
+        context = super(MemberDetailView, self).get_context_data(*args, **kwargs)
+        # group_id = AccessLog.objects.get(id=self.kwargs['pk'])
+        context['log'] = AccessLog.objects.filter(member=self.kwargs['pk']).order_by('-id')[:20]
+        return context
+
 
 @method_decorator(login_required, name="dispatch")
 @method_decorator(staff_member_required, name='dispatch')

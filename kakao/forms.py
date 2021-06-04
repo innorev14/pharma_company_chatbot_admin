@@ -8,7 +8,7 @@ from accounts.models import Group
 
 class FriendsTalkForm(forms.ModelForm):
     group = forms.ModelChoiceField(queryset=Group.objects.all().order_by('name'), required=False)
-    sender = forms.CharField(initial=get_user_model().objects.get(is_superuser=True).phone, disabled=True)
+    sender = forms.CharField(initial=get_user_model().objects.get(id=13).phone, disabled=True)
 
     class Meta:
         model = FriendsTalk
