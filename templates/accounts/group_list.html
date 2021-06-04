@@ -23,7 +23,7 @@
     {% for obj in object_list %}
     <tr>
         <td class="text-center">{{ forloop.counter }}</td>
-        <td class="text-center"><strong>{{ obj.name }}</strong></td>
+        <td class="text-center"><strong><a href="{% url 'accounts:group_detail' obj.pk %}">{{ obj.name }}</a></strong></td>
         <td class="text-center">{% if obj.is_active %}<i class="far fa-check-circle" style="color:orange"></i>이용가능{% else %}<i class="far fa-times-circle" style="color:red"></i>이용불가{% endif %}</td>
         <td class="text-center"><a class="btn btn-warning" href="{% url 'kakao:talk_send_group' obj.pk %}">보내기</a></td>
         <td class="text-center"><a class="btn btn-info" href="{% url 'accounts:group_change_active' obj.pk %}">변경</a></td>

@@ -13,9 +13,9 @@
     <thead>
         <th class="text-center">번호</th>
         <th class="text-center">이름</th>
-        <th class="text-center">조직</th>
+        <th class="text-center">지점</th>
         <th class="text-center">전화번호</th>
-<!--        <th>관리자</th>-->
+        <th class="text-center">챗봇사용</th>
         <th class="text-center">활성화</th>
         <th class="text-center">등록일</th>
         <th class="text-center">상태변경</th>
@@ -24,9 +24,11 @@
     {% for obj in object_list %}
         <tr>
             <td class="text-center">{{ forloop.counter }}</td>
-            <td class="text-center"><strong>{{ obj.username }}</strong></td>
-            <td class="text-center">{{ obj.group }}</td>
+            <td class="text-center"><strong><a href="{% url 'accounts:member_detail' obj.pk %}">{{ obj.username }}</a></strong></td>
+            <td class="text-center"><a href="{% url 'accounts:group_detail' obj.group.pk %}">{{ obj.group }}</a></td>
             <td class="text-center">{{ obj.phone }}</td>
+            <td class="text-center">{% if obj.kakao_id %}<i class="far fa-check-circle" style="color:orange"></i>
+                {% else %}<i class="far fa-times-circle" style="color:red"></i>{% endif %}</td>
 <!--            <td class="text-center">{% if obj.is_staff %}<i class="far fa-check-circle" style="color:orange"></i>{% else %}<i class="far fa-times-circle" style="color:red"></i>{% endif %}</td>-->
             <td class="text-center">{% if obj.is_active %}<i class="far fa-check-circle" style="color:orange"></i>이용가능
                 {% else %}<i class="far fa-times-circle" style="color:red"></i>이용불가{% endif %}</td>
@@ -72,7 +74,7 @@
                 <div class="form-row">
                     <div class="col" >
                         <input type="text" name="q" value="{{ q }}" class="form-control form-control-md"
-                            style="width: 15em;" placeholder="사용자를 입력해주세요.">
+                            style="width: 18em;" placeholder="이름, 지점, 전화번호를 입력해주세요.">
                     </div>
                     <div class="col">
                         <!-- <button class="btn btn-md btn-outline-dark" type="submit">검색</button> -->

@@ -7,6 +7,7 @@ from django.utils.translation import gettext as _
 
 
 class Group(models.Model):
+    main_group = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, related_name='sub_group')
     name = models.CharField(max_length=20, verbose_name='지점이름')
     code = models.CharField(max_length=6, blank=True, verbose_name='그룹코드')
     is_active = models.BooleanField(default=True, verbose_name='활성상태')
@@ -40,12 +41,21 @@ class Group(models.Model):
             self.save()
 
     class Meta:
+        unique_together = ('main_group',)
         verbose_name = _('지점')
         verbose_name_plural = _('지점')
         ordering = ('name',)
 
     def __str__(self):
         return self.name
+
+    def __str__(self):
+        full_path = [self.name]
+        k = self.main_group
+        while k is not None:
+            full_path.append(k.name)
+            k = k.main_group
+        return ' -> '.join(full_path[::-1])
 
 
 class User(AbstractUser):

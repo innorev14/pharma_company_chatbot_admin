@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap5 %}
+
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+
+{% block title %}
+{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+<p class="h3">지점상세</p><br>
+<div class="container">
+    <table class="table col-lg-12">
+        <tr>
+            <th>지점이름</th>
+            <td>{{ object.name }}</td>
+        </tr>
+        <tr>
+            <th>활성화상태</th>
+            <td>{% if object.is_active %}<i class="far fa-check-circle" style="color:orange"></i>이용가능{% else %}<i
+                    class="far fa-times-circle" style="color:red"></i>이용불가{% endif %}
+            </td>
+        </tr>
+
+    </table>
+
+    <div class="row float-right">
+        <a href="{% url 'accounts:group_update' object.pk %}">
+            <button class="btn btn-warning">지점수정</button>
+        </a>
+        <button class="btn btn-danger" data-toggle="modal" data-target="#fm-modal-grid" style="margin-left: 10px">지점삭제
+        </button>
+    </div>
+
+
+    <div class="modal fade" id="fm-modal-grid" tabindex="-1"
+         role="dialog" aria-labelledBy="fm-modal-grid"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <p>정말 {{object.name}} 을(를) 삭제 하시겠습니까?</p>
+                    <button class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-12 col-sm-12">
+                                <p>* 지점에 속한 사용자가 있을 경우, 사용자도 삭제가 됩니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <form action="{% url 'accounts:group_delete' object.pk %}" method="POST">
+                        {% csrf_token %}
+                        <button class="btn btn-outline-danger">예</button>
+                    </form>
+                    <button class="btn btn-success" data-dismiss="modal" style="margin-bottom: 15px">아니요</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p class="h3" style="margin-top: 100px">소속 사용자</p><br>
+<div class="container">
+
+    <table class="table">
+        <thead>
+        <th class="text-center">이름</th>
+        <th class="text-center">전화번호</th>
+        <th class="text-center">챗봇사용</th>
+        <th class="text-center">활성화</th>
+        <th class="text-center">등록일</th>
+        </thead>
+        <tbody>
+        {% if member %}
+        {% for mem in member %}
+        <tr>
+            <td class="text-center"><a href="{% url 'accounts:member_detail' mem.pk %}">{{ mem.username }}</a></td>
+            <td class="text-center">{{ mem.phone }}</td>
+            <td class="text-center">{% if mem.kakao_id %}<i class="far fa-check-circle" style="color:orange"></i>{% else %}<i class="far fa-times-circle" style="color:red"></i>{% endif %}
+            </td>
+            <td class="text-center">{% if mem.is_active %}<i class="far fa-check-circle" style="color:orange"></i>{% else %}<i class="far fa-times-circle" style="color:red"></i>{% endif %}
+            </td>
+            <td class="text-center">{{ mem.created_at|date:"Y-m-d" }}</td>
+        </tr>
+        {% endfor %}
+        {% else %}
+        <td colspan="4" class="text-center">소속된 사용자가 없습니다</td>
+        {% endif %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

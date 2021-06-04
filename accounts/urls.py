@@ -20,6 +20,7 @@ urlpatterns = [
     path('group/list/', GroupListView.as_view(), name='group_list'),
     path('group/create/', GroupCreateView.as_view(), name='group_create'),
     path('group/<int:pk>/update/', GroupUpdateView.as_view(), name='group_update'),
+    path('group/<int:pk>/detail/', GroupDetailView.as_view(), name='group_detail'),
     path('group/<int:pk>/delete/', GroupDeleteView.as_view(), name='group_delete'),
 
     path('group/change_active/<int:pk>/', group_change_active, name='group_change_active'),

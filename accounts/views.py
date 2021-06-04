@@ -1,11 +1,13 @@
 from datetime import datetime, timedelta
 
+from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import login_required
-from django.db.models import Count
+from django.db.models import Count, Q
 from django.db.models.functions import TruncMonth, TruncDay
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, UpdateView, DeleteView, DetailView, ListView
 from rest_framework.views import APIView
@@ -67,7 +69,7 @@ class MemberListView(ListView):
         qs = Member.objects.all()
         query = self.request.GET.get("q", None)
         if query is not None:
-            qs = qs.filter(username__icontains=query)
+            qs = qs.filter(Q(username__icontains=query) | Q(group__name__icontains=query) | Q(phone__icontains=query))
         return qs
 
     def get_context_data(self, *args, **kwargs):
@@ -92,6 +94,10 @@ class MemberUpdateView(UpdateView):
     model = Member
     form_class = MemberForm
     template_name = 'accounts/member_update.html'
+    success_url = reverse_lazy('accounts:member_detail')
+
+    def get_success_url(self):
+        return reverse('accounts:member_detail', kwargs={'pk': self.object.pk})
 
 
 @method_decorator(login_required, name="dispatch")
@@ -99,6 +105,10 @@ class MemberUpdateView(UpdateView):
 class MemberDetailView(DetailView):
     model = Member
     template_name = 'accounts/member_detail.html'
+    success_url = reverse_lazy('accounts:member_detail')
+
+    def get_success_url(self):
+        return reverse('accounts:member_detail', kwargs={'pk': self.object.pk})
 
 
 @method_decorator(login_required, name="dispatch")
@@ -106,7 +116,12 @@ class MemberDetailView(DetailView):
 class MemberDeleteView(DeleteView):
     model = Member
     template_name = 'accounts/member_delete.html'
-    success_url = '/accounts/member/list/'
+    success_url = reverse_lazy('accounts:member_list')
+    success_message = '사용자가 성공적으로 삭제되었습니다.'
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(MemberDeleteView, self).delete(request, *args, **kwargs)
 
 
 def member_change_active(request, pk):
@@ -155,6 +170,10 @@ class GroupUpdateView(UpdateView):
     model = Group
     form_class = GroupForm
     template_name = 'accounts/group_update.html'
+    success_url = reverse_lazy('accounts:group_detail')
+
+    def get_success_url(self):
+        return reverse('accounts:group_detail', kwargs={'pk': self.object.pk})
 
 
 def group_change_active(request, pk):
@@ -169,10 +188,29 @@ def group_change_active(request, pk):
 
 @method_decorator(login_required, name="dispatch")
 @method_decorator(staff_member_required, name='dispatch')
+class GroupDetailView(DetailView):
+    model = Group
+    queryset = Group.objects.all()
+    template_name = 'accounts/group_detail.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(GroupDetailView, self).get_context_data(*args, **kwargs)
+        group_id = Group.objects.get(id=self.kwargs['pk'])
+        context['member'] = Member.objects.filter(group=group_id)
+        return context
+
+
+@method_decorator(login_required, name="dispatch")
+@method_decorator(staff_member_required, name='dispatch')
 class GroupDeleteView(DeleteView):
     model = Group
     template_name = 'accounts/group_delete.html'
-    success_url = '/accounts/group/list/'
+    success_url = reverse_lazy('accounts:group_list')
+    success_message = '그룹이 성공적으로 삭제되었습니다.'
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(GroupDeleteView, self).delete(request, *args, **kwargs)
 
 
 def signup(request):
