@@ -54,14 +54,14 @@ class FriendsTalkCreateView(CreateView):
                 users = Member.objects.filter(group_id=group_id)
                 for user in users:
                     user_list.append(user.phone)
-                msg['receiver'] = ','.join(user_list)
+                msg['receiver'] = user_list
         elif self.request.POST['talk_receiver'] == 'group':
             group_id = self.request.POST['group']
             users = Member.objects.filter(group_id=group_id)
             user_list = list()
             for user in users:
                 user_list.append(user.phone)
-            msg['receiver'] = ','.join(user_list)
+            msg['receiver'] = user_list
         else:
             msg['receiver'] = self.request.POST['receiver']
 
@@ -115,7 +115,7 @@ class FriendsTalkGroupSendView(CreateView):
                 users = Member.objects.filter(group_id=group_id)
                 for user in users:
                     user_list.append(user.phone)
-                msg['receiver'] = ','.join(user_list)
+                msg['receiver'] = user_list
         elif self.request.POST['talk_receiver'] == 'group':
             group = self.get_context_data()
             group_id = Group.objects.get(name=group['group_name']).id
@@ -123,7 +123,7 @@ class FriendsTalkGroupSendView(CreateView):
             user_list = list()
             for user in users:
                 user_list.append(user.phone)
-            msg['receiver'] = ','.join(user_list)
+            msg['receiver'] = user_list
         else:
             msg['receiver'] = self.request.POST['receiver']
 
@@ -173,7 +173,7 @@ class FriendsTalkWholeSendView(CreateView):
             users = Member.objects.filter(group_id=group_id)
             for user in users:
                 user_list.append(user.phone)
-            msg['receiver'] = ','.join(user_list)
+            msg['receiver'] = user_list
 
         msg['sender'] = form.get_sender()
         msg['content'] = self.request.POST['content']
