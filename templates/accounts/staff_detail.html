@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap5 %}
+
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+
+{% block title %}
+{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+<p class="h3">사용자</p><br>
+<div class="container">
+
+    <table class="table">
+        <tr>
+            <th class="text-center">이 름</th>
+            <td class="text-center"><strong>{{ object.username }}</strong></td>
+        </tr>
+        <tr>
+            <th class="text-center">이메일</th>
+            <td class="text-center">{{ object.email }}</td>
+        </tr>
+        <tr>
+            <th class="text-center">활성화 상태</th>
+            <td class="text-center">{% if object.is_active %}<i class="far fa-check-circle" style="color:orange"></i>{% else %}<i class="far fa-times-circle" style="color:red"></i>{% endif %}
+        </tr>
+        <tr>
+            <th class="text-center">등록일</th>
+            <td class="text-center">{{ object.date_joined|date:"Y-m-d" }}</td>
+        </tr>
+        <tr>
+            <th class="text-center">최근 로그인</th>
+            <td class="text-center">{{ object.last_login }}</td>
+        </tr>
+    </table>
+
+</div>
+
+<div class="row justify-content-center">
+    <a href="{% url 'accounts:staff_update' object.pk %}">
+        <button class="btn btn-warning">사용자수정</button>
+    </a>
+    <button class="btn btn-danger" data-toggle="modal" data-target="#fm-modal-grid" style="margin-left: 10px">사용자삭제
+    </button>
+</div>
+
+
+<div class="modal fade" id="fm-modal-grid" tabindex="-1"
+     role="dialog" aria-labelledBy="fm-modal-grid"
+     aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="close" data-dismiss="modal" aria-label="Cerrar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            <p>정말 {{object.username}} 을(를) 삭제 하시겠습니까?</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <form action="{% url 'accounts:staff_delete' object.pk %}" method="POST">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-danger">예</button>
+                </form>
+                <button class="btn btn-success" data-dismiss="modal" style="margin-bottom: 15px">아니요</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+{% endblock %}

@@ -32,5 +32,8 @@ urlpatterns = [
     path('access_log/month/', AccessGroupMonthList.as_view(), name='access_month_log'),
 
     path('staff/list/', StaffListView.as_view(), name='staff_list'),
+    path('staff/<int:pk>/update/', StaffUpdateView.as_view(), name='staff_update'),
+    path('staff/<int:pk>/detail/', StaffDetailView.as_view(), name='staff_detail'),
+    path('staff/<int:pk>/delete/', StaffDeleteView.as_view(), name='staff_delete'),
     path('staff/active/<int:pk>/', staff_active, name='staff_active'),
 ]

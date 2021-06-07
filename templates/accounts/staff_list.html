@@ -23,7 +23,7 @@
     {% for obj in object_list %}
         <tr>
             <td class="text-center">{{ forloop.counter }}</td>
-            <td class="text-center"><strong>{{ obj.username }}</strong></td>
+            <td class="text-center"><strong><a href="{% url 'accounts:staff_detail' obj.pk %}">{{ obj.username }}</a></s></strong></td>
 <!--            <td class="text-center">{% if obj.is_staff %}<i class="far fa-check-circle" style="color:orange"></i>{% else %}<i class="far fa-times-circle" style="color:red"></i>{% endif %}</td>-->
             <td class="text-center">{% if obj.is_staff %}<i class="far fa-check-circle" style="color:orange"></i>이용가능
                 {% else %}<i class="far fa-times-circle" style="color:red"></i>이용불가{% endif %}</td>

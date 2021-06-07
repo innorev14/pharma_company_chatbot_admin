@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap5 %}
+
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% bootstrap_messages %}
+
+{% block title %}
+{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+<form method="POST" class="form">
+    <table class="table">
+
+        {%csrf_token%}
+        {% bootstrap_form form %}
+    </table>
+    <div class="text-center">
+        <button type="submit" class="save btn btn-default">수정하기</button>
+    </div>
+</form>
+{% endblock %}
+
+{% block script %}
+{% endblock %}

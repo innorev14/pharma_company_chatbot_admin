@@ -60,6 +60,45 @@ def staff_active(request, pk):
 
 @method_decorator(login_required, name="dispatch")
 @method_decorator(staff_member_required, name='dispatch')
+class StaffUpdateView(UpdateView):
+    model = get_user_model()
+    template_name = 'accounts/staff_update.html'
+    success_url = reverse_lazy('accounts:staff_detail')
+    fields = (
+        'username',
+        'email'
+    )
+
+    def get_success_url(self):
+        return reverse('accounts:staff_detail', kwargs={'pk': self.object.pk})
+
+
+@method_decorator(login_required, name="dispatch")
+@method_decorator(staff_member_required, name='dispatch')
+class StaffDetailView(DetailView):
+    model = get_user_model()
+    template_name = 'accounts/staff_detail.html'
+    success_url = reverse_lazy('accounts:staff_detail')
+
+    def get_success_url(self):
+        return reverse('accounts:staff_detail', kwargs={'pk': self.object.pk})
+
+
+@method_decorator(login_required, name="dispatch")
+@method_decorator(staff_member_required, name='dispatch')
+class StaffDeleteView(DeleteView):
+    model = get_user_model()
+    template_name = 'accounts/staff_delete.html'
+    success_url = reverse_lazy('accounts:staff_list')
+    success_message = '사용자가 성공적으로 삭제되었습니다.'
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, self.success_message)
+        return super(StaffDeleteView, self).delete(request, *args, **kwargs)
+
+
+@method_decorator(login_required, name="dispatch")
+@method_decorator(staff_member_required, name='dispatch')
 class MemberListView(ListView):
     model = Member
     template_name = 'accounts/member_list.html'
