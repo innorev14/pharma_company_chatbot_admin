@@ -46,15 +46,24 @@ def send_friend_msg(aligo_token, msg):
             'sender' : msg['sender'],  # 발신자 연락처,
             #'senddate': '19000131120130',  # YYYYMMDDHHmmss
             'advert': 'N',  # 광고분류(기본Y)
-            'receiver_1': msg['receiver'],  # 수신자 연락처
             #'recvname_1': '홍길동1', # 수신자 이름
-            'subject_1': msg['content'][:30],  # 친구톡 제목
-            'message_1': msg['content'],  # 친구톡 내용
             #'failover': 'Y or N', # 실패시 대체문자 전송 여부(템플릿 신청시 대체문자 발송으로 설정하였더라도 Y로 입력해야합니다.)
             #'fsubject_1': '대체문자 제목', # 실패시 대체문자 제목
             #'fmessage_1': '대체문자 내용', # 실패시 대체문자 내용
             #'testMode': 'Y or N' # 테스트 모드 적용여부(기본N), 실제 발송 X
             }
+
+    if len(msg['receiver']) == 1:
+        sms_data['receiver_1'] = msg['receiver']  # 친구톡 수신자
+        sms_data['subject_1'] = msg['content'][:30]  # 친구톡 제목
+        sms_data['message_1'] = msg['content']  # 친구톡 내용
+    else:
+        cur = 0
+        for receiver in msg['receiver']:
+            cur += 1
+            sms_data['receiver_' + str(cur)] = receiver
+            sms_data['subject_' + str(cur)] = msg['content'][:30]
+            sms_data['message_' + str(cur)] = msg['content']
 
     try:
         # -------------------------------------------------------------------------------------------------
