@@ -14,7 +14,7 @@ class MemberForm(forms.ModelForm):
 class GroupForm(forms.ModelForm):
     class Meta:
         model = Group
-        fields = ['name', 'is_active']
+        fields = ['affiliation', 'name', 'is_active']
 
 
 

@@ -36,4 +36,6 @@ urlpatterns = [
     path('staff/<int:pk>/detail/', StaffDetailView.as_view(), name='staff_detail'),
     path('staff/<int:pk>/delete/', StaffDeleteView.as_view(), name='staff_delete'),
     path('staff/active/<int:pk>/', staff_active, name='staff_active'),
+
+    path('export/csv/', export_users_csv, name='export_users_csv'),
 ]

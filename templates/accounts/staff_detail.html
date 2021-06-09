@@ -13,8 +13,9 @@
 {% endblock %}
 
 {% block content %}
-<p class="h3">사용자</p><br>
 <div class="container">
+
+<p class="h3">관리자 상세</p><br>
 
     <table class="table">
         <tr>
@@ -43,9 +44,9 @@
 
 <div class="row justify-content-center">
     <a href="{% url 'accounts:staff_update' object.pk %}">
-        <button class="btn btn-warning">사용자수정</button>
+        <button class="btn btn-warning">관리자 수정</button>
     </a>
-    <button class="btn btn-danger" data-toggle="modal" data-target="#fm-modal-grid" style="margin-left: 10px">사용자삭제
+    <button class="btn btn-danger" data-toggle="modal" data-target="#fm-modal-grid" style="margin-left: 10px">관리자삭제
     </button>
 </div>
 

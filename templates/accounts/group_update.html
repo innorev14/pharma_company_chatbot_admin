@@ -9,19 +9,21 @@
 {% endblock %}
 
 {% block content %}
-<p class="h3">지점수정</p><br>
+<div class="container">
+    <p class="h3">지점수정</p><br>
 
-<form method="POST" class="form">
-    <table class="table">
-    {%csrf_token%}
-    {{form.media}}
-        {% bootstrap_form form %}
-<!--    {{form.as_table}}-->
+    <form method="POST" class="form">
+        <table class="table">
+            {%csrf_token%}
+            {{form.media}}
+            {% bootstrap_label "소속" %}<br/>
+            {% bootstrap_field form.affiliation show_label='skip' %}<br/>
+            {% bootstrap_field form.name %}
+            <!--    {{form.as_table}}-->
         </table>
-    <div class="text-center">
-        <button type="submit" class="save btn btn-warning">수정하기</button>
-    </div>
-</form>
+        <button type="submit" class="save btn btn-warning float-right">수정하기</button>
+    </form>
+</div>
 {% endblock %}
 
 {% block script %}

@@ -13,13 +13,18 @@
 {% endblock %}
 
 {% block content %}
-<p class="h3">사용자</p><br>
 <div class="container">
+<p class="h3">사용자 상세</p><br>
 
     <table class="table">
         <tr>
             <th class="text-center">이 름</th>
             <td class="text-center"><strong>{{ object.username }}</strong></td>
+        </tr>
+        <tr>
+            <th class="text-center">소 속</th>
+            <td class="text-center">{{ object.group.affiliation }}
+            </td>
         </tr>
         <tr>
             <th class="text-center">지 점</th>
@@ -92,10 +97,8 @@
             </div>
         </div>
     </div>
-</div>
 
 <p class="h3" style="margin-top: 100px">최근 챗봇 사용기록</p><br>
-<div class="container">
 
     <table class="table">
         <thead>

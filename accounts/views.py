@@ -1,12 +1,15 @@
+import csv
 from datetime import datetime, timedelta
 
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login, get_user_model
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 from django.db.models import Count, Q
 from django.db.models.functions import TruncMonth, TruncDay
-from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, UpdateView, DeleteView, DetailView, ListView
@@ -366,3 +369,20 @@ class AccessGroupMonthList(ListView):
             name = Group.objects.get(id=group['group_id']).name
             group['group_name'] = name
         return context
+
+
+def export_users_csv(request):
+    now = datetime.now()
+    filename = "users_contacts_" + now.strftime('%Y%m%d')
+    response = HttpResponse(content_type='text/csv', charset='euc-kr')
+    response['Content-Disposition'] = "attachment; filename={}.csv".format(filename)
+
+
+    writer = csv.writer(response)
+    writer.writerow(['휴대폰번호', '고객명', '고객그룹'])
+
+    users = Member.objects.all().values_list('phone', 'username', 'group__name')
+    for user in users:
+        writer.writerow(user)
+
+    return response

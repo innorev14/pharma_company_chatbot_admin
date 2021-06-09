@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView, DetailView, DeleteView, TemplateView, UpdateView
 
@@ -66,6 +66,10 @@ class MedicineUpdateView(UpdateView):
     model = Medicine
     form_class = MedicineForm
     template_name = 'medicine/medicine_update.html'
+    success_url = reverse_lazy('medicine:medicine_detail')
+
+    def get_success_url(self):
+        return reverse('medicine:medicine_detail', kwargs={'pk': self.object.pk})
 
 
 @method_decorator(login_required, name="dispatch")

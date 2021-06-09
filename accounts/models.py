@@ -7,6 +7,11 @@ from django.utils.translation import gettext as _
 
 
 class Group(models.Model):
+    AFFILIATION_CHOICES = (
+        ('직영', '직영'),
+        ('대행점', '대행점'),
+    )
+    affiliation = models.CharField(max_length=5, choices=AFFILIATION_CHOICES, verbose_name='소속')
     main_group = models.ForeignKey('self', on_delete=models.CASCADE, blank=True, null=True, related_name='sub_group')
     name = models.CharField(max_length=20, verbose_name='지점이름')
     code = models.CharField(max_length=6, blank=True, verbose_name='그룹코드')
@@ -41,7 +46,7 @@ class Group(models.Model):
             self.save()
 
     class Meta:
-        unique_together = ('main_group',)
+        unique_together = ('main_group', 'name',)
         verbose_name = _('지점')
         verbose_name_plural = _('지점')
         ordering = ('name',)

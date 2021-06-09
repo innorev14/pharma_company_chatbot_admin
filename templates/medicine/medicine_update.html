@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load bootstrap5 %}
 
 {% block title %}
 {% endblock %}
@@ -8,12 +9,29 @@
 {% endblock %}
 
 {% block content %}
-<form method="POST" class="form">
-    {%csrf_token%}
-    {{form.media}}
-    {{form.as_p}}
-    <button type="submit" class="save btn btn-default">수정하기</button>
-</form>
+<div class="container">
+    <p class="h3">제품수정</p><br>
+
+    <form method="POST" class="form col-md-10">
+        {%csrf_token%}
+        {{form.media}}
+        {% bootstrap_label "제품분류" %}<br/>
+        {% bootstrap_field form.category show_label='skip' %}<br/>
+        {% bootstrap_field form.name %}<br/>
+        {% bootstrap_label "제품정보" %}<br/>
+        {% bootstrap_field form.product_info show_label='skip' %}<br/>
+        {% bootstrap_field form.product_url %}<br/>
+        {% bootstrap_label "보험정보" %}<br/>
+        {% bootstrap_field form.insurance_info show_label='skip' %}<br/>
+        {% bootstrap_label "디테일 포인트" %}<br/>
+        {% bootstrap_field form.detail_info show_label='skip'  %}<br/>
+        {% bootstrap_field form.tag %}
+
+
+        <!--    {{form.as_p}}-->
+        <button type="submit" class="save btn btn-warning float-right">수정하기</button>
+    </form>
+</div>
 {% endblock %}
 
 {% block script %}

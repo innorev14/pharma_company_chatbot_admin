@@ -9,59 +9,72 @@
 {% endblock %}
 
 {% block content %}
-<p class="h3">제품상세</p><br>
 <div class="container">
-<table class="table table col-lg-12">
-    <tr>
-        <th style="width: 20%">제품이름</th>
-        <td style="width: 30%">{{object.name}}</td>
-        <th style="width: 20%">조회수</th>
-        <td style="width: 30%">{{object.view_count}}</td>
-    </tr>
-    <tr>
-        <th style="width: 20%">작성일</th>
-        <td style="width: 30%" >{{object.created_at|date:"Y-m-d"}}</td>
-        <th style="width: 20%">수정일</th>
-        <td style="width: 30%" >{{object.updated_at|date:"Y-m-d"}}</td>
-    </tr>
-    <tr>
-        <th style="width: 20%">제품이미지</th>
-        <td style="width: 80%" colspan="9"><a href="{{product_img}}" target="_blank"><img src="{{product_img}}" alt="{{object.name}}" height="70%"></a></td>
-    </tr>
-    <tr>
-        <th style="width: 20%">제품정보</th>
-        <td style="width: 80%" colspan="9">
-            {{object.product_info|safe}}
-            <button class="btn"><a href="{{object.product_url}}" target="_blank">제품정보 상세보기</a></button>
-        </td>
-    </tr>
-    <tr>
-        <th style="width: 20%">보험정보</th>
-        <td style="width: 80%" colspan="9">{{object.insurance_info|safe}}</td>
-    </tr>
-    <tr>
-        <th style="width: 20%">디테일포인트</th>
-        <td style="width: 80%" colspan="9">{{object.detail_info|safe}}</td>
-    </tr>
-    {% if obj.detail_url %}
-    <tr>
-        <th style="width: 20%">디테일포인트 이미지</th>
-        <td style="width: 80%" colspan="9"><a href="{{object.detail_url}}" target="_blank"><img src="{{detail_url}}" alt="{{object.name}}" height="60%"></a></td>
-    </tr>
-    {% endif %}
-    <tr>
-        <th style="width: 20%">태그</th>
-        <td style="width: 80%" colspan="9">{% for tag in object.tag.all %}{{tag.name}}{% if forloop.last %}{%else%}, {% endif %}{% endfor %}</td>
-    </tr>
-</table>
+    <p class="h3">제품상세</p><br>
 
-<form action="{% url 'medicine:medicine_delete' object.id %}" method="POST">
-    {% csrf_token %}
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <button class="btn btn-danger justify-right-right">삭제하기</button>
+    <table class="table table col-lg-12">
+        <tr>
+            <th style="width: 20%">제품이름</th>
+            <td style="width: 30%">{{object.name}}</td>
+            <th style="width: 20%">조회수</th>
+            <td style="width: 30%">{{object.view_count}}</td>
+        </tr>
+        <tr>
+            <th style="width: 20%">작성일</th>
+            <td style="width: 30%">{{object.created_at|date:"Y-m-d"}}</td>
+            <th style="width: 20%">수정일</th>
+            <td style="width: 30%">{{object.updated_at|date:"Y-m-d"}}</td>
+        </tr>
+        <tr>
+            <th style="width: 20%">제품이미지</th>
+            <td style="width: 80%" colspan="9"><a href="{{product_img}}" target="_blank"><img src="{{product_img}}"
+                                                                                              alt="{{object.name}}"
+                                                                                              height="70%"></a></td>
+        </tr>
+        <tr>
+            <th style="width: 20%">제품정보</th>
+            <td style="width: 80%" colspan="9">
+                {{object.product_info|safe}}
+                <button class="btn"><a href="{{object.product_url}}" target="_blank">제품정보 상세보기</a></button>
+            </td>
+        </tr>
+        <tr>
+            <th style="width: 20%">보험정보</th>
+            <td style="width: 80%" colspan="9">{{object.insurance_info|safe}}</td>
+        </tr>
+        <tr>
+            <th style="width: 20%">디테일포인트</th>
+            <td style="width: 80%" colspan="9">{{object.detail_info|safe}}</td>
+        </tr>
+        {% if obj.detail_url %}
+        <tr>
+            <th style="width: 20%">디테일포인트 이미지</th>
+            <td style="width: 80%" colspan="9"><a href="{{object.detail_url}}" target="_blank"><img src="{{detail_url}}"
+                                                                                                    alt="{{object.name}}"
+                                                                                                    height="60%"></a>
+            </td>
+        </tr>
+        {% endif %}
+        <tr>
+            <th style="width: 20%">태그</th>
+            <td style="width: 80%" colspan="9">{% for tag in object.tag.all %}{{tag.name}}{% if forloop.last %}{%else%},
+                {% endif %}{% endfor %}
+            </td>
+        </tr>
+    </table>
+
+    <div class="row float-right">
+        <a href="{% url 'medicine:medicine_update' object.pk %}">
+            <button class="btn btn-warning" style="margin-right: 10px">제품수정</button>
+        </a>
+        <form action="{% url 'medicine:medicine_delete' object.id %}" method="POST">
+            {% csrf_token %}
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button class="btn btn-danger justify-right-right">제품삭제</button>
+            </div>
+        </form>
     </div>
 
-</form>
 </div>
 {% endblock %}
 

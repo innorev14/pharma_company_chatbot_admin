@@ -47,11 +47,12 @@ class Medicine(models.Model):
     product_url = models.URLField(max_length=200, verbose_name='제품상세URL', null=True, blank=True)
     insurance_info = RichTextField(verbose_name='보험정보')
     detail_info = RichTextField(verbose_name='디테일 포인트', null=True, blank=True)
-    detail_url = models.URLField(max_length=200, verbose_name='디테일 정보', null=True, blank=True)
+    detail_url = models.URLField(max_length=200, verbose_name='디테일포인트URL', null=True, blank=True,
+                                 help_text="디테일포인트 URL을 등록하면 디테일 포인트는 노출되지 않습니다")
     view_count = models.PositiveIntegerField(default=0, verbose_name='조회수')
     tag = TaggableManager(
-        verbose_name=_('tag'),
-        help_text=_('태그는 콤마(,) 혹은 띄워쓰기로 구분해주세요'),
+        verbose_name=_('태그'),
+        help_text=_('태그(상위어,동의어)는 콤마(,) 혹은 띄워쓰기로 구분해주세요'),
         blank=True,
         through='TaggedMedicine',
     )

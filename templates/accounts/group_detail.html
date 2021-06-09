@@ -13,9 +13,13 @@
 {% endblock %}
 
 {% block content %}
-<p class="h3">지점상세</p><br>
 <div class="container">
+<p class="h3">지점상세</p><br>
     <table class="table col-lg-12">
+        <tr>
+            <th>소속이름</th>
+            <td>{{ object.affiliation }}</td>
+        </tr>
         <tr>
             <th>지점이름</th>
             <td>{{ object.name }}</td>
@@ -68,10 +72,8 @@
             </div>
         </div>
     </div>
-</div>
 
 <p class="h3" style="margin-top: 100px">소속 사용자</p><br>
-<div class="container">
 
     <table class="table">
         <thead>

@@ -9,75 +9,80 @@
 {% endblock %}
 
 {% block content %}
-<p class="h3">제품목록</p><br>
-{% if q %}
-<h5 style="color: gray; font-weight: 550;"><i class="fas fa-search"></i>&nbsp;'{{ q }}' 검색 결과입니다.</h5>
-{% endif %}
+<div class="container">
+    <p class="h3">제품목록</p><br>
+    {% if q %}
+    <h5 style="color: gray; font-weight: 550;"><i class="fas fa-search"></i>&nbsp;'{{ q }}' 검색 결과입니다.</h5>
+    {% endif %}
 
-<table class="table">
-    <thead>
+    <table class="table">
+        <thead>
         <th class="text-center">번호</th>
         <th class="text-center">제품명</th>
         <th class="text-center">제품분류</th>
         <th class="text-center">태그</th>
         <th class="text-center">수정일</th>
         <th class="text-center">조회수</th>
-    </thead>
+        </thead>
 
-    <tbody>
+        <tbody>
         {% for obj in object_list %}
-<tr>
-        <td class="text-center">{{ forloop.counter }}</td>
-        <td class="text-center"><a href="{% url 'medicine:medicine_detail' obj.id %}">{{obj.name}}</a></td>
-        <td class="text-center">{{obj.category}}</td>
-        <td class="text-center">{% for tag in obj.tag.all %}{{tag.name}}{% if forloop.last %}{%else%}, {% endif %}{% endfor %}</td>
-        <td class="text-center">{{obj.updated_at|date:"Y-m-d"}}</td>
-        <td class="text-center">{{obj.view_count}}</td>
-</tr>
-    {% endfor %}
-
-    </tbody>
-
-</table>
-
-{% if is_paginated %}
-<nav aria-label="pagination">
-    <ul class="pagination justify-content-center">
-        <li class="page-item">
-            {% if page_obj.has_previous %}
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">이전</a>
-            {% else %}
-                <li class="page-link disabled"<span class="page-link">이전</span><span class="sr-only"></span></li>
-            {% endif %}
-        </li>
-        {% for i in paginator.page_range %}
-        {% if page_obj.number == i %}
-        <li class="page-item active"><span class="page-link is-current">{{ i }} <span class="sr-only">(current)</span></span></li>
-        {% else %}
-        <li class="page-item"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
-        {% endif %}
+        <tr>
+            <td class="text-center">{{ forloop.counter }}</td>
+            <td class="text-center"><a href="{% url 'medicine:medicine_detail' obj.id %}">{{obj.name}}</a></td>
+            <td class="text-center">{{obj.category}}</td>
+            <td class="text-center">{% for tag in obj.tag.all %}{{tag.name}}{% if forloop.last %}{%else%}, {% endif %}{% endfor %}
+            </td>
+            <td class="text-center">{{obj.updated_at|date:"Y-m-d"}}</td>
+            <td class="text-center">{{obj.view_count}}</td>
+        </tr>
         {% endfor %}
-        <li class="page-item">
-            {% if page_obj.has_next %}
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}">다음</a>
-            {% else %}
-                <li class="page-link disabled"<span class="page-link">다음</span></li>
+
+        </tbody>
+
+    </table>
+
+    {% if is_paginated %}
+    <nav aria-label="pagination">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                {% if page_obj.has_previous %}
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">이전</a>
+                {% else %}
+            <li class="page-link disabled"
+            <span class="page-link">이전</span><span class="sr-only"></span></li>
             {% endif %}
-        </li>
-    </ul>
-</nav>
-{% endif %}
+            </li>
+            {% for i in paginator.page_range %}
+            {% if page_obj.number == i %}
+            <li class="page-item active"><span class="page-link is-current">{{ i }} <span
+                    class="sr-only">(current)</span></span></li>
+            {% else %}
+            <li class="page-item"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
+            {% endif %}
+            {% endfor %}
+            <li class="page-item">
+                {% if page_obj.has_next %}
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">다음</a>
+                {% else %}
+            <li class="page-link disabled"
+            <span class="page-link">다음</span></li>
+            {% endif %}
+            </li>
+        </ul>
+    </nav>
+    {% endif %}
 
-{% if q %}
-{% for obj in q %}
-<tr class="text-center">
-    <td>{{ obj.name }}</td>
-</tr>
-{% endfor %}
-{% endif %}
+    {% if q %}
+    {% for obj in q %}
+    <tr class="text-center">
+        <td>{{ obj.name }}</td>
+    </tr>
+    {% endfor %}
+    {% endif %}
 
-{% if object_list %}
-{% else %}              <!-- 게시글 쿼리셋이 존재하지 않을 때 -->
+    {% if object_list %}
+    {% else %}              <!-- 게시글 쿼리셋이 존재하지 않을 때 -->
     {% if q %}          <!-- 검색어가 있어 q가 context로 넘어오면 검색결과가 없음 -->
     <tr class="text-center">
         <td colspan="5">
@@ -91,28 +96,28 @@
         </td>
     </tr>
     {% endif %}
-{% endif %}
+    {% endif %}
 
 
- <div style="margin-top: 30px;">
-    <form action="" method="GET">
-        <div class="col">
-            <div style="float: right;" class="form-row">
-                <div class="form-row">
-                    <div class="col" >
-                        <input type="text" name="q" value="{{ q }}" class="form-control form-control-md"
-                            style="width: 15em;" placeholder="검색어를 입력해주세요.">
-                    </div>
-                    <div class="col" style="margin-top: 3px;">
-                        <!-- <button class="btn btn-md btn-outline-dark" type="submit">검색</button> -->
-                        <button class="btn btn-sm btn-secondary" type="submit" id="search_btn">검색</button>
+    <div style="margin-top: 30px;">
+        <form action="" method="GET">
+            <div class="col">
+                <div style="float: right;" class="form-row">
+                    <div class="form-row">
+                        <div class="col">
+                            <input type="text" name="q" value="{{ q }}" class="form-control form-control-md"
+                                   style="width: 15em;" placeholder="검색어를 입력해주세요.">
+                        </div>
+                        <div class="col" style="margin-top: 3px;">
+                            <!-- <button class="btn btn-md btn-outline-dark" type="submit">검색</button> -->
+                            <button class="btn btn-sm btn-secondary" type="submit" id="search_btn">검색</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
-<div>
-
+        </form>
+    </div>
+</div>
 {% endblock %}
 
 {% block script %}

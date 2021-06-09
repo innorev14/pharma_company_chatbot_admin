@@ -109,12 +109,23 @@
                 <input type="radio" id="receiver-whole" name="talk_receiver" value="whole"
                        onchange="setReceiverDisplay()"
                        checked="checked"> 전체발송
+                <input type="radio" id="receiver-affiliation" name="talk_receiver" value="affiliation"
+                       onchange="setReceiverDisplay()"> 소속발송
                 <input type="radio" id="receiver-group" name="talk_receiver" value="group"
-                       onchange="setReceiverDisplay()"> 그룹발송
+                       onchange="setReceiverDisplay()"> 지점발송
 <!--                <input type="radio" id="receiver-direct" name="talk_receiver" value="direct"-->
 <!--                       onchange="setReceiverDisplay()">-->
 <!--                직접입력 <br><br>-->
                 <div>{{ form.whole }}</div>
+                <div id="divId5" style="display:none">
+                    <div style="margin-bottom: 20px;">
+                        <select name="affiliation_name">
+                            <option value="" selected="selected">------</option>
+                            <option value="직영">직영</option>
+                            <option value="대행점">대행점</option>
+                        </select>
+                    </div>
+                </div>
                 <div id="divId3" style="display:none">
                     <div style="margin-bottom: 20px;">
                         {{ form.group }}
@@ -184,6 +195,13 @@
     });
 
     function setReceiverDisplay() {
+        if ($('input:radio[id=receiver-affiliation]').is(':checked')) {
+            $('#divId5').show();
+        } else {
+            $('#divId5').hide();
+            $('#id_affiliation').val('');
+        }
+
         if ($('input:radio[id=receiver-group]').is(':checked')) {
             $('#divId3').show();
         } else {

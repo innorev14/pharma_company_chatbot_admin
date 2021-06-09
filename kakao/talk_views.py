@@ -55,6 +55,16 @@ class FriendsTalkCreateView(CreateView):
                 for user in users:
                     user_list.append(user.phone)
                 msg['receiver'] = user_list
+        elif self.request.POST['talk_receiver'] == 'affiliation':
+            affiliation = self.request.POST['affiliation_name']
+            groups = Group.objects.filter(affiliation=affiliation)
+            user_list = list()
+            for group in groups:
+                group_id = group.id
+                users = Member.objects.filter(group_id=group_id)
+                for user in users:
+                    user_list.append(user.phone)
+                msg['receiver'] = user_list
         elif self.request.POST['talk_receiver'] == 'group':
             group_id = self.request.POST['group']
             users = Member.objects.filter(group_id=group_id)

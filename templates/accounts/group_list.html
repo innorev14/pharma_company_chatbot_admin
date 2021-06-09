@@ -8,75 +8,96 @@
 {% endblock %}
 
 {% block content %}
-<p class="h3">지점관리</p>
+<div class="container">
+
+    <p class="h3">지점관리</p>
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <a class="btn btn-danger" href="{% url 'kakao:talk_send_whole' %}">전체전송</a>
-    </div><br>
-<table class="table">
-    <thead>
+    </div>
+    <br>
+    <table class="table">
+        <thead>
         <th class="text-center">번호</th>
-        <th class="text-center">지점명</th>
+        <th class="text-center">소속</th>
+        <th class="text-center">지점</th>
         <th class="text-center">활성상태</th>
         <th class="text-center">친구톡</th>
         <th class="text-center">상태변경</th>
-    </thead>
-    {% for obj in object_list %}
-    <tr>
-        <td class="text-center">{{ forloop.counter }}</td>
-        <td class="text-center"><strong><a href="{% url 'accounts:group_detail' obj.pk %}">{{ obj.name }}</a></strong></td>
-        <td class="text-center">{% if obj.is_active %}<i class="far fa-check-circle" style="color:orange"></i>이용가능{% else %}<i class="far fa-times-circle" style="color:red"></i>이용불가{% endif %}</td>
-        <td class="text-center"><a class="btn btn-warning" href="{% url 'kakao:talk_send_group' obj.pk %}">보내기</a></td>
-        <td class="text-center"><a class="btn btn-info" href="{% url 'accounts:group_change_active' obj.pk %}">변경</a></td>
-    </tr>
-    {% endfor %}
-</table>
-
-{% if is_paginated %}
-<nav aria-label="pagination">
-    <ul class="pagination justify-content-center">
-        <li class="page-item">
-            {% if page_obj.has_previous %}
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">이전</a>
-            {% else %}
-                <li class="page-link disabled"<span class="page-link">이전</span><span class="sr-only"></span></li>
-            {% endif %}
-        </li>
-        {% for i in paginator.page_range %}
-        {% if page_obj.number == i %}
-        <li class="page-item active"><span class="page-link is-current">{{ i }} <span class="sr-only">(current)</span></span></li>
-        {% else %}
-        <li class="page-item"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
-        {% endif %}
+        </thead>
+        {% for obj in object_list %}
+        <tr>
+            <td class="text-center">{{ forloop.counter }}</td>
+            <td class="text-center">{{ obj.affiliation }}</td>
+            <td class="text-center">
+                <strong><a href="{% url 'accounts:group_detail' obj.pk %}">{{ obj.name }}</a></strong>
+            </td>
+            <td class="text-center">
+                {% if obj.is_active %}
+                    <i class="far fa-check-circle" style="color:orange"></i>이용가능
+                {% else %}
+                    <i class="far fa-times-circle" style="color:red"></i>이용불가
+                {% endif %}
+            </td>
+            <td class="text-center">
+                <a class="btn btn-warning" href="{% url 'kakao:talk_send_group' obj.pk %}">보내기</a>
+            </td>
+            <td class="text-center">
+                <a class="btn btn-info" href="{% url 'accounts:group_change_active' obj.pk %}">변경</a>
+            </td>
+        </tr>
         {% endfor %}
-        <li class="page-item">
-            {% if page_obj.has_next %}
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}">다음</a>
-            {% else %}
-                <li class="page-link disabled"<span class="page-link">다음</span></li>
-            {% endif %}
-        </li>
-    </ul>
-</nav>
-{% endif %}
+    </table>
 
-<div style="margin-top: 30px;">
-    <form action="" method="GET">
-        <div class="col">
-            <div style="float: right;" class="form-row">
-                <div class="form-row">
-                    <div class="col" >
-                        <input type="text" name="q" value="{{ q }}" class="form-control form-control-md"
-                            style="width: 15em;" placeholder="지점명을 입력해주세요.">
-                    </div>
-                    <div class="col">
-                        <!-- <button class="btn btn-md btn-outline-dark" type="submit">검색</button> -->
-                        <button class="btn btn-secondary" type="submit" id="search_btn">검색</button>
+    {% if is_paginated %}
+    <nav aria-label="pagination">
+        <ul class="pagination justify-content-center">
+            <li class="page-item">
+                {% if page_obj.has_previous %}
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">이전</a>
+                {% else %}
+            <li class="page-link disabled"
+            <span class="page-link">이전</span><span class="sr-only"></span></li>
+            {% endif %}
+            </li>
+            {% for i in paginator.page_range %}
+            {% if page_obj.number == i %}
+            <li class="page-item active"><span class="page-link is-current">{{ i }} <span
+                    class="sr-only">(current)</span></span></li>
+            {% else %}
+            <li class="page-item"><a href="?page={{ i }}" class="page-link">{{ i }}</a></li>
+            {% endif %}
+            {% endfor %}
+            <li class="page-item">
+                {% if page_obj.has_next %}
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">다음</a>
+                {% else %}
+            <li class="page-link disabled"
+            <span class="page-link">다음</span></li>
+            {% endif %}
+            </li>
+        </ul>
+    </nav>
+    {% endif %}
+
+    <div style="margin-top: 30px;">
+        <form action="" method="GET">
+            <div class="col">
+                <div style="float: right;" class="form-row">
+                    <div class="form-row">
+                        <div class="col">
+                            <input type="text" name="q" value="{{ q }}" class="form-control form-control-md"
+                                   style="width: 15em;" placeholder="지점명을 입력해주세요.">
+                        </div>
+                        <div class="col">
+                            <!-- <button class="btn btn-md btn-outline-dark" type="submit">검색</button> -->
+                            <button class="btn btn-secondary" type="submit" id="search_btn">검색</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
-<div>
+        </form>
+    </div>
+</div>
 {% endblock %}
 
 {% block script %}
