@@ -606,7 +606,8 @@ def prod_info(request):
                                             + ".jpg",
                                     },
                                     "title": medicine_name,
-                                    "description": medicine_info.product_info.replace("<p>", "\n"),
+                                    "description": medicine_info.product_info.replace("<p>", "\n")
+                                        .replace("&nbsp;", "").replace("</p>", ""),
                                     "buttons": [
                                         {
                                             "action": "webLink",
@@ -655,7 +656,8 @@ def prod_info(request):
                                             + ".jpg",
                                     },
                                     "title": medicine_name,
-                                    "description": medicine_info.product_info.replace("<p>", "\n"),
+                                    "description": medicine_info.product_info.replace("<p>", "\n")
+                                        .replace("&nbsp;", "").replace("</p>", ""),
                                 },
                             }
                         ],
@@ -803,7 +805,8 @@ def insu_info(request):
                     'outputs': [
                         {
                             "simpleText": {
-                                "text": medicine_info.insurance_info.replace("<p>", "\n"),
+                                "text": medicine_info.insurance_info.replace("<p>", "\n")
+                                    .replace("&nbsp;", "").replace("</p>", ""),
                             }
                         }
                     ],
@@ -946,7 +949,8 @@ def detail_point(request):
                         'outputs': [
                             {
                                 "simpleText": {
-                                    "text": medicine_name.detail_info.replace("<p>", "\n"),
+                                    "text": medicine_name.detail_info.replace("<p>", "\n")
+                                        .replace("&nbsp;", "").replace("</p>", ""),
                                 }
                             }
                         ],
@@ -988,7 +992,8 @@ def detail_point(request):
                                             + ".jpg",
                                     },
                                     "title": medicine_name,
-                                    "description": medicine.detail_info.replace("<p>", "\n"),
+                                    "description": medicine.detail_info.replace("<p>", "\n")
+                                        .replace("&nbsp;", "").replace("</p>", ""),
                                 },
                             }
                         ],
@@ -1231,7 +1236,8 @@ def insu_info_test(request):
                     'outputs': [
                         {
                             "simpleText": {
-                                "text": medicine_info.insurance_info.replace("<p>", "\n"),
+                                "text": medicine_info.insurance_info.replace("<p>", "\n")
+                                    .replace("&nbsp;", "").replace("</p>", ""),
                             }
                         }
                     ],
