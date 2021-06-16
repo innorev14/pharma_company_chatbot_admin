@@ -47,27 +47,27 @@ class FriendsTalkCreateView(CreateView):
             msg['weblink'] = None
 
         if self.request.POST['talk_receiver'] == 'whole':
-            whole = Group.objects.all()
+            whole = Group.objects.filter(is_active=True)
             user_list = list()
             for group in whole:
                 group_id = Group.objects.get(name=group).id
-                users = Member.objects.filter(group_id=group_id)
+                users = Member.objects.filter(group_id=group_id).filter(is_active=True)
                 for user in users:
                     user_list.append(user.phone)
                 msg['receiver'] = user_list
         elif self.request.POST['talk_receiver'] == 'affiliation':
             affiliation = self.request.POST['affiliation_name']
-            groups = Group.objects.filter(affiliation=affiliation)
+            groups = Group.objects.filter(affiliation=affiliation, is_active=True)
             user_list = list()
             for group in groups:
                 group_id = group.id
-                users = Member.objects.filter(group_id=group_id)
+                users = Member.objects.filter(group_id=group_id, is_active=True)
                 for user in users:
                     user_list.append(user.phone)
                 msg['receiver'] = user_list
         elif self.request.POST['talk_receiver'] == 'group':
             group_id = self.request.POST['group']
-            users = Member.objects.filter(group_id=group_id)
+            users = Member.objects.filter(group_id=group_id, is_active=True)
             user_list = list()
             for user in users:
                 user_list.append(user.phone)
@@ -118,18 +118,18 @@ class FriendsTalkGroupSendView(CreateView):
             msg['weblink'] = None
 
         if self.request.POST['talk_receiver'] == 'whole':
-            whole = Group.objects.all()
+            whole = Group.objects.filter(is_active=True)
             user_list = list()
             for group in whole:
                 group_id = Group.objects.get(name=group).id
-                users = Member.objects.filter(group_id=group_id)
+                users = Member.objects.filter(group_id=group_id, is_active=True)
                 for user in users:
                     user_list.append(user.phone)
                 msg['receiver'] = user_list
         elif self.request.POST['talk_receiver'] == 'group':
             group = self.get_context_data()
             group_id = Group.objects.get(name=group['group_name']).id
-            users = Member.objects.filter(group_id=group_id)
+            users = Member.objects.filter(group_id=group_id, is_active=True)
             user_list = list()
             for user in users:
                 user_list.append(user.phone)
@@ -176,11 +176,11 @@ class FriendsTalkWholeSendView(CreateView):
         else:
             msg['weblink'] = None
 
-        whole = Group.objects.all()
+        whole = Group.objects.filter(is_active=True)
         user_list = list()
         for group in whole:
             group_id = Group.objects.get(name=group).id
-            users = Member.objects.filter(group_id=group_id)
+            users = Member.objects.filter(group_id=group_id, is_active=True)
             for user in users:
                 user_list.append(user.phone)
             msg['receiver'] = user_list

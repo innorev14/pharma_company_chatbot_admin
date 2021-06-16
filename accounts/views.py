@@ -381,7 +381,8 @@ def export_users_csv(request):
     writer = csv.writer(response)
     writer.writerow(['휴대폰번호', '고객명', '고객그룹'])
 
-    users = Member.objects.all().values_list('phone', 'username', 'group__name')
+    users = Member.objects.filter(group__is_active=True).filter(is_active=True)\
+        .values_list('phone', 'username', 'group__name')
     for user in users:
         writer.writerow(user)
 
