@@ -14,7 +14,7 @@
 
 {% block content %}
 <div class="container">
-<p class="h3">사용자 상세</p><br>
+    <p class="h3">사용자 상세</p><br>
 
     <table class="table">
         <tr>
@@ -58,7 +58,6 @@
         </tr>
     </table>
 
-</div>
 
 <div class="row justify-content-center">
     <a href="{% url 'accounts:member_update' object.pk %}">
@@ -97,6 +96,7 @@
             </div>
         </div>
     </div>
+</div>
 
 <p class="h3" style="margin-top: 100px">최근 챗봇 사용기록</p><br>
 
