@@ -108,7 +108,7 @@ class MemberListView(ListView):
     paginate_by = 20
 
     def get_queryset(self, *args, **kwargs):
-        qs = Member.objects.all()
+        qs = Member.objects.exclude(group_id=17)
         query = self.request.GET.get("q", None)
         if query is not None:
             qs = qs.filter(Q(username__icontains=query) | Q(group__name__icontains=query) | Q(phone__icontains=query))
@@ -190,7 +190,7 @@ class GroupListView(ListView):
     paginate_by = 20
 
     def get_queryset(self, *args, **kwargs):
-        qs = Group.objects.all()
+        qs = Group.objects.exclude(id=37)
         query = self.request.GET.get("q", None)
         if query is not None:
             qs = qs.filter(name__icontains=query)
@@ -287,7 +287,8 @@ class AccessListView(ListView):
 
     def get_queryset(self):
         qs = super().get_queryset()
-        return qs\
+        return qs \
+            .exclude(group_id=37)\
             .values("group_id")\
             .annotate(group_count=Count("group_id"))
 
@@ -309,7 +310,8 @@ class AccessGroupDayList(ListView):
     def get_queryset(self):
         qs = super().get_queryset()
         today = datetime.today()
-        return qs\
+        return qs \
+            .exclude(group_id=37) \
             .filter(created_at__year=today.year,
                     created_at__month=today.month,
                     created_at__day=today.day)\
@@ -335,7 +337,8 @@ class AccessGroupWeekList(ListView):
         qs = super().get_queryset()
         today = datetime.today()
         start = today - timedelta(days=7)
-        return qs\
+        return qs \
+            .exclude(group_id=37) \
             .filter(created_at__range=[start, today])\
             .values("group_id")\
             .annotate(group_count=Count("group_id"))
@@ -358,7 +361,8 @@ class AccessGroupMonthList(ListView):
         qs = super().get_queryset()
         today = datetime.today()
         start = today - timedelta(days=30)
-        return qs\
+        return qs \
+            .exclude(group_id=37) \
             .filter(created_at__range=[start, today])\
             .values("group_id")\
             .annotate(group_count=Count("group_id"))

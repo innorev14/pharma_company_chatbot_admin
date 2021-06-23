@@ -69,8 +69,8 @@ class User(AbstractUser):
     phone = models.CharField(max_length=11)
 
     class Meta:
-        verbose_name = _('사용자')
-        verbose_name_plural = _("사용자")
+        verbose_name = _('관리자')
+        verbose_name_plural = _("관리자")
         ordering = ['username']
 
 

@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.http import HttpResponseRedirect
+from django.template.response import TemplateResponse
 from django.urls import path, reverse
 from django.utils.html import format_html
 
@@ -16,7 +18,7 @@ class GroupAdmin(admin.ModelAdmin):
     # inlines = [
     #     UserInline,
     # ]
-    list_display = ('name', 'code', 'is_active', 'group_actions')
+    list_display = ('affiliation', 'name', 'code', 'is_active', 'group_actions')
     readonly_fields = ('code', 'is_active')
     list_filter = ('name',)
     search_fields = ('name',)

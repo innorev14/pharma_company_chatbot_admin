@@ -54,7 +54,7 @@ class MedicineDetailView(DetailView):
                                  + parse.quote(str(context['object'].name.replace("/", ""))) + ".jpg"
         return context
 
-        # def get_object(self, queryset=None):
+    # def get_object(self, queryset=None):
     #     medicine = super().get_object(queryset)
     #     medicine.increment_view_Count()
     #     return medicine
