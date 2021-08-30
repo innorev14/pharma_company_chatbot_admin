@@ -397,8 +397,8 @@ def export_users_csv(request):
 def export_users_excel(request):
     now = datetime.now()
     filename = "users_contacts_" + now.strftime('%Y%m%d')
-    response = HttpResponse(content_type="application/vnd.ms-excel")
-    response["Content-Disposition"] = 'attachment;filename*=UTF-8\'\'{}.xls'.format(filename)
+    response = HttpResponse(content_type="application/ms-excel")
+    response["Content-Disposition"] = 'attachment; filename={}.xls'.format(filename)
     wb = xlwt.Workbook(encoding='ansi')  # encoding은 ansi로 해준다.
     ws = wb.add_sheet('sheet1')  # 시트 추가
 
@@ -411,7 +411,9 @@ def export_users_excel(request):
     users = Member.objects.filter(group__is_active=True).filter(is_active=True)\
         .values_list('phone', 'username', 'group__name')
     for user in users:
-        ws.write(user)
+        row_num += 1
+        for col_num in range(len(user)):
+            ws.write(row_num, col_num, user[col_num])
 
     wb.save(response)
 
