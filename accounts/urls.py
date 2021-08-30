@@ -38,4 +38,5 @@ urlpatterns = [
     path('staff/active/<int:pk>/', staff_active, name='staff_active'),
 
     path('export/csv/', export_users_csv, name='export_users_csv'),
+    path('export/excel/', export_users_excel, name='export_users_excel'),
 ]

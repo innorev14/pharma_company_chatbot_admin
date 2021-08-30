@@ -1,6 +1,7 @@
 import csv
 from datetime import datetime, timedelta
 
+import xlwt
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth import authenticate, login, get_user_model
@@ -391,3 +392,25 @@ def export_users_csv(request):
         writer.writerow(user)
 
     return response
+
+
+def export_users_excel(request):
+    response = HttpResponse(content_type="application/vnd.ms-excel")
+    response["Content-Disposition"] = 'attachment;filename*=UTF-8\'\'example.xls'
+    wb = xlwt.Workbook(encoding='ansi')  # encoding은 ansi로 해준다.
+    ws = wb.add_sheet('sheet1')  # 시트 추가
+
+    row_num = 0
+    col_names = ['휴대폰번호', '고객명', '고객그룹']
+
+    for idx, col_name in enumerate(col_names):
+        ws.write(row_num, idx, col_name)
+
+    users = Member.objects.filter(group__is_active=True).filter(is_active=True)\
+        .values_list('phone', 'username', 'group__name')
+    for user in users:
+        ws.write(user)
+
+    wb.save(response)
+
+    return reponse
