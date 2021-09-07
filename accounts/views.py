@@ -109,7 +109,7 @@ class MemberListView(ListView):
     paginate_by = 20
 
     def get_queryset(self, *args, **kwargs):
-        qs = Member.objects.exclude(group_id=17)
+        qs = Member.objects.exclude(group_id=37)
         query = self.request.GET.get("q", None)
         if query is not None:
             qs = qs.filter(Q(username__icontains=query) | Q(group__name__icontains=query) | Q(phone__icontains=query))
