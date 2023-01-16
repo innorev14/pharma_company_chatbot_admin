@@ -403,13 +403,13 @@ def export_users_excel(request):
     ws = wb.add_sheet('sheet1')  # 시트 추가
 
     row_num = 0
-    col_names = ['휴대폰번호', '고객명', '고객그룹']
+    col_names = ['휴대폰번호', '고객명', '고객그룹', '대표/담당']
 
     for idx, col_name in enumerate(col_names):
         ws.write(row_num, idx, col_name)
 
     users = Member.objects.filter(group__is_active=True).filter(is_active=True)\
-        .values_list('phone', 'username', 'group__name')
+        .values_list('phone', 'username', 'group__name', 'representative')
     for user in users:
         row_num += 1
         for col_num in range(len(user)):
