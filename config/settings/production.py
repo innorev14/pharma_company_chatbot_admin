@@ -26,7 +26,7 @@ DEFAULT_FILE_STORAGE = 'config.s3media.MediaStorage'
 # email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_PORT = '587'
-EMAIL_HOST = 'smtp.gamil.com'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = get_secret('EMAIL_ID')
 EMAIL_HOST_PASSWORD = get_secret('EMAIL_KEY')
 EMAIL_USE_TLS = True

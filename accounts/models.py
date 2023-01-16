@@ -84,6 +84,12 @@ class LoginHistory(models.Model):
 
 
 class Member(models.Model):
+    REPRESENTATIVE_CHOICE = (
+        ('직영', '직영'),
+        ('대표', '대표'),
+        ('딜러', '딜러')
+    )
+    representative = models.CharField(max_length=5, choices=REPRESENTATIVE_CHOICE, verbose_name="대표", default="대표")
     group = models.ForeignKey('Group', on_delete=models.CASCADE, null=True, verbose_name='지점이름')
     username = models.CharField(max_length=10, verbose_name='이름')
     kakao_id = models.CharField(max_length=70, verbose_name='카카오ID', null=True, blank=True)
