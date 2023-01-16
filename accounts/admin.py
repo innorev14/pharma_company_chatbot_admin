@@ -115,5 +115,5 @@ class UserAdmin(admin.ModelAdmin):
 @admin.register(Member)
 class MemberAdmin(admin.ModelAdmin):
 
-    list_display = ('id', 'username', 'group', 'is_superuser', 'is_active', 'is_staff', 'created_at')
+    list_display = ('id', 'username', 'group', 'representative', 'is_superuser', 'is_active', 'is_staff', 'created_at')
     list_display_links = ('username',)
