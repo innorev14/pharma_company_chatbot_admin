@@ -20,6 +20,7 @@
         <th class="text-center">이름</th>
         <th class="text-center">소속</th>
         <th class="text-center">지점</th>
+        <th class="text-center">대표</th>
         <th class="text-center">전화번호</th>
         <th class="text-center">챗봇사용</th>
         <th class="text-center">활성화</th>
@@ -32,6 +33,7 @@
             <td class="text-center">{{ forloop.counter }}</td>
             <td class="text-center"><strong><a href="{% url 'accounts:member_detail' obj.pk %}">{{ obj.username }}</a></strong></td>
             <td class="text-center">{{ obj.group.affiliation }}</td>
+            <td class="text-center">{{ obj.representative }}</td>
             <td class="text-center"><a href="{% url 'accounts:group_detail' obj.group.pk %}">{{ obj.group }}</a></td>
             <td class="text-center">{{ obj.phone }}</td>
             <td class="text-center">{% if obj.kakao_id %}<i class="far fa-check-circle" style="color:orange"></i>
