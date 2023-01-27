@@ -33,8 +33,8 @@
             <td class="text-center">{{ forloop.counter }}</td>
             <td class="text-center"><strong><a href="{% url 'accounts:member_detail' obj.pk %}">{{ obj.username }}</a></strong></td>
             <td class="text-center">{{ obj.group.affiliation }}</td>
-            <td class="text-center">{{ obj.representative }}</td>
             <td class="text-center"><a href="{% url 'accounts:group_detail' obj.group.pk %}">{{ obj.group }}</a></td>
+            <td class="text-center">{{ obj.representative }}</td>
             <td class="text-center">{{ obj.phone }}</td>
             <td class="text-center">{% if obj.kakao_id %}<i class="far fa-check-circle" style="color:orange"></i>
                 {% else %}<i class="far fa-times-circle" style="color:red"></i>{% endif %}
